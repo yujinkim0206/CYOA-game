@@ -1,39 +1,28 @@
-Project Specification for Group #59 [put your assigned group number from Quercus here]
+Project Specification for Group #59
 
-[see additional instructions on Quercus for filling in all parts of the blueprint]
-
-Team Name: [this can be a name or your project title, you can pick it later too]
+Team Name: The San Toronto 59rs
 
 Domain:
-
-[Establish what the domain is and what the broad purpose of your proposed software will be — this can be quite brief]
+This will be a choose your own adventure game implementing monsters from a DND5e API: www.dnd5eapi.co
 
 Software Specification:
-
-[In plain English, what should the program be able to do (not how should it do it)]
-
+The program should display to the user a choose your own adventure game using Java Swing, allowing for various user inputs and randomly selecting monsters using the DND5e API appropriate to the user's level and possibly how much they have played.
 [think in terms of nouns and verbs, which will map onto variables and methods in the program]
 
 User Stories:
-
 [statements of interactions between the user and the system]
-
+User inupts __command__ and the system __responds__
 [see additional instructions on Quercus]
-
 [aim for at least one user story per group member + 1 extra; in the table below, each group member must be assigned to one user story + mark one user story as being a team user story — this one should be the one that is most central to the basic functionality of your system. That is, the one you would probably want to implement first.]
 
 Proposed Entities for the Domain:
-
 [based on your specification, indicate a few potential entities for your domain — including their names and instance variables]
+User (variables), Monster (variables), Zone (variables)
 
 Proposed API for the project:
-
 [links to one or more APIs your team plans to make use of; include brief notes about what services the API provides and whether you have successfully tried calling the API]
+www.dnd5eapi.co. Provides information about basically everything in DND5e, including monsters, spells, classes, and more.
 
 Scheduled Meeting Times + Mode of Communication:
-
 [when will your team meet each week — you MUST meet during the weekly tutorial timeslot and we strongly recommend scheduling one more regular meeting time]
-
-Meeting time outside of lab: [indicate day and time here]
-
-Mode of Communication: [indicate mode of communication here]
+Our team has a dedicated discord server. We will meet during the weekly tutorial and _____.
