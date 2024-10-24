@@ -1,28 +1,71 @@
 Project Specification for Group #59
 
-Team Name: The San Toronto 59rs
+Team Name: (temp) Group 59
 
 Domain:
-This will be a choose your own adventure game implementing monsters from a DND5e API: www.dnd5eapi.co
+This will be a choose your own adventure game implementing monsters (& possibly more) from a DND5e API: www.dnd5eapi.co
 
 Software Specification:
 The program should display to the user a choose your own adventure game using Java Swing, allowing for various user inputs and randomly selecting monsters using the DND5e API appropriate to the user's level and possibly how much they have played.
-[think in terms of nouns and verbs, which will map onto variables and methods in the program]
+
+Some possible features that may be included could be:
+- Characters of certain Classes with different skills and specialties
+- Dungeons with unique Bosses, Traps, and Treasure
+- Monsters with specific methods of attacking the user's Character
+- NPCs that buy and sell Items (which would have different effects on Character attributes/attack power)
+- & more
 
 User Stories:
 [statements of interactions between the user and the system]
-User inupts __command__ and the system __responds__
-[see additional instructions on Quercus]
+[see additional instructions on Quercus {below}]
 [aim for at least one user story per group member + 1 extra; in the table below, each group member must be assigned to one user story + mark one user story as being a team user story — this one should be the one that is most central to the basic functionality of your system. That is, the one you would probably want to implement first.]
+A user story is a concept from agile programming that we'll borrow to help scope out your projects and divide up work between members of your team. For our purposes, you can simply think of a user story as a narrative of what a typical interaction between the user and your program might look like. As you might imagine, user stories — like any story — can vary in their length and detail. You want your user stories to strike the right balance between being too narrow and being much too broad in scope. Some examples and general advice are included here to help your team ensure your user stories have an appropriate scope. You can ask for feedback if you are unsure about the scope.
 
 Proposed Entities for the Domain:
-[based on your specification, indicate a few potential entities for your domain — including their names and instance variables]
-User (variables), Monster (variables), Zone (variables)
+Character (interface)
+- name [String]
+- level [int]
+- attributes [ArrayList<String, int>]
+- inventory [Map<String, Item>]
+Classes (extend Character)
+- learned_skills / learned_spells [ArrayList<String, Skill> / ArrayList<String, Spell>]
+- specialties [List<String>]
+
+Monster
+- name
+- atributes [ArrayList<String, int>]     <- possibly just hit points [int]
+- level [int]     <- possibly unecessary depending on implementation
+- attacks [List<Skill> / List<Spell>]
+- drop_table [Map<String, Item>]
+Boss_Monster (extends Monster)
+- ultimate_move [Skill / Spell]
+
+Dungeon
+- name [String]
+- depth [int]
+- difficulty [int]
+- monsters [Set<Monster>]
+- boss_monster [Boss_Monster]
+- traps [Set<Trap>]
+
+Trap
+- name [String]
+- base_damage [int]
+- difficulty [int]
+
+NPC
+- name [String]
+- dialogue [List<String>]
+- shop_items [ArrayList<String, Item>]
+- shop_scaling [int]
+
+Item
+- name [String]
+- ability [String]
+- sell_price [int]
 
 Proposed API for the project:
-[links to one or more APIs your team plans to make use of; include brief notes about what services the API provides and whether you have successfully tried calling the API]
 www.dnd5eapi.co. Provides information about basically everything in DND5e, including monsters, spells, classes, and more.
 
 Scheduled Meeting Times + Mode of Communication:
-[when will your team meet each week — you MUST meet during the weekly tutorial timeslot and we strongly recommend scheduling one more regular meeting time]
-Our team has a dedicated discord server. We will meet during the weekly tutorial and (tentatively) Saturdays 3:00.
+Our team has a dedicated discord server. We will meet during the weekly tutorial and Saturdays at 3:00.
