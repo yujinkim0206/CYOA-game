@@ -20,6 +20,7 @@ User Stories:
 [see additional instructions on Quercus {below}]
 [aim for at least one user story per group member + 1 extra; in the table below, each group member must be assigned to one user story + mark one user story as being a team user story — this one should be the one that is most central to the basic functionality of your system. That is, the one you would probably want to implement first.]
 A user story is a concept from agile programming that we'll borrow to help scope out your projects and divide up work between members of your team. For our purposes, you can simply think of a user story as a narrative of what a typical interaction between the user and your program might look like. As you might imagine, user stories — like any story — can vary in their length and detail. You want your user stories to strike the right balance between being too narrow and being much too broad in scope. Some examples and general advice are included here to help your team ensure your user stories have an appropriate scope. You can ask for feedback if you are unsure about the scope.
+- As a player of the game I want to be able to fight enemies and receive rewards
 
 Proposed Entities for the Domain:
 Character (interface)
