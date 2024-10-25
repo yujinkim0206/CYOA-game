@@ -26,46 +26,70 @@ User Stories:
 
 Proposed Entities for the Domain:
 Character (interface)
-- name [String]
-- level [int]
-- attributes [ArrayList<String, int>]
-- inventory [Map<String, Item>]
+- name [String] Character’s name.
+- level [int]  Character’s current level.
+- attributes [ArrayList<String, int>]  Character attributes (strength, intelligence, .etc).
+- inventory [Map<String, Item>]  Inventory items mapped by name.
+- current_health [int]: Current health points.
+- max_health [int]: Maximum health points.
+- experience [int]: Accumulated experience points.
+- gold [int]: Amount of gold the character has.
 Classes (extend Character)
-- learned_skills / learned_spells [ArrayList<String, Skill> / ArrayList<String, Spell>]
-- specialties [List<String>]
+- classType [String]: Name of the class (Warrior, Mage, Rogue,.etc).
+- learned_skills / learned_spells [ArrayList<String, Skill> / ArrayList<String, Spell>]  List of skills learned by the character.
+- specialties [List<String>]  Specific specialties or perks of the class.
+- mana [int]: Resource for casting spells (specific to magical classes).
+- stamina [int]: Resource for performing actions.
+
+SkillTree
+- class_type [String]: The character class for this skill tree.
+- skills [Map<String, Skill>]: Collection of skills.
+- skill_points [int]: Points allocated by the player to unlock skills.
 
 Monster
-- name
+- name [String]  Monster’s name.
 - atributes [ArrayList<String, int>]     <- possibly just hit points [int]
 - level [int]     <- possibly unecessary depending on implementation
-- attacks [List<Skill> / List<Spell>]
-- drop_table [Map<String, Item>]
+- attacks [List<Skill> / List<Spell>]  List of attack skills the monster possesses.
+- drop_table [Map<String, Item>]  Items the monster may drop upon defeat.
+- current_health [int]: Current health points.
+- max_health [int]: Maximum health points.
 Boss_Monster (extends Monster)
-- ultimate_move [Skill / Spell]
+- ultimate_move [Skill / Spell]  Special move unique to boss monsters.
 
 Dungeon
-- name [String]
-- depth [int]
-- difficulty [int]
-- monsters [Set<Monster>]
-- boss_monster [Boss_Monster]
-- traps [Set<Trap>]
+- name [String]  Name of the dungeon.
+- depth [int]  Number of floors in the dungeon.
+- difficulty [int]  Difficulty rating based on monsters.
+- monsters [Set<Monster>]  Set of monsters within the dungeon.
+- boss_monster [Boss_Monster]  Final boss monster of the dungeon.
+- traps [Set<Trap>]  Set of traps scattered throughout the dungeon.
 
 Trap
-- name [String]
-- base_damage [int]
-- difficulty [int]
+- name [String]  Trap name.
+- base_damage [int]  Base damage dealt if the trap is triggered.
+- difficulty [int]  Difficulty level of disarming the trap.
+- effect [String]: Additional effect (poison, stun, .etc).
+
+Effect
+- name [String]: Name of the effect (e.g., poison, heal, strength_boost).
+- magnitude [int]: The potency of the effect (e.g., 10 damage, 15 health).
+- duration [int]: Duration in turns for which the effect lasts (e.g., 3 turns for a poison effect).
+- effect_type [String]: Type of effect, such as damage, heal, boost, or debuff.
+- is_stackable [boolean]: Indicates if multiple instances of this effect can stack.
 
 NPC
-- name [String]
-- dialogue [List<String>]
-- shop_items [ArrayList<String, Item>]
-- shop_scaling [int]
+- name [String]  NPC’s name.
+- dialogue [List<String>]  Predefined lines of dialogue.
+- shop_items [ArrayList<String, Item>]  Items available for sale.
+- shop_scaling [int]  The amount that
 
 Item
-- name [String]
-- ability [String]
-- sell_price [int]
+- name [String]  Item’s name.
+- ability [String]  Special ability or effect of the item.
+- sell_price [int]  Price at which the item can be sold.
+- rarity [String]: Rarity level (e.g. common, rare, legendary).
+- type [String]: Type of item (e.g. weapon, armor, potion).
 
 Proposed API for the project:
 www.dnd5eapi.co. Provides information about basically everything in DND5e, including monsters, spells, classes, and more.
