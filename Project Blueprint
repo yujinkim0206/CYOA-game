@@ -22,6 +22,7 @@ User Stories:
 - As a player, I want to view NPC dialogues.
 - As a player, I want to buy items from NPCs.
 - As a player, I want to manage my inventory.
+- As a player, I want to be able to fight enemies and receive rewards (money or experience).
 
 Proposed Entities for the Domain:
 Character (interface)
