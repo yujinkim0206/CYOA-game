@@ -18,3 +18,5 @@ Group Use Case:
 
 Randomly generate floors (?) or dungeons, with placeholder text for things like NPCs and items and monsters. Possibly 
 try out the API to get names of random things.
+
+Manage my inventory.
