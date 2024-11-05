@@ -7,7 +7,7 @@ public class OpenInventoryOutputData {
 
     private boolean useCaseFailed;
 
-    public LogoutOutputData(boolean useCaseFailed) {
+    public OpenInventoryOutputData(boolean useCaseFailed) {
         this.useCaseFailed = useCaseFailed;
     }
 
