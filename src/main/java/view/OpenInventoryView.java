@@ -10,10 +10,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 import interface_adapter.open_inventory.OpenInventoryController;
 import interface_adapter.open_inventory.OpenInventoryState;
@@ -27,14 +23,13 @@ public class OpenInventoryView extends JPanel implements ActionListener, Propert
     private final String viewName = "open inventory";
     private final OpenInventoryViewModel openInventoryViewModel;
 
-//    private final JTextField usernameInputField = new JTextField(15);
-//    private final JLabel usernameErrorField = new JLabel();
-//
-//    private final JPasswordField passwordInputField = new JPasswordField(15);
-//    private final JLabel passwordErrorField = new JLabel();
-//
-//    private final JButton logIn;
-//    private final JButton cancel;
+    // Will be used when items are implemented (probably)
+    //private final ArrayList<Item>;
+
+    // Three sample items, to show what the inventory screen will potentially look like.
+    private final JLabel sampleItem1;
+    private final JLabel sampleItem2;
+    private final JLabel sampleItem3;
 
     private final JButton close;
     private OpenInventoryController openInventoryController;
@@ -47,17 +42,35 @@ public class OpenInventoryView extends JPanel implements ActionListener, Propert
         final JLabel title = new JLabel("Inventory Screen");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-//        final LabelTextPanel usernameInfo = new LabelTextPanel(
-//                new JLabel("Username"), usernameInputField);
-//        final LabelTextPanel passwordInfo = new LabelTextPanel(
-//                new JLabel("Password"), passwordInputField);
-//
-//        final JPanel buttons = new JPanel();
-//        logIn = new JButton("log in");
-//        buttons.add(logIn);
-//        cancel = new JButton("cancel");
-//        buttons.add(cancel);
+        // Create panel for the first item. For now it's just sample text, but will probably contain name & description
+        final JPanel itemBox1 = new JPanel();
+        itemBox1.setLayout(new BoxLayout(itemBox1, BoxLayout.Y_AXIS));
+        sampleItem1 = new JLabel("Sample Item 1");
+        sampleItem1.setAlignmentX(Component.CENTER_ALIGNMENT);
+        itemBox1.add(sampleItem1);
 
+        // Create panel for the second item. For now it's just sample text, but will probably contain name & description
+        final JPanel itemBox2 = new JPanel();
+        itemBox2.setLayout(new BoxLayout(itemBox2, BoxLayout.Y_AXIS));
+        sampleItem2 = new JLabel("Sample Item 2");
+        sampleItem2.setAlignmentX(Component.CENTER_ALIGNMENT);
+        itemBox2.add(sampleItem2);
+
+        // Create panel for the third item. For now it's just sample text, but will probably contain name & description
+        final JPanel itemBox3 = new JPanel();
+        itemBox3.setLayout(new BoxLayout(itemBox3, BoxLayout.Y_AXIS));
+        sampleItem3 = new JLabel("Sample Item 3");
+        sampleItem3.setAlignmentX(Component.CENTER_ALIGNMENT);
+        itemBox3.add(sampleItem3);
+
+        // Place all three item panels in one horizontal panel for nice-looking display.
+        final JPanel items = new JPanel();
+        items.setLayout(new BoxLayout(items, BoxLayout.X_AXIS));
+        items.add(itemBox1);
+        items.add(itemBox2);
+        items.add(itemBox3);
+
+        // Create the close inventory button
         final JPanel buttons = new JPanel();
         close = new JButton("Close");
         buttons.add(close);
@@ -74,62 +87,9 @@ public class OpenInventoryView extends JPanel implements ActionListener, Propert
                 }
         );
 
-//        cancel.addActionListener(this);
-//
-//        usernameInputField.getDocument().addDocumentListener(new DocumentListener() {
-//
-//            private void documentListenerHelper() {
-//                final LoginState currentState = loginViewModel.getState();
-//                currentState.setUsername(usernameInputField.getText());
-//                loginViewModel.setState(currentState);
-//            }
-//
-//            @Override
-//            public void insertUpdate(DocumentEvent e) {
-//                documentListenerHelper();
-//            }
-//
-//            @Override
-//            public void removeUpdate(DocumentEvent e) {
-//                documentListenerHelper();
-//            }
-//
-//            @Override
-//            public void changedUpdate(DocumentEvent e) {
-//                documentListenerHelper();
-//            }
-//        });
-
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-//        passwordInputField.getDocument().addDocumentListener(new DocumentListener() {
-//
-//            private void documentListenerHelper() {
-//                final LoginState currentState = loginViewModel.getState();
-//                currentState.setPassword(new String(passwordInputField.getPassword()));
-//                loginViewModel.setState(currentState);
-//            }
-//
-//            @Override
-//            public void insertUpdate(DocumentEvent e) {
-//                documentListenerHelper();
-//            }
-//
-//            @Override
-//            public void removeUpdate(DocumentEvent e) {
-//                documentListenerHelper();
-//            }
-//
-//            @Override
-//            public void changedUpdate(DocumentEvent e) {
-//                documentListenerHelper();
-//            }
-//        });
-
         this.add(title);
-//        this.add(usernameInfo);
-//        this.add(usernameErrorField);
-//        this.add(passwordInfo);
+        this.add(items);
         this.add(buttons);
     }
 
@@ -144,13 +104,6 @@ public class OpenInventoryView extends JPanel implements ActionListener, Propert
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final OpenInventoryState state = (OpenInventoryState) evt.getNewValue();
-        setFields(state);
-//        usernameErrorField.setText(state.getLoginError());
-    }
-
-    private void setFields(OpenInventoryState state) {
-//        usernameInputField.setText(state.getUsername());
-//        passwordInputField.setText(state.getPassword());
     }
 
     public String getViewName() {
