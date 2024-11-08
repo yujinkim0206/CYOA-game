@@ -1,4 +1,4 @@
-package frEntity;
+package FloorRoomEntities;
 
 public class ItemRoom extends Room{
 

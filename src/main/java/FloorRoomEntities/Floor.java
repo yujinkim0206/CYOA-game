@@ -1,4 +1,4 @@
-package frEntity;
+package FloorRoomEntities;
 
 import java.util.ArrayList;
 import java.util.List;

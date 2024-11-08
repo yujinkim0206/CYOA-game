@@ -1,4 +1,4 @@
-package frEntity;
+package FloorRoomEntities;
 
 public class NPCRoom extends Room{
     private Npc npc;
