@@ -7,8 +7,10 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import data_access.InMemoryUserDataAccessObject;
+import data_access.InventoryDataAccessObject;
 import entity.CommonUserFactory;
 import entity.UserFactory;
+import entity.InventoryFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.change_password.ChangePasswordPresenter;
@@ -18,9 +20,13 @@ import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
+import interface_adapter.room_default.RoomDefaultViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.open_inventory.OpenInventoryController;
+import interface_adapter.open_inventory.OpenInventoryPresenter;
+import interface_adapter.open_inventory.OpenInventoryViewModel;
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInteractor;
 import use_case.change_password.ChangePasswordOutputBoundary;
@@ -30,13 +36,13 @@ import use_case.login.LoginOutputBoundary;
 import use_case.logout.LogoutInputBoundary;
 import use_case.logout.LogoutInteractor;
 import use_case.logout.LogoutOutputBoundary;
+import use_case.open_inventory.OpenInventoryInputBoundary;
+import use_case.open_inventory.OpenInventoryInteractor;
+import use_case.open_inventory.OpenInventoryOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
-import view.LoggedInView;
-import view.LoginView;
-import view.SignupView;
-import view.ViewManager;
+import view.*;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -54,18 +60,23 @@ public class AppBuilder {
     private final CardLayout cardLayout = new CardLayout();
     // thought question: is the hard dependency below a problem?
     private final UserFactory userFactory = new CommonUserFactory();
+    private final InventoryFactory inventoryFactory = new InventoryFactory();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
     // thought question: is the hard dependency below a problem?
     private final InMemoryUserDataAccessObject userDataAccessObject = new InMemoryUserDataAccessObject();
+    private final InventoryDataAccessObject inventoryDataAccessObject = new InventoryDataAccessObject();
 
     private SignupView signupView;
     private SignupViewModel signupViewModel;
     private LoginViewModel loginViewModel;
     private LoggedInViewModel loggedInViewModel;
+    private RoomDefaultViewModel roomDefaultViewModel;
+    private OpenInventoryViewModel openInventoryViewModel;
     private LoggedInView loggedInView;
     private LoginView loginView;
+    private OpenInventoryView openInventoryView;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -101,6 +112,19 @@ public class AppBuilder {
         loggedInViewModel = new LoggedInViewModel();
         loggedInView = new LoggedInView(loggedInViewModel);
         cardPanel.add(loggedInView, loggedInView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the OpenInventory View to the application.
+     * @return this builder
+     */
+    public AppBuilder addOpenInventoryView() {
+        // Room Default View Model is temporarily in here so that the code runs: should be removed later.
+        roomDefaultViewModel = new RoomDefaultViewModel();
+        openInventoryViewModel = new OpenInventoryViewModel();
+        openInventoryView = new OpenInventoryView(openInventoryViewModel);
+        cardPanel.add(openInventoryView, openInventoryView.getViewName());
         return this;
     }
 
@@ -168,6 +192,22 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the OpenInventory Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addOpenInventoryUseCase() {
+        final OpenInventoryOutputBoundary openInventoryOutputBoundary = new OpenInventoryPresenter(
+                viewManagerModel, openInventoryViewModel, roomDefaultViewModel);
+
+        final OpenInventoryInputBoundary openInventoryInteractor =
+                new OpenInventoryInteractor(inventoryDataAccessObject, openInventoryOutputBoundary);
+
+        final OpenInventoryController openInventoryController = new OpenInventoryController(openInventoryInteractor);
+        openInventoryView.setOpenInventoryController(openInventoryController);
+        return this;
+    }
+
+    /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.
      * @return the application
      */
@@ -177,7 +217,7 @@ public class AppBuilder {
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(signupView.getViewName());
+        viewManagerModel.setState(openInventoryView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;
