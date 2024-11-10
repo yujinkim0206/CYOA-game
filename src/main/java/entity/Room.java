@@ -1,6 +1,7 @@
+
 package java.entity;
 
-public class Room {
+public abstract class Room {
     public String getDescription() {
     }
 

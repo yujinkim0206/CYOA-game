@@ -4,11 +4,11 @@ package use_case.open_inventory;
  * The Open Inventory Interactor.
  */
 public class OpenInventoryInteractor implements OpenInventoryInputBoundary {
-    private OpenInventoryUserDataAccessInterface userDataAccessObject;
+    private OpenInventoryDataAccessInterface userDataAccessObject;
     private OpenInventoryOutputBoundary openInventoryPresenter;
 
-    public OpenInventoryInteractor(OpenInventoryUserDataAccessInterface userDataAccessInterface,
-                            OpenInventoryOutputBoundary openInventoryOutputBoundary) {
+    public OpenInventoryInteractor(OpenInventoryDataAccessInterface userDataAccessInterface,
+                                   OpenInventoryOutputBoundary openInventoryOutputBoundary) {
         this.userDataAccessObject = userDataAccessInterface;
         this.openInventoryPresenter = openInventoryOutputBoundary;
     }
