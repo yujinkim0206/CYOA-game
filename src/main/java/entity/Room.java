@@ -1,6 +1,10 @@
-package entity;
+
+package java.entity;
 
 public abstract class Room {
-    public Room() {
+    public String getDescription() {
+    }
+
+    public int getRoomType() {
     }
 }

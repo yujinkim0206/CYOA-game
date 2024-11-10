@@ -1,4 +1,5 @@
-package entity;
+
+package java.entity;
 
 /**
  * Factory for creating Inventory.
