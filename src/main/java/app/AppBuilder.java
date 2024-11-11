@@ -8,7 +8,9 @@ import javax.swing.WindowConstants;
 
 import data_access.InMemoryUserDataAccessObject;
 import data_access.InventoryDataAccessObject;
+import data_access.RoomDataAccessObject;
 import entity.CommonUserFactory;
+import entity.Floor;
 import entity.UserFactory;
 import entity.InventoryFactory;
 import interface_adapter.ViewManagerModel;
@@ -27,6 +29,9 @@ import interface_adapter.signup.SignupViewModel;
 import interface_adapter.open_inventory.OpenInventoryController;
 import interface_adapter.open_inventory.OpenInventoryPresenter;
 import interface_adapter.open_inventory.OpenInventoryViewModel;
+import interface_adapter.room_default.RoomDefaultController;
+import interface_adapter.room_default.RoomDefaultPresenter;
+import interface_adapter.room_default.RoomDefaultViewModel;
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInteractor;
 import use_case.change_password.ChangePasswordOutputBoundary;
@@ -39,6 +44,9 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.open_inventory.OpenInventoryInputBoundary;
 import use_case.open_inventory.OpenInventoryInteractor;
 import use_case.open_inventory.OpenInventoryOutputBoundary;
+import use_case.room_default.RoomInputBoundary;
+import use_case.room_default.RoomInteractor;
+import use_case.room_default.RoomOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
@@ -67,6 +75,7 @@ public class AppBuilder {
     // thought question: is the hard dependency below a problem?
     private final InMemoryUserDataAccessObject userDataAccessObject = new InMemoryUserDataAccessObject();
     private final InventoryDataAccessObject inventoryDataAccessObject = new InventoryDataAccessObject();
+    private final RoomDataAccessObject roomDataAccessObject = new RoomDataAccessObject();
 
     private SignupView signupView;
     private SignupViewModel signupViewModel;
@@ -77,6 +86,7 @@ public class AppBuilder {
     private LoggedInView loggedInView;
     private LoginView loginView;
     private OpenInventoryView openInventoryView;
+    private RoomView roomView;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -120,11 +130,20 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addOpenInventoryView() {
-        // Room Default View Model is temporarily in here so that the code runs: should be removed later.
-        roomDefaultViewModel = new RoomDefaultViewModel();
         openInventoryViewModel = new OpenInventoryViewModel();
         openInventoryView = new OpenInventoryView(openInventoryViewModel);
         cardPanel.add(openInventoryView, openInventoryView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Room View to the application.
+     * @return this builder
+     */
+    public AppBuilder addRoomView() {
+        roomDefaultViewModel = new RoomDefaultViewModel();
+        roomView = new RoomView(roomDefaultViewModel);
+        cardPanel.add(roomView, roomDefaultViewModel.getViewName());
         return this;
     }
 
@@ -188,6 +207,22 @@ public class AppBuilder {
 
         final LogoutController logoutController = new LogoutController(logoutInteractor);
         loggedInView.setLogoutController(logoutController);
+        return this;
+    }
+
+    /**
+     * Adds the Room Use Case to the application
+     * @return this builder
+     */
+    public AppBuilder addRoomUseCase() {
+        final RoomOutputBoundary roomOutputBoundary = new RoomDefaultPresenter(
+                viewManagerModel, roomDefaultViewModel);
+
+        final RoomInputBoundary roomInteractor = new RoomInteractor(
+                roomOutputBoundary, roomDataAccessObject, new Floor());
+
+        final RoomDefaultController roomDefaultController = new RoomDefaultController(roomInteractor);
+        roomView.setRoomController(roomDefaultController);
         return this;
     }
 
