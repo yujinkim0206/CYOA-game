@@ -12,5 +12,5 @@ public interface RoomDataAccessInterface {
      * @param roomNumber the room number
      * @return the Room object
      */
-    public Room getRoomByNumber(int roomNumber);
+    Room getRoomByNumber(int roomNumber);
 }
