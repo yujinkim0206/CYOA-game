@@ -17,9 +17,11 @@ public class Main {
                                             .addSignupView()
                                             .addLoggedInView()
                                             .addOpenInventoryView()
+                                            .addRoomView()
                                             .addSignupUseCase()
                                             .addLoginUseCase()
                                             .addChangePasswordUseCase()
+                                            .addRoomUseCase()
                                             .addOpenInventoryUseCase()
                                             .build();
 

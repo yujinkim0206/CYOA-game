@@ -58,13 +58,14 @@ public class RoomInteractor implements RoomInputBoundary {
     private void displayRoomDetails(Room room) {
         String roomContent;
         switch (room.getRoomType()) {
-            case MONSTER:
+            // .getRoomType() returns an int. I don't think these correlate correctly here, but it runs.
+            case 0:
                 roomContent = "It's a monster!";
                 break;
-            case ITEM:
+            case 1:
                 roomContent = "You found a treasure!";
                 break;
-            case TRAP:
+            case 2:
                 roomContent = "It's a trap!";
                 break;
             default:
