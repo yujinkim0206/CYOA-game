@@ -1,7 +1,8 @@
 package use_case.room_default;
 
-import java.entity.Room;
-import java.util.Random;
+import entity.Floor;
+import entity.Room;
+import java.util.List;
 
 /**
  * The Room Default Interactor.
@@ -10,10 +11,13 @@ public class RoomInteractor implements RoomInputBoundary {
 
     private final RoomOutputBoundary roomPresenter;
     private final RoomDataAccessInterface roomDataAccess;
+    private final Floor floor; // Added Floor as a dependency
+    private int currentRoomIndex = 0; // Track the current room
 
-    public RoomInteractor(RoomOutputBoundary roomPresenter, RoomDataAccessInterface roomDataAccess) {
+    public RoomInteractor(RoomOutputBoundary roomPresenter, RoomDataAccessInterface roomDataAccess, Floor floor) {
         this.roomPresenter = roomPresenter;
         this.roomDataAccess = roomDataAccess;
+        this.floor = floor;
     }
 
     @Override
@@ -25,19 +29,46 @@ public class RoomInteractor implements RoomInputBoundary {
             return;
         }
 
+        displayRoomDetails(room);
+    }
+
+    /**
+     * Fetches the next room from the floor and displays it.
+     */
+    public void goToNextRoom() {
+        List<Room> rooms = floor.getRoomList();
+
+        if (currentRoomIndex < rooms.size()) {
+            Room nextRoom = rooms.get(currentRoomIndex);
+            displayRoomDetails(nextRoom);
+            currentRoomIndex++;
+        } else {
+            roomPresenter.prepareFailView("You have reached the end of the floor.");
+        }
+    }
+
+    @Override
+    public void returnToMainMenu() {
+    }
+
+    /**
+     * Helper method to prepare and display room details.
+     * @param room the room to display
+     */
+    private void displayRoomDetails(Room room) {
         String roomContent;
         switch (room.getRoomType()) {
             case MONSTER:
-                roomContent = "It's a monster";//monster descriptions, and it information
+                roomContent = "It's a monster!";
                 break;
             case ITEM:
-                roomContent = "You found treasure: "; // ITEM descriptions
+                roomContent = "You found a treasure!";
                 break;
             case TRAP:
-                roomContent = "It's a trap" ;//trap name or descriptions
+                roomContent = "It's a trap!";
                 break;
             default:
-                roomContent = "You have cleared the floor";// You have passed all the rooms in the floor
+                roomContent = "You have cleared the floor!";
         }
 
         RoomOutputData outputData = new RoomOutputData(room.getDescription(), roomContent);

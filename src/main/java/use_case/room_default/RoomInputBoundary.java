@@ -10,4 +10,8 @@ public interface RoomInputBoundary {
      * @param inputData the input data containing room details
      */
     void interactWithRoom(RoomInputData inputData);
+
+    void goToNextRoom();
+
+    void returnToMainMenu();
 }

@@ -1,6 +1,6 @@
 package use_case.room_default;
 
-import java.entity.Room;
+import entity.Room;
 
 /**
  * Data Access Interface for Room Use Case.
@@ -12,5 +12,5 @@ public interface RoomDataAccessInterface {
      * @param roomNumber the room number
      * @return the Room object
      */
-    Room getRoomByNumber(int roomNumber);
+    public Room getRoomByNumber(int roomNumber);
 }
