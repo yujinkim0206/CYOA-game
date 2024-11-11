@@ -1,5 +1,5 @@
 
-package java.entity;
+package entity;
 
 public class Item {
 }

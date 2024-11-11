@@ -1,6 +1,6 @@
 package use_case.room_default;
 
-import java.entity.Room;
+import entity.Room;
 
 /**
  * Data Access Interface for Room Use Case.
