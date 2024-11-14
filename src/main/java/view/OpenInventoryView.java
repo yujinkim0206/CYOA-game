@@ -5,9 +5,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.*;
 
+import entity.Item;
+import entity.Inventory;
 import interface_adapter.open_inventory.OpenInventoryController;
 import interface_adapter.open_inventory.OpenInventoryState;
 import interface_adapter.open_inventory.OpenInventoryViewModel;
@@ -20,8 +24,8 @@ public class OpenInventoryView extends JPanel implements ActionListener, Propert
     private final String viewName = "open inventory";
     private final OpenInventoryViewModel openInventoryViewModel;
 
-    // Will be used when items are implemented (probably)
-    //private final ArrayList<Item>;
+    private Map<String, List<Item>> itemsMap;
+    private List<Item> itemsList;
 
     // Three sample items, to show what the inventory screen will potentially look like.
     private final JLabel sampleItem1;
@@ -41,6 +45,23 @@ public class OpenInventoryView extends JPanel implements ActionListener, Propert
 
         final JLabel title = new JLabel("Inventory Screen");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Add all the items from the State to the List "items"
+        this.itemsMap = openInventoryViewModel.getState().getItems();
+        for (String itemName : itemsMap.keySet()) {
+            List<Item> itemList = itemsMap.get(itemName);
+            itemsList.addAll(itemList);
+        }
+
+        /* TODO: implement this in a way that actually works and displays, after Item object is created
+        for (Item item : itemsList) {
+            final JPanel itemPanel = new JPanel();
+            itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.Y_AXIS));
+            itemPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            JLabel itemName = new JLabel(item.toString()); // TODO: Add "get name" to Item object
+            itemName.setAlignmentX(Component.CENTER_ALIGNMENT);
+            itemPanel.add(itemName);
+        } */
 
         // Create panel for the first item. For now it's just sample text, but will probably contain name & description
         final JPanel itemBox1 = new JPanel();
