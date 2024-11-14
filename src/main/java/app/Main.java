@@ -15,6 +15,7 @@ public class Main {
         final JFrame application = appBuilder
                                             .addOpenInventoryView()
                                             .addRoomView()
+                                            .addFallForTrapView()
                                             .addRoomUseCase()
                                             .addOpenInventoryUseCase()
                                             .build();
