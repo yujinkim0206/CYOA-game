@@ -18,6 +18,7 @@ import interface_adapter.open_inventory.OpenInventoryPresenter;
 import interface_adapter.open_inventory.OpenInventoryViewModel;
 import interface_adapter.room_default.RoomDefaultController;
 import interface_adapter.room_default.RoomDefaultPresenter;
+import interface_adapter.talk_to_npc.TalkToNpcViewModel;
 import use_case.open_inventory.OpenInventoryInputBoundary;
 import use_case.open_inventory.OpenInventoryInteractor;
 import use_case.open_inventory.OpenInventoryOutputBoundary;
@@ -42,13 +43,14 @@ public class AppBuilder {
     private final InventoryDataAccessObject inventoryDataAccessObject = new InventoryDataAccessObject();
     private final RoomDataAccessObject roomDataAccessObject = new RoomDataAccessObject();
 
+    private TalkToNpcViewModel talkToNpcViewModel;
+    private FallForTrapViewModel fallForTrapViewModel;
     private RoomDefaultViewModel roomDefaultViewModel;
     private OpenInventoryViewModel openInventoryViewModel;
     private OpenInventoryView openInventoryView;
     private RoomView roomView;
     private FallForTrapView fallForTrapView;
-    private FallForTrapViewModel fallForTrapViewModel;
-
+    private TalkToNpcView talkToNpcView;
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
     }
@@ -83,6 +85,17 @@ public class AppBuilder {
         fallForTrapViewModel = new FallForTrapViewModel();
         fallForTrapView = new FallForTrapView(fallForTrapViewModel);
         cardPanel.add(fallForTrapView, fallForTrapViewModel.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Talk To Npc View to the application.
+     * @return this builder
+     */
+    public AppBuilder addTalkToNpcView() {
+        talkToNpcViewModel = new TalkToNpcViewModel();
+        talkToNpcView = new TalkToNpcView(talkToNpcViewModel);
+        cardPanel.add(talkToNpcView, talkToNpcViewModel.getViewName());
         return this;
     }
 
@@ -128,7 +141,7 @@ public class AppBuilder {
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(fallForTrapView.getViewName());
+        viewManagerModel.setState(talkToNpcView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;

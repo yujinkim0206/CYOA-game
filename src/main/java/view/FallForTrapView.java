@@ -55,11 +55,9 @@ public class FallForTrapView extends JPanel implements ActionListener, PropertyC
         buttons.setAlignmentX(CENTER_ALIGNMENT);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.add(Box.createVerticalGlue());
         this.add(description1);
         this.add(description2);
         this.add(buttons);
-        this.add(Box.createVerticalGlue());
 
     }
 
