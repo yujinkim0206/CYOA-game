@@ -17,12 +17,18 @@ import interface_adapter.open_inventory.OpenInventoryPresenter;
 import interface_adapter.open_inventory.OpenInventoryViewModel;
 import interface_adapter.room_default.RoomDefaultController;
 import interface_adapter.room_default.RoomDefaultPresenter;
+import interface_adapter.character_creation.CharacterCreationController;
+import interface_adapter.character_creation.CharacterCreationPresenter;
+import interface_adapter.character_creation.CharacterCreationViewModel;
 import use_case.open_inventory.OpenInventoryInputBoundary;
 import use_case.open_inventory.OpenInventoryInteractor;
 import use_case.open_inventory.OpenInventoryOutputBoundary;
 import use_case.room_default.RoomInputBoundary;
 import use_case.room_default.RoomInteractor;
 import use_case.room_default.RoomOutputBoundary;
+import use_case.character_creation.CharacterCreationInputBoundary;
+import use_case.character_creation.CharacterCreationInteractor;
+import use_case.character_creation.CharacterCreationOutputBoundary;
 import view.*;
 
 /**
@@ -43,8 +49,10 @@ public class AppBuilder {
 
     private RoomDefaultViewModel roomDefaultViewModel;
     private OpenInventoryViewModel openInventoryViewModel;
+    private CharacterCreationViewModel characterCreationViewModel;
     private OpenInventoryView openInventoryView;
     private RoomView roomView;
+    private CharacterCreationView characterCreationView;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -69,6 +77,17 @@ public class AppBuilder {
         roomDefaultViewModel = new RoomDefaultViewModel();
         roomView = new RoomView(roomDefaultViewModel);
         cardPanel.add(roomView, roomDefaultViewModel.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Character Creation View to the application.
+     * @return this builder
+     */
+    public AppBuilder addCharacterCreationView() {
+        characterCreationViewModel = new CharacterCreationViewModel();
+        characterCreationView = new CharacterCreationView(characterCreationViewModel);
+        cardPanel.add(characterCreationView, characterCreationViewModel.getViewName());
         return this;
     }
 
@@ -104,6 +123,23 @@ public class AppBuilder {
         return this;
     }
 
+//    /**
+//     * Adds the CharacterCreation Use Case to the application.
+//     * @return this builder
+//     */
+//    public AppBuilder addCharacterCreationUseCase() {
+//        final CharacterCreationOutputBoundary characterCreationOutputBoundary = new CharacterCreationPresenter(
+//                viewManagerModel);
+//
+//        final CharacterCreationInputBoundary characterCreationInteractor =
+//                new CharacterCreationInteractor(characterCreationDataAccessObject, characterCreationOutputBoundary);
+//
+//        final CharacterCreationController characterCreationController =
+//                new CharacterCreationController(characterCreationInteractor);
+//        characterCreationView.setCharacterCreationController(characterCreationController);
+//        return this;
+//    }
+
     /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.
      * @return the application
@@ -114,7 +150,7 @@ public class AppBuilder {
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(openInventoryView.getViewName());
+        viewManagerModel.setState(characterCreationView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;
