@@ -11,6 +11,8 @@ import data_access.RoomDataAccessObject;
 import entity.Floor;
 import entity.InventoryFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.talk_to_npc.TalkToNpcViewModel;
+import interface_adapter.fall_for_trap.FallForTrapViewModel;
 import interface_adapter.room_default.RoomDefaultViewModel;
 import interface_adapter.open_inventory.OpenInventoryController;
 import interface_adapter.open_inventory.OpenInventoryPresenter;
@@ -47,12 +49,16 @@ public class AppBuilder {
     private final InventoryDataAccessObject inventoryDataAccessObject = new InventoryDataAccessObject();
     private final RoomDataAccessObject roomDataAccessObject = new RoomDataAccessObject();
 
+    private TalkToNpcViewModel talkToNpcViewModel;
+    private FallForTrapViewModel fallForTrapViewModel;
     private RoomDefaultViewModel roomDefaultViewModel;
     private OpenInventoryViewModel openInventoryViewModel;
     private CharacterCreationViewModel characterCreationViewModel;
     private OpenInventoryView openInventoryView;
     private RoomView roomView;
     private CharacterCreationView characterCreationView;
+    private FallForTrapView fallForTrapView;
+    private TalkToNpcView talkToNpcView;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -88,6 +94,26 @@ public class AppBuilder {
         characterCreationViewModel = new CharacterCreationViewModel();
         characterCreationView = new CharacterCreationView(characterCreationViewModel);
         cardPanel.add(characterCreationView, characterCreationViewModel.getViewName());
+    
+      /**
+     * Adds the Fall For Trap View to the application.
+     * @return this builder
+     */
+    public AppBuilder addFallForTrapView() {
+        fallForTrapViewModel = new FallForTrapViewModel();
+        fallForTrapView = new FallForTrapView(fallForTrapViewModel);
+        cardPanel.add(fallForTrapView, fallForTrapViewModel.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Talk To Npc View to the application.
+     * @return this builder
+     */
+    public AppBuilder addTalkToNpcView() {
+        talkToNpcViewModel = new TalkToNpcViewModel();
+        talkToNpcView = new TalkToNpcView(talkToNpcViewModel);
+        cardPanel.add(talkToNpcView, talkToNpcViewModel.getViewName());
         return this;
     }
 
@@ -150,7 +176,7 @@ public class AppBuilder {
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(characterCreationView.getViewName());
+        viewManagerModel.setState(fallForTrapView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;
