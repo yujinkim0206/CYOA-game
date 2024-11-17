@@ -1,6 +1,6 @@
 package app;
 
-import java.awt.CardLayout;
+import java.awt.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -140,6 +140,7 @@ public class AppBuilder {
         final JFrame application = new JFrame("Login Example");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        cardPanel.setPreferredSize(new Dimension(400, 200));
         application.add(cardPanel);
 
         viewManagerModel.setState(fallForTrapView.getViewName());
