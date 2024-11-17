@@ -16,6 +16,7 @@ public class Main {
                                             .addTalkToNpcView()
                                             .addOpenInventoryView()
                                             .addRoomView()
+                                            .addCharacterCreationView()
                                             .addFallForTrapView()
                                             .addRoomUseCase()
                                             .addOpenInventoryUseCase()
