@@ -17,11 +17,13 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.change_password.ChangePasswordPresenter;
 import interface_adapter.change_password.LoggedInViewModel;
+import interface_adapter.equip_item.EquipItemViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
+import interface_adapter.pickup_item.PickUpItemViewModel;
 import interface_adapter.room_default.RoomDefaultViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
@@ -83,10 +85,16 @@ public class AppBuilder {
     private LoggedInViewModel loggedInViewModel;
     private RoomDefaultViewModel roomDefaultViewModel;
     private OpenInventoryViewModel openInventoryViewModel;
+    private PickUpItemViewModel pickUpItemViewModel;
+    private EquipItemViewModel equipItemViewModel;
+
     private LoggedInView loggedInView;
     private LoginView loginView;
     private OpenInventoryView openInventoryView;
     private RoomView roomView;
+    private PickUpItemView pickUpItemView;
+    private EquipItemView equipItemView;
+
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -144,6 +152,20 @@ public class AppBuilder {
         roomDefaultViewModel = new RoomDefaultViewModel();
         roomView = new RoomView(roomDefaultViewModel);
         cardPanel.add(roomView, roomDefaultViewModel.getViewName());
+        return this;
+    }
+
+    public AppBuilder addPickUpItemView() {
+        pickUpItemViewModel = new PickUpItemViewModel();
+        pickUpItemView = new PickUpItemView(pickUpItemViewModel);
+        cardPanel.add(pickUpItemView, pickUpItemView.getViewName());
+        return this;
+    }
+
+    public AppBuilder addEquipItemView() {
+        equipItemViewModel = new EquipItemViewModel();
+        equipItemView = new EquipItemView(equipItemViewModel);
+        cardPanel.add(equipItemView, equipItemView.getViewName());
         return this;
     }
 
@@ -252,7 +274,7 @@ public class AppBuilder {
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(openInventoryView.getViewName());
+        viewManagerModel.setState(roomView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;

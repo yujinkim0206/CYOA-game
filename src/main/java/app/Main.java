@@ -23,6 +23,8 @@ public class Main {
                                             .addChangePasswordUseCase()
                                             .addRoomUseCase()
                                             .addOpenInventoryUseCase()
+                                            .addPickUpItemView()
+                                            .addEquipItemView()
                                             .build();
 
         application.pack();
