@@ -94,6 +94,8 @@ public class AppBuilder {
         characterCreationViewModel = new CharacterCreationViewModel();
         characterCreationView = new CharacterCreationView(characterCreationViewModel);
         cardPanel.add(characterCreationView, characterCreationViewModel.getViewName());
+        return this;
+    }
     
       /**
      * Adds the Fall For Trap View to the application.
