@@ -11,6 +11,7 @@ import data_access.RoomDataAccessObject;
 import entity.Floor;
 import entity.InventoryFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.talk_to_npc.TalkToNpcViewModel;
 import interface_adapter.fall_for_trap.FallForTrapViewModel;
 import interface_adapter.room_default.RoomDefaultViewModel;
 import interface_adapter.open_inventory.OpenInventoryController;
@@ -18,7 +19,6 @@ import interface_adapter.open_inventory.OpenInventoryPresenter;
 import interface_adapter.open_inventory.OpenInventoryViewModel;
 import interface_adapter.room_default.RoomDefaultController;
 import interface_adapter.room_default.RoomDefaultPresenter;
-import interface_adapter.talk_to_npc.TalkToNpcViewModel;
 import use_case.open_inventory.OpenInventoryInputBoundary;
 import use_case.open_inventory.OpenInventoryInteractor;
 import use_case.open_inventory.OpenInventoryOutputBoundary;
@@ -51,6 +51,7 @@ public class AppBuilder {
     private RoomView roomView;
     private FallForTrapView fallForTrapView;
     private TalkToNpcView talkToNpcView;
+
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
     }

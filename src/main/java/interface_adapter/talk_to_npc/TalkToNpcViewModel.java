@@ -1,10 +1,9 @@
 package interface_adapter.talk_to_npc;
 
 import interface_adapter.ViewModel;
-import interface_adapter.talk_to_npc.TalkToNpcState;
 
 /**
- * The View Model for the Trap Fallen View.
+ * The View Model for the Talk To NPC view.
  */
 public class TalkToNpcViewModel extends ViewModel<TalkToNpcState> {
 
