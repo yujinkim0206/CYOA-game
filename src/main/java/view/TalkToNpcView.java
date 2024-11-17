@@ -73,12 +73,14 @@ public class TalkToNpcView extends JPanel implements ActionListener, PropertyCha
         );
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.add(Box.createVerticalGlue());
         this.add(Box.createRigidArea(new Dimension(0, 10)));
         this.add(name);
         this.add(description);
         this.add(dialoguePanel);
         this.add(buttons);
         this.add(Box.createRigidArea(new Dimension(0, 10)));
+        this.add(Box.createVerticalGlue());
 
     }
 

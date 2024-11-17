@@ -142,7 +142,7 @@ public class AppBuilder {
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(talkToNpcView.getViewName());
+        viewManagerModel.setState(fallForTrapView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;
