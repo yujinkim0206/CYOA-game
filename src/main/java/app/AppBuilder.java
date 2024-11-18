@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import data_access.InventoryDataAccessObject;
+import data_access.PlayerDataAccessObject;
 import data_access.RoomDataAccessObject;
 import entity.Floor;
 import entity.InventoryFactory;
@@ -49,6 +50,7 @@ public class AppBuilder {
 
     private final InventoryDataAccessObject inventoryDataAccessObject = new InventoryDataAccessObject();
     private final RoomDataAccessObject roomDataAccessObject = new RoomDataAccessObject();
+    private final PlayerDataAccessObject playerDataAccessObject = new PlayerDataAccessObject();
 
     private TalkToNpcViewModel talkToNpcViewModel;
     private FallForTrapViewModel fallForTrapViewModel;
@@ -173,22 +175,22 @@ public class AppBuilder {
         return this;
     }
 
-//    /**
-//     * Adds the CharacterCreation Use Case to the application.
-//     * @return this builder
-//     */
-//    public AppBuilder addCharacterCreationUseCase() {
-//        final CharacterCreationOutputBoundary characterCreationOutputBoundary = new CharacterCreationPresenter(
-//                viewManagerModel);
-//
-//        final CharacterCreationInputBoundary characterCreationInteractor =
-//                new CharacterCreationInteractor(characterCreationDataAccessObject, characterCreationOutputBoundary);
-//
-//        final CharacterCreationController characterCreationController =
-//                new CharacterCreationController(characterCreationInteractor);
-//        characterCreationView.setCharacterCreationController(characterCreationController);
-//        return this;
-//    }
+    /**
+     * Adds the CharacterCreation Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addCharacterCreationUseCase() {
+        final CharacterCreationOutputBoundary characterCreationOutputBoundary = new CharacterCreationPresenter(
+                viewManagerModel);
+
+        final CharacterCreationInputBoundary characterCreationInteractor =
+                new CharacterCreationInteractor(playerDataAccessObject, characterCreationOutputBoundary);
+
+        final CharacterCreationController characterCreationController =
+                new CharacterCreationController(characterCreationInteractor);
+        characterCreationView.setCharacterCreationController(characterCreationController);
+        return this;
+    }
 
     /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.
@@ -201,8 +203,7 @@ public class AppBuilder {
         cardPanel.setPreferredSize(new Dimension(400, 200));
         application.add(cardPanel);
 
-
-        viewManagerModel.setState(fallForTrapView.getViewName());
+        viewManagerModel.setState(characterCreationView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;

@@ -10,4 +10,5 @@ public interface CharacterCreationInputBoundary {
      * @param CharacterCreationInputData the input data
      */
     void execute(CharacterCreationInputData CharacterCreationInputData);
+    void execute();
 }

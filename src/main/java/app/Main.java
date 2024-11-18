@@ -18,10 +18,11 @@ public class Main {
                                             .addRoomView()
                                             .addCharacterCreationView()
                                             .addFallForTrapView()
-                                            .addRoomUseCase()
-                                            .addOpenInventoryUseCase()
                                             .addPickUpItemView()
                                             .addEquipItemView()
+                                            .addRoomUseCase()
+                                            .addOpenInventoryUseCase()
+                                            .addCharacterCreationUseCase()
                                             .build();
 
         application.pack();
