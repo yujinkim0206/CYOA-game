@@ -20,6 +20,8 @@ public class Main {
                                             .addFallForTrapView()
                                             .addRoomUseCase()
                                             .addOpenInventoryUseCase()
+                                            .addPickUpItemView()
+                                            .addEquipItemView()
                                             .build();
 
         application.pack();
