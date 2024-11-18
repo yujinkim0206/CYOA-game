@@ -18,6 +18,8 @@ public class Main {
                                             .addRoomView()
                                             .addCharacterCreationView()
                                             .addFallForTrapView()
+                                            .addPickUpItemView()
+                                            .addEquipItemView()
                                             .addRoomUseCase()
                                             .addOpenInventoryUseCase()
                                             .addCharacterCreationUseCase()

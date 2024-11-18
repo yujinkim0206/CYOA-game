@@ -12,6 +12,7 @@ import data_access.RoomDataAccessObject;
 import entity.Floor;
 import entity.InventoryFactory;
 import interface_adapter.ViewManagerModel;
+
 import interface_adapter.talk_to_npc.TalkToNpcViewModel;
 import interface_adapter.fall_for_trap.FallForTrapViewModel;
 import interface_adapter.room_default.RoomDefaultViewModel;
@@ -55,12 +56,19 @@ public class AppBuilder {
     private FallForTrapViewModel fallForTrapViewModel;
     private RoomDefaultViewModel roomDefaultViewModel;
     private OpenInventoryViewModel openInventoryViewModel;
+    private PickUpItemViewModel pickUpItemViewModel;
+    private EquipItemViewModel equipItemViewModel;
+    private OpenInventoryView openInventoryView;
+    private RoomView roomView;
+    private PickUpItemView pickUpItemView;
+    private EquipItemView equipItemView;
     private CharacterCreationViewModel characterCreationViewModel;
     private OpenInventoryView openInventoryView;
     private RoomView roomView;
     private CharacterCreationView characterCreationView;
     private FallForTrapView fallForTrapView;
     private TalkToNpcView talkToNpcView;
+
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -85,6 +93,20 @@ public class AppBuilder {
         roomDefaultViewModel = new RoomDefaultViewModel();
         roomView = new RoomView(roomDefaultViewModel);
         cardPanel.add(roomView, roomDefaultViewModel.getViewName());
+        return this;
+    }
+
+    public AppBuilder addPickUpItemView() {
+        pickUpItemViewModel = new PickUpItemViewModel();
+        pickUpItemView = new PickUpItemView(pickUpItemViewModel);
+        cardPanel.add(pickUpItemView, pickUpItemView.getViewName());
+        return this;
+    }
+
+    public AppBuilder addEquipItemView() {
+        equipItemViewModel = new EquipItemViewModel();
+        equipItemView = new EquipItemView(equipItemViewModel);
+        cardPanel.add(equipItemView, equipItemView.getViewName());
         return this;
     }
 
