@@ -179,7 +179,7 @@ public class AppBuilder {
         cardPanel.setPreferredSize(new Dimension(400, 200));
         application.add(cardPanel);
 
-        viewManagerModel.setState(fallForTrapView.getViewName());
+        viewManagerModel.setState(openInventoryView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;
