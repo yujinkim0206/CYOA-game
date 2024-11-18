@@ -15,6 +15,8 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.talk_to_npc.TalkToNpcViewModel;
 import interface_adapter.fall_for_trap.FallForTrapViewModel;
 import interface_adapter.room_default.RoomDefaultViewModel;
+import interface_adapter.equip_item.EquipItemViewModel;
+import interface_adapter.pickup_item.PickUpItemViewModel;
 import interface_adapter.open_inventory.OpenInventoryController;
 import interface_adapter.open_inventory.OpenInventoryPresenter;
 import interface_adapter.open_inventory.OpenInventoryViewModel;
@@ -32,6 +34,7 @@ import use_case.room_default.RoomOutputBoundary;
 import use_case.character_creation.CharacterCreationInputBoundary;
 import use_case.character_creation.CharacterCreationInteractor;
 import use_case.character_creation.CharacterCreationOutputBoundary;
+
 import view.*;
 
 /**
@@ -54,18 +57,17 @@ public class AppBuilder {
     private FallForTrapViewModel fallForTrapViewModel;
     private RoomDefaultViewModel roomDefaultViewModel;
     private OpenInventoryViewModel openInventoryViewModel;
+
+    private CharacterCreationViewModel characterCreationViewModel;
     private PickUpItemViewModel pickUpItemViewModel;
     private EquipItemViewModel equipItemViewModel;
-    private OpenInventoryView openInventoryView;
-    private RoomView roomView;
-    private PickUpItemView pickUpItemView;
-    private EquipItemView equipItemView;
-    private CharacterCreationViewModel characterCreationViewModel;
     private OpenInventoryView openInventoryView;
     private RoomView roomView;
     private CharacterCreationView characterCreationView;
     private FallForTrapView fallForTrapView;
     private TalkToNpcView talkToNpcView;
+    private PickUpItemView pickUpItemView;
+    private EquipItemView equipItemView;
 
 
     public AppBuilder() {
@@ -94,19 +96,6 @@ public class AppBuilder {
         return this;
     }
 
-    public AppBuilder addPickUpItemView() {
-        pickUpItemViewModel = new PickUpItemViewModel();
-        pickUpItemView = new PickUpItemView(pickUpItemViewModel);
-        cardPanel.add(pickUpItemView, pickUpItemView.getViewName());
-        return this;
-    }
-
-    public AppBuilder addEquipItemView() {
-        equipItemViewModel = new EquipItemViewModel();
-        equipItemView = new EquipItemView(equipItemViewModel);
-        cardPanel.add(equipItemView, equipItemView.getViewName());
-        return this;
-    }
 
     /**
      * Adds the Character Creation View to the application.
@@ -157,6 +146,22 @@ public class AppBuilder {
         return this;
     }
 
+
+    public AppBuilder addPickUpItemView() {
+        pickUpItemViewModel = new PickUpItemViewModel();
+        pickUpItemView = new PickUpItemView(pickUpItemViewModel);
+        cardPanel.add(pickUpItemView, pickUpItemView.getViewName());
+        return this;
+    }
+
+    public AppBuilder addEquipItemView() {
+        equipItemViewModel = new EquipItemViewModel();
+        equipItemView = new EquipItemView(equipItemViewModel);
+        cardPanel.add(equipItemView, equipItemView.getViewName());
+        return this;
+    }
+
+
     /**
      * Adds the OpenInventory Use Case to the application.
      * @return this builder
@@ -200,9 +205,10 @@ public class AppBuilder {
 
         cardPanel.setPreferredSize(new Dimension(400, 200));
         application.add(cardPanel);
+        System.out.println("Setting initial view to: " + pickUpItemView.getViewName());
 
 
-        viewManagerModel.setState(fallForTrapView.getViewName());
+        viewManagerModel.setState(roomView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;
