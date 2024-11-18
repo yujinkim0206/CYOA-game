@@ -48,9 +48,11 @@ public class OpenInventoryView extends JPanel implements ActionListener, Propert
 
         // Add all the items from the State to the List "items"
         this.itemsMap = openInventoryViewModel.getState().getItems();
-        for (String itemName : itemsMap.keySet()) {
-            List<Item> itemList = itemsMap.get(itemName);
-            itemsList.addAll(itemList);
+        if (itemsMap != null) {
+            for (String itemName : itemsMap.keySet()) {
+                List<Item> itemList = itemsMap.get(itemName);
+                itemsList.addAll(itemList);
+            }
         }
 
         /* TODO: implement this in a way that actually works and displays, after Item object is created
