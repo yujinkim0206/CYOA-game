@@ -65,8 +65,6 @@ public class AppBuilder {
     private PickUpItemView pickUpItemView;
     private EquipItemView equipItemView;
     private CharacterCreationViewModel characterCreationViewModel;
-    private OpenInventoryView openInventoryView;
-    private RoomView roomView;
     private CharacterCreationView characterCreationView;
     private FallForTrapView fallForTrapView;
     private TalkToNpcView talkToNpcView;
