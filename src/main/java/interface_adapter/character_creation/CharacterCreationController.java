@@ -15,10 +15,17 @@ public class CharacterCreationController {
     }
 
     /**
-     * Executes the Character Creation Use Case.
+     * Executes the Character Creation Use Case to update the class or race.
+     */
+    public void execute(String pClass, String pRace) {
+        final CharacterCreationInputData characterCreationInputData = new CharacterCreationInputData(pClass, pRace);
+        characterCreationUseCaseInteractor.execute(characterCreationInputData);
+    }
+
+    /**
+     * Executes the Character Creation Use Case to move to the next view.
      */
     public void execute() {
-        final CharacterCreationInputData characterCreationInputData = new CharacterCreationInputData();
-        characterCreationUseCaseInteractor.execute(characterCreationInputData);
+        characterCreationUseCaseInteractor.execute();
     }
 }
