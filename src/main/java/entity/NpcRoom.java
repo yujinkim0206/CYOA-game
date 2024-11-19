@@ -1,6 +1,6 @@
 package entity;
 
-public class NPCRoom extends Room{
+public class NpcRoom extends Room{
     private Npc npc;
 
     /**
@@ -8,7 +8,7 @@ public class NPCRoom extends Room{
      * @param npc the Npc in the NPCRoom
      */
 
-    public NPCRoom(Npc npc){
+    public NpcRoom(Npc npc){
         this.npc = npc;
     }
 
