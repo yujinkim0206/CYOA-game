@@ -7,10 +7,10 @@ public class CharacterCreationState {
     private String pClass;
     private String pRace;
 
-    public String getPclass() {
+    public String getPClass() {
         return pClass;
     }
-    public void setPclass(String pClass) {
+    public void setPClass(String pClass) {
         this.pClass = pClass;
     }
 

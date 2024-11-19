@@ -37,6 +37,11 @@ public class CharacterCreationPresenter implements CharacterCreationOutputBounda
 
     @Override
     public void prepareFailView(String error) {
-        // We're assuming that this never fails.
+        // TODO this fails when the user has not selected both a class and a race
+    }
+
+    @Override
+    public void getDescription(String pClassDescription, String pRaceDescription) {
+        // TODO write this
     }
 }

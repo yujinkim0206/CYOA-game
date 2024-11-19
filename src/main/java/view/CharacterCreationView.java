@@ -67,10 +67,10 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(sampleClass1)) {
                             final CharacterCreationState currentState = characterCreationViewModel.getState();
-                            currentState.setPclass("Class 1");
+                            currentState.setPClass("Class 1");
                             characterCreationViewModel.setState(currentState);
 
-                            characterCreationController.execute(currentState.getPclass(), currentState.getPRace());
+                            characterCreationController.execute(currentState.getPClass(), currentState.getPRace());
                         }
                     }
                 }
@@ -93,10 +93,10 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(sampleClass2)) {
                             final CharacterCreationState currentState = characterCreationViewModel.getState();
-                            currentState.setPclass("Class 2");
+                            currentState.setPClass("Class 2");
                             characterCreationViewModel.setState(currentState);
 
-                            characterCreationController.execute(currentState.getPclass(), currentState.getPRace());
+                            characterCreationController.execute(currentState.getPClass(), currentState.getPRace());
                         }
                     }
                 }
@@ -119,10 +119,10 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(sampleClass3)) {
                             final CharacterCreationState currentState = characterCreationViewModel.getState();
-                            currentState.setPclass("Class 3");
+                            currentState.setPClass("Class 3");
                             characterCreationViewModel.setState(currentState);
 
-                            characterCreationController.execute(currentState.getPclass(), currentState.getPRace());
+                            characterCreationController.execute(currentState.getPClass(), currentState.getPRace());
                         }
                     }
                 }
@@ -150,7 +150,7 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
                             currentState.setPRace("Race 1");
                             characterCreationViewModel.setState(currentState);
 
-                            characterCreationController.execute(currentState.getPclass(), currentState.getPRace());
+                            characterCreationController.execute(currentState.getPClass(), currentState.getPRace());
                         }
                     }
                 }
@@ -175,7 +175,7 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
                             currentState.setPRace("Race 2");
                             characterCreationViewModel.setState(currentState);
 
-                            characterCreationController.execute(currentState.getPclass(), currentState.getPRace());
+                            characterCreationController.execute(currentState.getPClass(), currentState.getPRace());
                         }
                     }
                 }
@@ -200,7 +200,7 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
                             currentState.setPRace("Race 3");
                             characterCreationViewModel.setState(currentState);
 
-                            characterCreationController.execute(currentState.getPclass(), currentState.getPRace());
+                            characterCreationController.execute(currentState.getPClass(), currentState.getPRace());
                         }
                     }
                 }
@@ -225,7 +225,7 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
                             currentState.setPRace("Race 4");
                             characterCreationViewModel.setState(currentState);
 
-                            characterCreationController.execute(currentState.getPclass(), currentState.getPRace());
+                            characterCreationController.execute(currentState.getPClass(), currentState.getPRace());
                         }
                     }
                 }

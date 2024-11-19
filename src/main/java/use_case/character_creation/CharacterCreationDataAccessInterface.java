@@ -6,4 +6,6 @@ package use_case.character_creation;
 public interface CharacterCreationDataAccessInterface {
     public void setPclass(String pclass);
     public void setPrace(String prace);
+    public String getPClassDescription();
+    public String getPRaceDescription();
 }
