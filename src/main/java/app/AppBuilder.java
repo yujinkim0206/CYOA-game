@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import data_access.InventoryDataAccessObject;
+import data_access.PlayerDataAccessObject;
 import data_access.RoomDataAccessObject;
 import entity.Floor;
 import entity.InventoryFactory;
@@ -15,8 +16,8 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.talk_to_npc.TalkToNpcViewModel;
 import interface_adapter.fall_for_trap.FallForTrapViewModel;
 import interface_adapter.room_default.RoomDefaultViewModel;
-import interface_adapter.equip_item.EquipItemViewModel;
 import interface_adapter.pickup_item.PickUpItemViewModel;
+import interface_adapter.equip_item.EquipItemViewModel;
 import interface_adapter.open_inventory.OpenInventoryController;
 import interface_adapter.open_inventory.OpenInventoryPresenter;
 import interface_adapter.open_inventory.OpenInventoryViewModel;
@@ -34,7 +35,6 @@ import use_case.room_default.RoomOutputBoundary;
 import use_case.character_creation.CharacterCreationInputBoundary;
 import use_case.character_creation.CharacterCreationInteractor;
 import use_case.character_creation.CharacterCreationOutputBoundary;
-
 import view.*;
 
 /**
@@ -52,22 +52,22 @@ public class AppBuilder {
 
     private final InventoryDataAccessObject inventoryDataAccessObject = new InventoryDataAccessObject();
     private final RoomDataAccessObject roomDataAccessObject = new RoomDataAccessObject();
+    private final PlayerDataAccessObject playerDataAccessObject = new PlayerDataAccessObject();
 
     private TalkToNpcViewModel talkToNpcViewModel;
     private FallForTrapViewModel fallForTrapViewModel;
     private RoomDefaultViewModel roomDefaultViewModel;
     private OpenInventoryViewModel openInventoryViewModel;
-
-    private CharacterCreationViewModel characterCreationViewModel;
     private PickUpItemViewModel pickUpItemViewModel;
     private EquipItemViewModel equipItemViewModel;
     private OpenInventoryView openInventoryView;
     private RoomView roomView;
+    private PickUpItemView pickUpItemView;
+    private EquipItemView equipItemView;
+    private CharacterCreationViewModel characterCreationViewModel;
     private CharacterCreationView characterCreationView;
     private FallForTrapView fallForTrapView;
     private TalkToNpcView talkToNpcView;
-    private PickUpItemView pickUpItemView;
-    private EquipItemView equipItemView;
 
 
     public AppBuilder() {
@@ -96,6 +96,19 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addPickUpItemView() {
+        pickUpItemViewModel = new PickUpItemViewModel();
+        pickUpItemView = new PickUpItemView(pickUpItemViewModel);
+        cardPanel.add(pickUpItemView, pickUpItemView.getViewName());
+        return this;
+    }
+
+    public AppBuilder addEquipItemView() {
+        equipItemViewModel = new EquipItemViewModel();
+        equipItemView = new EquipItemView(equipItemViewModel);
+        cardPanel.add(equipItemView, equipItemView.getViewName());
+        return this;
+    }
 
     /**
      * Adds the Character Creation View to the application.
@@ -146,22 +159,6 @@ public class AppBuilder {
         return this;
     }
 
-
-    public AppBuilder addPickUpItemView() {
-        pickUpItemViewModel = new PickUpItemViewModel();
-        pickUpItemView = new PickUpItemView(pickUpItemViewModel);
-        cardPanel.add(pickUpItemView, pickUpItemView.getViewName());
-        return this;
-    }
-
-    public AppBuilder addEquipItemView() {
-        equipItemViewModel = new EquipItemViewModel();
-        equipItemView = new EquipItemView(equipItemViewModel);
-        cardPanel.add(equipItemView, equipItemView.getViewName());
-        return this;
-    }
-
-
     /**
      * Adds the OpenInventory Use Case to the application.
      * @return this builder
@@ -178,22 +175,22 @@ public class AppBuilder {
         return this;
     }
 
-//    /**
-//     * Adds the CharacterCreation Use Case to the application.
-//     * @return this builder
-//     */
-//    public AppBuilder addCharacterCreationUseCase() {
-//        final CharacterCreationOutputBoundary characterCreationOutputBoundary = new CharacterCreationPresenter(
-//                viewManagerModel);
-//
-//        final CharacterCreationInputBoundary characterCreationInteractor =
-//                new CharacterCreationInteractor(characterCreationDataAccessObject, characterCreationOutputBoundary);
-//
-//        final CharacterCreationController characterCreationController =
-//                new CharacterCreationController(characterCreationInteractor);
-//        characterCreationView.setCharacterCreationController(characterCreationController);
-//        return this;
-//    }
+    /**
+     * Adds the CharacterCreation Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addCharacterCreationUseCase() {
+        final CharacterCreationOutputBoundary characterCreationOutputBoundary = new CharacterCreationPresenter(
+                viewManagerModel);
+
+        final CharacterCreationInputBoundary characterCreationInteractor =
+                new CharacterCreationInteractor(playerDataAccessObject, characterCreationOutputBoundary);
+
+        final CharacterCreationController characterCreationController =
+                new CharacterCreationController(characterCreationInteractor);
+        characterCreationView.setCharacterCreationController(characterCreationController);
+        return this;
+    }
 
     /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.
@@ -205,10 +202,8 @@ public class AppBuilder {
 
         cardPanel.setPreferredSize(new Dimension(400, 200));
         application.add(cardPanel);
-        System.out.println("Setting initial view to: " + pickUpItemView.getViewName());
 
-
-        viewManagerModel.setState(roomView.getViewName());
+        viewManagerModel.setState(characterCreationView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;

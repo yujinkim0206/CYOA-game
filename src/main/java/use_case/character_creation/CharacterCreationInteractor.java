@@ -15,9 +15,12 @@ public class CharacterCreationInteractor implements CharacterCreationInputBounda
 
     @Override
     public void execute(CharacterCreationInputData characterCreationInputData) {
+        characterDataAccessObject.setPclass(characterCreationInputData.getPclass());
+        characterDataAccessObject.setPrace(characterCreationInputData.getPrace());
+    }
 
-        // This code has not been written yet.
-
+    @Override
+    public void execute() {
         final CharacterCreationOutputData characterCreationOutputData = new CharacterCreationOutputData(false);
         characterCreationPresenter.prepareSuccessView(characterCreationOutputData);
     }
