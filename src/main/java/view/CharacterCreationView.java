@@ -20,21 +20,21 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
     private final CharacterCreationViewModel characterCreationViewModel;
 
     // Three sample classes
-    private final JButton sampleClass1;
-    private final JButton sampleClass2;
-    private final JButton sampleClass3;
-    private final JLabel sampleClassDescription1;
-    private final JLabel sampleClassDescription2;
-    private final JLabel sampleClassDescription3;
+    private final JButton barbarian;
+    private final JButton rogue;
+    private final JButton cleric;
+    private final JLabel barbarianDescription;
+    private final JLabel rogueDescription;
+    private final JLabel clericDescription;
     // Four sample races
-    private final JButton sampleRace1;
-    private final JButton sampleRace2;
-    private final JButton sampleRace3;
-    private final JButton sampleRace4;
-    private final JLabel sampleRaceDescription1;
-    private final JLabel sampleRaceDescription2;
-    private final JLabel sampleRaceDescription3;
-    private final JLabel sampleRaceDescription4;
+    private final JButton human;
+    private final JButton dwarf;
+    private final JButton elf;
+    private final JButton gnome;
+    private final JLabel humanDescription;
+    private final JLabel dwarfDescription;
+    private final JLabel elfDescription;
+    private final JLabel gnomeDescription;
 
     private final JButton next;
     private CharacterCreationController characterCreationController;
@@ -50,24 +50,24 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
         final JLabel classes_title = new JLabel("Select Class");
         classes_title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Create panel for the first sample class. Add API later.
-        final JPanel classBox1 = new JPanel();
-        classBox1.setLayout(new BoxLayout(classBox1, BoxLayout.Y_AXIS));
-        classBox1.setAlignmentX(Component.CENTER_ALIGNMENT);
-        sampleClass1 = new JButton("Sample Class 1");
-        sampleClass1.setAlignmentX(Component.CENTER_ALIGNMENT);
-        sampleClassDescription1 = new JLabel("Sample Class Description 1");
-        sampleClassDescription1.setAlignmentX(Component.CENTER_ALIGNMENT);
-        classBox1.add(sampleClass1);
-        classBox1.add(sampleClassDescription1);
-        classBox1.setBorder(BorderFactory.createLineBorder(Color.black));
+        // TODO refactor all classes to one createClass(String className) method
+        final JPanel barbarianBox = new JPanel();
+        barbarianBox.setLayout(new BoxLayout(barbarianBox, BoxLayout.Y_AXIS));
+        barbarianBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+        barbarian = new JButton("Barbarian");
+        barbarian.setAlignmentX(Component.CENTER_ALIGNMENT);
+        barbarianDescription = new JLabel("Barbarian Description");
+        barbarianDescription.setAlignmentX(Component.CENTER_ALIGNMENT);
+        barbarianBox.add(barbarian);
+        barbarianBox.add(barbarianDescription);
+        barbarianBox.setBorder(BorderFactory.createLineBorder(Color.black));
 
-        sampleClass1.addActionListener(
+        barbarian.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(sampleClass1)) {
+                        if (evt.getSource().equals(barbarian)) {
                             final CharacterCreationState currentState = characterCreationViewModel.getState();
-                            currentState.setPClass("Class 1");
+                            currentState.setPClass("barbarian");
                             characterCreationViewModel.setState(currentState);
 
                             characterCreationController.execute(currentState.getPClass(), currentState.getPRace());
@@ -77,23 +77,23 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
         );
 
         // Create panel for the second sample class. Add API later.
-        final JPanel classBox2 = new JPanel();
-        classBox2.setLayout(new BoxLayout(classBox2, BoxLayout.Y_AXIS));
-        classBox2.setAlignmentX(Component.CENTER_ALIGNMENT);
-        sampleClass2 = new JButton("Sample Class 2");
-        sampleClass2.setAlignmentX(Component.CENTER_ALIGNMENT);
-        sampleClassDescription2 = new JLabel("Sample Class Description 2");
-        sampleClassDescription2.setAlignmentX(Component.CENTER_ALIGNMENT);
-        classBox2.add(sampleClass2);
-        classBox2.add(sampleClassDescription2);
-        classBox2.setBorder(BorderFactory.createLineBorder(Color.black));
+        final JPanel rogueBox = new JPanel();
+        rogueBox.setLayout(new BoxLayout(rogueBox, BoxLayout.Y_AXIS));
+        rogueBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+        rogue = new JButton("Rogue");
+        rogue.setAlignmentX(Component.CENTER_ALIGNMENT);
+        rogueDescription = new JLabel("Rogue Description");
+        rogueDescription.setAlignmentX(Component.CENTER_ALIGNMENT);
+        rogueBox.add(rogue);
+        rogueBox.add(rogueDescription);
+        rogueBox.setBorder(BorderFactory.createLineBorder(Color.black));
 
-        sampleClass2.addActionListener(
+        rogue.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(sampleClass2)) {
+                        if (evt.getSource().equals(rogue)) {
                             final CharacterCreationState currentState = characterCreationViewModel.getState();
-                            currentState.setPClass("Class 2");
+                            currentState.setPClass("rogue");
                             characterCreationViewModel.setState(currentState);
 
                             characterCreationController.execute(currentState.getPClass(), currentState.getPRace());
@@ -103,23 +103,23 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
         );
 
         // Create panel for the third sample class. Add API later.
-        final JPanel classBox3 = new JPanel();
-        classBox3.setLayout(new BoxLayout(classBox3, BoxLayout.Y_AXIS));
-        classBox3.setAlignmentX(Component.CENTER_ALIGNMENT);
-        sampleClass3 = new JButton("Sample Class 3");
-        sampleClass3.setAlignmentX(Component.CENTER_ALIGNMENT);
-        sampleClassDescription3 = new JLabel("Sample Class Description 3");
-        sampleClassDescription3.setAlignmentX(Component.CENTER_ALIGNMENT);
-        classBox3.add(sampleClass3);
-        classBox3.add(sampleClassDescription3);
-        classBox3.setBorder(BorderFactory.createLineBorder(Color.black));
+        final JPanel clericBox = new JPanel();
+        clericBox.setLayout(new BoxLayout(clericBox, BoxLayout.Y_AXIS));
+        clericBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+        cleric = new JButton("Cleric");
+        cleric.setAlignmentX(Component.CENTER_ALIGNMENT);
+        clericDescription = new JLabel("Cleric Description");
+        clericDescription.setAlignmentX(Component.CENTER_ALIGNMENT);
+        clericBox.add(cleric);
+        clericBox.add(clericDescription);
+        clericBox.setBorder(BorderFactory.createLineBorder(Color.black));
 
-        sampleClass3.addActionListener(
+        cleric.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(sampleClass3)) {
+                        if (evt.getSource().equals(cleric)) {
                             final CharacterCreationState currentState = characterCreationViewModel.getState();
-                            currentState.setPClass("Class 3");
+                            currentState.setPClass("cleric");
                             characterCreationViewModel.setState(currentState);
 
                             characterCreationController.execute(currentState.getPClass(), currentState.getPRace());
@@ -131,23 +131,23 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
         final JLabel races_title = new JLabel("Select Race");
         races_title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Create panel for the first sample race. Add API later.
-        final JPanel raceBox1 = new JPanel();
-        raceBox1.setLayout(new BoxLayout(raceBox1, BoxLayout.Y_AXIS));
-        sampleRace1 = new JButton("Sample Race 1");
-        sampleRace1.setAlignmentX(Component.CENTER_ALIGNMENT);
-        sampleRaceDescription1 = new JLabel("Sample Race Description 1");
-        sampleRaceDescription1.setAlignmentX(Component.CENTER_ALIGNMENT);
-        raceBox1.add(sampleRace1);
-        raceBox1.add(sampleRaceDescription1);
-        raceBox1.setBorder(BorderFactory.createLineBorder(Color.black));
+        // TODO refactor all race creation to one createRace(String raceName) method
+        final JPanel humanBox = new JPanel();
+        humanBox.setLayout(new BoxLayout(humanBox, BoxLayout.Y_AXIS));
+        human = new JButton("Human");
+        human.setAlignmentX(Component.CENTER_ALIGNMENT);
+        humanDescription = new JLabel("Human Description");
+        humanDescription.setAlignmentX(Component.CENTER_ALIGNMENT);
+        humanBox.add(human);
+        humanBox.add(humanDescription);
+        humanBox.setBorder(BorderFactory.createLineBorder(Color.black));
 
-        sampleRace1.addActionListener(
+        human.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(sampleRace1)) {
+                        if (evt.getSource().equals(human)) {
                             final CharacterCreationState currentState = characterCreationViewModel.getState();
-                            currentState.setPRace("Race 1");
+                            currentState.setPRace("human");
                             characterCreationViewModel.setState(currentState);
 
                             characterCreationController.execute(currentState.getPClass(), currentState.getPRace());
@@ -157,22 +157,22 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
         );
 
         // Create panel for the second sample race. Add API later.
-        final JPanel raceBox2 = new JPanel();
-        raceBox2.setLayout(new BoxLayout(raceBox2, BoxLayout.Y_AXIS));
-        sampleRace2 = new JButton("Sample Race 2");
-        sampleRace2.setAlignmentX(Component.CENTER_ALIGNMENT);
-        sampleRaceDescription2 = new JLabel("Sample Race Description 2");
-        sampleRaceDescription2.setAlignmentX(Component.CENTER_ALIGNMENT);
-        raceBox2.add(sampleRace2);
-        raceBox2.add(sampleRaceDescription2);
-        raceBox2.setBorder(BorderFactory.createLineBorder(Color.black));
+        final JPanel dwarfBox = new JPanel();
+        dwarfBox.setLayout(new BoxLayout(dwarfBox, BoxLayout.Y_AXIS));
+        dwarf = new JButton("Dwarf");
+        dwarf.setAlignmentX(Component.CENTER_ALIGNMENT);
+        dwarfDescription = new JLabel("Dwarf Description");
+        dwarfDescription.setAlignmentX(Component.CENTER_ALIGNMENT);
+        dwarfBox.add(dwarf);
+        dwarfBox.add(dwarfDescription);
+        dwarfBox.setBorder(BorderFactory.createLineBorder(Color.black));
 
-        sampleRace2.addActionListener(
+        dwarf.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(sampleRace2)) {
+                        if (evt.getSource().equals(dwarf)) {
                             final CharacterCreationState currentState = characterCreationViewModel.getState();
-                            currentState.setPRace("Race 2");
+                            currentState.setPRace("dwarf");
                             characterCreationViewModel.setState(currentState);
 
                             characterCreationController.execute(currentState.getPClass(), currentState.getPRace());
@@ -182,22 +182,22 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
         );
 
         // Create panel for the third sample race. Add API later.
-        final JPanel raceBox3 = new JPanel();
-        raceBox3.setLayout(new BoxLayout(raceBox3, BoxLayout.Y_AXIS));
-        sampleRace3 = new JButton("Sample Race 3");
-        sampleRace3.setAlignmentX(Component.CENTER_ALIGNMENT);
-        sampleRaceDescription3 = new JLabel("Sample Race Description 3");
-        sampleRaceDescription3.setAlignmentX(Component.CENTER_ALIGNMENT);
-        raceBox3.add(sampleRace3);
-        raceBox3.add(sampleRaceDescription3);
-        raceBox3.setBorder(BorderFactory.createLineBorder(Color.black));
+        final JPanel elfBox = new JPanel();
+        elfBox.setLayout(new BoxLayout(elfBox, BoxLayout.Y_AXIS));
+        elf = new JButton("Elf");
+        elf.setAlignmentX(Component.CENTER_ALIGNMENT);
+        elfDescription = new JLabel("Elf Description");
+        elfDescription.setAlignmentX(Component.CENTER_ALIGNMENT);
+        elfBox.add(elf);
+        elfBox.add(elfDescription);
+        elfBox.setBorder(BorderFactory.createLineBorder(Color.black));
 
-        sampleRace3.addActionListener(
+        elf.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(sampleRace3)) {
+                        if (evt.getSource().equals(elf)) {
                             final CharacterCreationState currentState = characterCreationViewModel.getState();
-                            currentState.setPRace("Race 3");
+                            currentState.setPRace("elf");
                             characterCreationViewModel.setState(currentState);
 
                             characterCreationController.execute(currentState.getPClass(), currentState.getPRace());
@@ -209,20 +209,20 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
         // Create panel for the fourth sample race. Add API later.
         final JPanel raceBox4 = new JPanel();
         raceBox4.setLayout(new BoxLayout(raceBox4, BoxLayout.Y_AXIS));
-        sampleRace4 = new JButton("Sample Race 4");
-        sampleRace4.setAlignmentX(Component.CENTER_ALIGNMENT);
-        sampleRaceDescription4 = new JLabel("Sample Race Description 4");
-        sampleRaceDescription4.setAlignmentX(Component.CENTER_ALIGNMENT);
-        raceBox4.add(sampleRace4);
-        raceBox4.add(sampleRaceDescription4);
+        gnome = new JButton("Gnome");
+        gnome.setAlignmentX(Component.CENTER_ALIGNMENT);
+        gnomeDescription = new JLabel("Gnome Description");
+        gnomeDescription.setAlignmentX(Component.CENTER_ALIGNMENT);
+        raceBox4.add(gnome);
+        raceBox4.add(gnomeDescription);
         raceBox4.setBorder(BorderFactory.createLineBorder(Color.black));
 
-        sampleRace4.addActionListener(
+        gnome.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(sampleRace4)) {
+                        if (evt.getSource().equals(gnome)) {
                             final CharacterCreationState currentState = characterCreationViewModel.getState();
-                            currentState.setPRace("Race 4");
+                            currentState.setPRace("gnome");
                             characterCreationViewModel.setState(currentState);
 
                             characterCreationController.execute(currentState.getPClass(), currentState.getPRace());
@@ -234,16 +234,16 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
         // Place all three class panels in one horizontal panel for nice-looking display.
         final JPanel classes = new JPanel();
         classes.setLayout(new BoxLayout(classes, BoxLayout.X_AXIS));
-        classes.add(classBox1);
-        classes.add(classBox2);
-        classes.add(classBox3);
+        classes.add(barbarianBox);
+        classes.add(rogueBox);
+        classes.add(clericBox);
 
         // Place all four race panels in one horizontal panel for nice-looking display.
         final JPanel races = new JPanel();
         races.setLayout(new BoxLayout(races, BoxLayout.X_AXIS));
-        races.add(raceBox1);
-        races.add(raceBox2);
-        races.add(raceBox3);
+        races.add(humanBox);
+        races.add(dwarfBox);
+        races.add(elfBox);
         races.add(raceBox4);
 
         // Create the close inventory button
