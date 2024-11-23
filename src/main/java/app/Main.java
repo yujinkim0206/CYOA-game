@@ -23,6 +23,8 @@ public class Main {
                                             .addRoomUseCase()
                                             .addOpenInventoryUseCase()
                                             .addCharacterCreationUseCase()
+                                            .addTalkToNpcView()
+                                            .addFallForTrapView()
                                             .build();
 
         application.pack();

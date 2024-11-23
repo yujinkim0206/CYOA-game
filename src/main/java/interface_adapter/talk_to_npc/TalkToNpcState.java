@@ -1,12 +1,14 @@
 package interface_adapter.talk_to_npc;
 
+import java.util.List;
+
 /**
  * The state for the Talk To Npc View Model.
  */
 public class TalkToNpcState {
     private String name;
     private String description;
-    private String dialogue;
+    private List<String> dialogue;
 
 
     public String getName() {
@@ -25,11 +27,11 @@ public class TalkToNpcState {
         this.description = description;
     }
 
-    public String getDialogue() {
+    public List<String> getDialogue() {
         return dialogue;
     }
 
-    public void setDialogue(String dialogue) {
+    public void setDialogue(List<String> dialogue) {
         this.dialogue = dialogue;
     }
 }

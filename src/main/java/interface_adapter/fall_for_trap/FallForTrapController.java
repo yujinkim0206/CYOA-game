@@ -17,8 +17,8 @@ public class FallForTrapController {
     /**
      * Executes the Fall For Trap Use Case.
      */
-    public void execute() {
-        final FallForTrapInputData fallForTrapInputData = new FallForTrapInputData();
+    public void execute(String name, int damage, int difficulty) {
+        final FallForTrapInputData fallForTrapInputData = new FallForTrapInputData(name, damage, difficulty);
         fallForTrapUseCaseInteractor.execute(fallForTrapInputData);
     }
 }

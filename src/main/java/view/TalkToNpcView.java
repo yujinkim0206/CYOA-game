@@ -66,7 +66,8 @@ public class TalkToNpcView extends JPanel implements ActionListener, PropertyCha
                         if (evt.getSource().equals(continueButton)) {
                             final TalkToNpcState currentState = talkToNpcViewModel.getState();
 
-                            talkToNpcController.execute();
+                            talkToNpcController.execute(currentState.getName(), currentState.getDescription(),
+                                    currentState.getDialogue());
                         }
                     }
                 }
