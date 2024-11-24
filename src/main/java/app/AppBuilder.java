@@ -9,12 +9,14 @@ import javax.swing.WindowConstants;
 import data_access.InventoryDataAccessObject;
 import data_access.PlayerDataAccessObject;
 import data_access.RoomDataAccessObject;
+import data_access.NpcDataAccessObject;
+import data_access.TrapDataAccessObject;
 import entity.Floor;
 import entity.InventoryFactory;
+import entity.Npc;
+import entity.Trap;
 import interface_adapter.ViewManagerModel;
 
-import interface_adapter.talk_to_npc.TalkToNpcViewModel;
-import interface_adapter.fall_for_trap.FallForTrapViewModel;
 import interface_adapter.room_default.RoomDefaultViewModel;
 import interface_adapter.pickup_item.PickUpItemViewModel;
 import interface_adapter.equip_item.EquipItemViewModel;
@@ -26,6 +28,12 @@ import interface_adapter.room_default.RoomDefaultPresenter;
 import interface_adapter.character_creation.CharacterCreationController;
 import interface_adapter.character_creation.CharacterCreationPresenter;
 import interface_adapter.character_creation.CharacterCreationViewModel;
+import interface_adapter.talk_to_npc.TalkToNpcController;
+import interface_adapter.talk_to_npc.TalkToNpcPresenter;
+import interface_adapter.talk_to_npc.TalkToNpcViewModel;
+import interface_adapter.fall_for_trap.FallForTrapController;
+import interface_adapter.fall_for_trap.FallForTrapPresenter;
+import interface_adapter.fall_for_trap.FallForTrapViewModel;
 import use_case.open_inventory.OpenInventoryInputBoundary;
 import use_case.open_inventory.OpenInventoryInteractor;
 import use_case.open_inventory.OpenInventoryOutputBoundary;
@@ -35,6 +43,12 @@ import use_case.room_default.RoomOutputBoundary;
 import use_case.character_creation.CharacterCreationInputBoundary;
 import use_case.character_creation.CharacterCreationInteractor;
 import use_case.character_creation.CharacterCreationOutputBoundary;
+import use_case.talk_to_npc.TalkToNpcInputBoundary;
+import use_case.talk_to_npc.TalkToNpcInteractor;
+import use_case.talk_to_npc.TalkToNpcOutputBoundary;
+import use_case.fall_for_trap.FallForTrapInputBoundary;
+import use_case.fall_for_trap.FallForTrapInteractor;
+import use_case.fall_for_trap.FallForTrapOutputBoundary;
 import view.*;
 
 /**
@@ -53,6 +67,8 @@ public class AppBuilder {
     private final InventoryDataAccessObject inventoryDataAccessObject = new InventoryDataAccessObject();
     private final RoomDataAccessObject roomDataAccessObject = new RoomDataAccessObject();
     private final PlayerDataAccessObject playerDataAccessObject = new PlayerDataAccessObject();
+    private final NpcDataAccessObject npcDataAccessObject = new NpcDataAccessObject();
+    private final TrapDataAccessObject trapDataAccessObject = new TrapDataAccessObject();
 
     private TalkToNpcViewModel talkToNpcViewModel;
     private FallForTrapViewModel fallForTrapViewModel;
@@ -66,8 +82,8 @@ public class AppBuilder {
     private EquipItemView equipItemView;
     private CharacterCreationViewModel characterCreationViewModel;
     private CharacterCreationView characterCreationView;
-    private FallForTrapView fallForTrapView;
     private TalkToNpcView talkToNpcView;
+    private FallForTrapView fallForTrapView;
 
 
     public AppBuilder() {
@@ -193,6 +209,40 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the TalkToNpc Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addTalkToNpcUseCase() {
+        final TalkToNpcOutputBoundary talkToNpcOutputBoundary = new TalkToNpcPresenter(
+                viewManagerModel, talkToNpcViewModel, roomDefaultViewModel);
+
+        final TalkToNpcInputBoundary talkToNpcInteractor =
+                new TalkToNpcInteractor(npcDataAccessObject, talkToNpcOutputBoundary);
+
+        final TalkToNpcController talkToNpcController =
+                new TalkToNpcController(talkToNpcInteractor);
+        talkToNpcView.setTalkToNpcController(talkToNpcController);
+        return this;
+    }
+
+    /**
+     * Adds the TalkToNpc Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addFallForTrapUseCase() {
+        final FallForTrapOutputBoundary fallForTrapOutputBoundary = new FallForTrapPresenter(
+                viewManagerModel, fallForTrapViewModel, roomDefaultViewModel);
+
+        final FallForTrapInputBoundary fallForTrapInteractor =
+                new FallForTrapInteractor(trapDataAccessObject, fallForTrapOutputBoundary);
+
+        final FallForTrapController fallForTrapController =
+                new FallForTrapController(fallForTrapInteractor);
+        fallForTrapView.setFallForTrapController(fallForTrapController);
+        return this;
+    }
+
+    /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.
      * @return the application
      */
@@ -203,7 +253,7 @@ public class AppBuilder {
         cardPanel.setPreferredSize(new Dimension(400, 200));
         application.add(cardPanel);
 
-        viewManagerModel.setState(characterCreationView.getViewName());
+        viewManagerModel.setState(fallForTrapView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;
