@@ -14,21 +14,6 @@ Yujin Kim (kimyuj16)
 Samuel Zheng (samqyz)
 
 
-Group Use Case:
+Note for this week (11/22/2024):
 
-Randomly generate floors (?) or dungeons, with placeholder text for things like NPCs and items and monsters. Possibly 
-try out the API to get names of random things.
-
-Manage my inventory.
-
-BY THIS FRIDAY (11/8/2024):
-
-Create the Floor Entity (factory?) & Create the Room Entities (stored in the floor) (factory?)  [Sam]
-
-Write the "go to next room" use case (fetches room from floor entity and displays)  [Aidan]
-
-Create display for the room  [Jacob]
-
-Create the inventory Entity (factory?)  [Yujin]
-
-Write the use case for "view inventory" - and create the display for that  [Ethan]
+As many of our members have been very busy with other classes/projects, not all the use cases are completed yet, but they are nearly there. We intend to get them more complete (as well as write tests for them) during lab on 11/25, as well as throughout the week.
