@@ -9,7 +9,9 @@ public class TalkToNpcState {
     private String name;
     private String description;
     private List<String> dialogue;
-
+    private int currentDialogueIndex;
+    private boolean hasNextDialogue;
+    private boolean isMerchant;
 
     public String getName() {
         return name;
@@ -33,5 +35,33 @@ public class TalkToNpcState {
 
     public void setDialogue(List<String> dialogue) {
         this.dialogue = dialogue;
+    }
+
+    public int getCurrentDialogueIndex() {
+        return currentDialogueIndex;
+    }
+
+    public void setCurrentDialogueIndex(int currentDialogueIndex) {
+        this.currentDialogueIndex = currentDialogueIndex;
+    }
+
+    public String getCurrentDialogue() {
+        return dialogue.get(currentDialogueIndex);
+    }
+
+    public boolean hasNextDialogue() {
+        return currentDialogueIndex < dialogue.size() - 1;
+    }
+
+    public void setNextDialogue(boolean hasNextDialogue) {
+        this.hasNextDialogue = hasNextDialogue;
+    }
+
+    public boolean isMerchant() {
+        return isMerchant;
+    }
+
+    public void setMerchant(boolean isMerchant) {
+        this.isMerchant = isMerchant;
     }
 }

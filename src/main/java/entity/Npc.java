@@ -6,23 +6,26 @@ import java.util.List;
  * The representation of an NPC.
  */
 public class Npc {
-    private int name;
+    private String name;
     private String description;
     private List<String> dialogue;
+    private int currentDialogueIndex;
 
-    public Npc(int name, String description, List<String> dialogue) {
-        this.setName(name);
-        this.setDescription(description);
-        this.setDialogue(dialogue);
+
+    public Npc(String name, String description, List<String> dialogue) {
+        this.name = name;
+        this.description = description;
+        this.dialogue = dialogue;
+        this.setCurrentDialogueIndex(0);
     }
 
     public Npc() {}
 
-    public int getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(int name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -40,5 +43,31 @@ public class Npc {
 
     public void setDialogue(List<String> dialogue) {
         this.dialogue = dialogue;
+    }
+
+    public int getCurrentDialogueIndex() {
+        return currentDialogueIndex;
+    }
+
+    public void setCurrentDialogueIndex(int currentDialogueIndex) {
+        this.currentDialogueIndex = currentDialogueIndex;
+    }
+
+    public String getCurrentDialogue() {
+        return dialogue.get(currentDialogueIndex);
+    }
+
+    public boolean hasNextDialogue() {
+        return currentDialogueIndex < dialogue.size() - 1;
+    }
+
+    public void moveToNextDialogue() {
+        if (hasNextDialogue()) {
+            currentDialogueIndex++;
+        }
+    }
+
+    public boolean isMerchant() {
+        return false;
     }
 }

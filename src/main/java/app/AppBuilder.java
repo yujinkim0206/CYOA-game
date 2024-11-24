@@ -253,7 +253,7 @@ public class AppBuilder {
         cardPanel.setPreferredSize(new Dimension(400, 200));
         application.add(cardPanel);
 
-        viewManagerModel.setState(characterCreationView.getViewName());
+        viewManagerModel.setState(fallForTrapView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;

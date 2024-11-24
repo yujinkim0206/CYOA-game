@@ -10,4 +10,10 @@ public interface TalkToNpcInputBoundary {
      * @param talkToNpcInputData the input data
      */
     void execute(TalkToNpcInputData talkToNpcInputData);
+
+    void moveToNextDialogue();
+
+    void switchToMerchantView();
+
+    void exitInteraction();
 }

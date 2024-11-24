@@ -2,6 +2,7 @@ package use_case.talk_to_npc;
 
 import entity.Npc;
 import entity.NpcRoom;
+import use_case.open_inventory.OpenInventoryOutputData;
 
 import java.util.List;
 
@@ -11,6 +12,8 @@ import java.util.List;
 public class TalkToNpcInteractor implements TalkToNpcInputBoundary{
     private TalkToNpcDataAccessInterface talkToNpcDataAccessObject;
     private TalkToNpcOutputBoundary talkToNpcPresenter;
+    private Npc npc;
+
 
     public TalkToNpcInteractor(TalkToNpcDataAccessInterface talkToNpcDataAccessInterface,
                                TalkToNpcOutputBoundary talkToNpcOutputBoundary) {
@@ -20,13 +23,47 @@ public class TalkToNpcInteractor implements TalkToNpcInputBoundary{
 
     @Override
     public void execute(TalkToNpcInputData talkToNpcInputData) {
-        final String name = talkToNpcInputData.getName();
-        final String description = talkToNpcInputData.getDescription();
-        final List<String> dialogue = talkToNpcInputData.getDialogue();
+        npc = new Npc(talkToNpcInputData.getName(), talkToNpcInputData.getDescription(), talkToNpcInputData.getDialogue());
 
-        talkToNpcDataAccessObject.setCurrentNpcName(talkToNpcInputData.getName());
+        talkToNpcDataAccessObject.setCurrentNpcName(npc.getName());
 
-        final TalkToNpcOutputData talkToNpcOutputData = new TalkToNpcOutputData(false);
+        final TalkToNpcOutputData talkToNpcOutputData = new TalkToNpcOutputData(
+                npc.getName(),
+                npc.getDescription(),
+                npc.getDialogue(),
+                npc.getCurrentDialogueIndex(),
+                npc.hasNextDialogue(),
+                npc.isMerchant()
+        );
+
         talkToNpcPresenter.prepareSuccessView(talkToNpcOutputData);
+    }
+
+    @Override
+    public void moveToNextDialogue() {
+        if (npc.hasNextDialogue()) {
+            npc.moveToNextDialogue();
+        }
+
+        TalkToNpcOutputData talkToNpcOutputData = new TalkToNpcOutputData(
+                npc.getName(),
+                npc.getDescription(),
+                npc.getDialogue(),
+                npc.getCurrentDialogueIndex(),
+                npc.hasNextDialogue(),
+                npc.isMerchant()
+        );
+
+        talkToNpcPresenter.prepareSuccessView(talkToNpcOutputData);
+    }
+
+    @Override
+    public void switchToMerchantView() {
+        talkToNpcPresenter.switchToMerchantView();
+    }
+
+    @Override
+    public void exitInteraction() {
+        talkToNpcPresenter.exitInteraction();
     }
 }

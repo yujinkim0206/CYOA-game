@@ -29,7 +29,11 @@ public class TalkToNpcView extends JPanel implements ActionListener, PropertyCha
     private final JLabel name;
     private final JLabel description;
     private final JTextArea dialogue;
-    private final JButton continueButton;
+
+    private final JPanel continueButtonPanel;
+    private final JPanel merchantButtonPanel;
+    private final JPanel closeButtonPanel;
+
     private TalkToNpcController talkToNpcController;
 
     public TalkToNpcView(TalkToNpcViewModel talkToNpcViewModel) {
@@ -37,15 +41,16 @@ public class TalkToNpcView extends JPanel implements ActionListener, PropertyCha
         this.talkToNpcViewModel = talkToNpcViewModel;
         this.talkToNpcViewModel.addPropertyChangeListener(this);
 
-        name = new JLabel("ALCHEMIST");
+        name = new JLabel();
         name.setAlignmentX(CENTER_ALIGNMENT);
 
-        description = new JLabel("Medium humanoid (Artificer), any alignment");
+        description = new JLabel();
         description.setAlignmentX(CENTER_ALIGNMENT);
 
-        dialogue = new JTextArea("Careful! This one’s still untested. Oh well—guess you’ll help me find out what it does.", 3, 20);
+        dialogue = new JTextArea(3, 20);
         dialogue.setLineWrap(true);
         dialogue.setWrapStyleWord(true);
+        dialogue.setEditable(false);
 
         JScrollPane scrollPane = new JScrollPane(dialogue);
 
@@ -54,24 +59,69 @@ public class TalkToNpcView extends JPanel implements ActionListener, PropertyCha
         dialoguePanel.add(scrollPane);
         dialoguePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        continueButton = new JButton("Continue");
+        final JButton continueButton = new JButton("Continue");
 
-        final JPanel buttons = new JPanel();
-        buttons.add(continueButton);
-        buttons.setAlignmentX(CENTER_ALIGNMENT);
+        continueButtonPanel = new JPanel();
+        continueButtonPanel.add(continueButton);
+        continueButtonPanel.setAlignmentX(CENTER_ALIGNMENT);
+
+        final JButton exitButton = new JButton("Exit");
+        final JButton buyButton = new JButton("Buy");
+
+        merchantButtonPanel = new JPanel();
+        merchantButtonPanel.add(exitButton);
+        merchantButtonPanel.add(buyButton);
+        merchantButtonPanel.setAlignmentX(CENTER_ALIGNMENT);
+
+        final JButton closeButton = new JButton("Close");
+
+        closeButtonPanel = new JPanel();
+        closeButtonPanel.add(closeButton);
+        closeButtonPanel.setAlignmentX(CENTER_ALIGNMENT);
 
         continueButton.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(continueButton)) {
                             final TalkToNpcState currentState = talkToNpcViewModel.getState();
-
-                            talkToNpcController.execute(currentState.getName(), currentState.getDescription(),
-                                    currentState.getDialogue());
+                            if (currentState != null && currentState.hasNextDialogue()) {
+                                talkToNpcController.moveToNextDialogue();
+                            }
                         }
                     }
                 }
         );
+
+        buyButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(buyButton)) {
+                            talkToNpcController.switchToMerchantView();
+                        }
+                    }
+                }
+        );
+
+        exitButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(exitButton)) {
+                            talkToNpcController.exitInteraction();
+                        }
+                    }
+                }
+        );
+
+        closeButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(closeButton)) {
+                            talkToNpcController.exitInteraction();
+                        }
+                    }
+                }
+        );
+
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(Box.createVerticalGlue());
@@ -79,10 +129,15 @@ public class TalkToNpcView extends JPanel implements ActionListener, PropertyCha
         this.add(name);
         this.add(description);
         this.add(dialoguePanel);
-        this.add(buttons);
+        this.add(continueButtonPanel);
+        this.add(merchantButtonPanel);
+        this.add(closeButtonPanel);
         this.add(Box.createRigidArea(new Dimension(0, 10)));
         this.add(Box.createVerticalGlue());
 
+        continueButtonPanel.setVisible(true);
+        merchantButtonPanel.setVisible(false);
+        closeButtonPanel.setVisible(false);
     }
 
     /**
@@ -96,6 +151,26 @@ public class TalkToNpcView extends JPanel implements ActionListener, PropertyCha
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final TalkToNpcState state = (TalkToNpcState) evt.getNewValue();
+
+        if (state != null) {
+            name.setText(state.getName());
+            description.setText(state.getDescription());
+            dialogue.setText(state.getCurrentDialogue());
+
+            if (state.hasNextDialogue()) {
+                continueButtonPanel.setVisible(true);
+                merchantButtonPanel.setVisible(false);
+                closeButtonPanel.setVisible(false);
+            } else if (state.isMerchant()) {
+                continueButtonPanel.setVisible(false);
+                merchantButtonPanel.setVisible(true);
+                closeButtonPanel.setVisible(false);
+            } else {
+                continueButtonPanel.setVisible(false);
+                merchantButtonPanel.setVisible(false);
+                closeButtonPanel.setVisible(true);
+            }
+        }
     }
 
     public String getViewName() {
