@@ -6,17 +6,24 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import data_access.FightMonsterDataAccessObject;
 import data_access.InventoryDataAccessObject;
 import data_access.RoomDataAccessObject;
 import entity.Floor;
 import entity.InventoryFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.monster.FightMonsterController;
+import interface_adapter.monster.FightMonsterPresenter;
+import interface_adapter.monster.FightMonsterViewModel;
 import interface_adapter.room_default.RoomDefaultViewModel;
 import interface_adapter.open_inventory.OpenInventoryController;
 import interface_adapter.open_inventory.OpenInventoryPresenter;
 import interface_adapter.open_inventory.OpenInventoryViewModel;
 import interface_adapter.room_default.RoomDefaultController;
 import interface_adapter.room_default.RoomDefaultPresenter;
+import use_case.monster.FightMonsterInputBoundary;
+import use_case.monster.FightMonsterInteractor;
+import use_case.monster.FightMonsterOutputBoundary;
 import use_case.open_inventory.OpenInventoryInputBoundary;
 import use_case.open_inventory.OpenInventoryInteractor;
 import use_case.open_inventory.OpenInventoryOutputBoundary;
@@ -40,11 +47,14 @@ public class AppBuilder {
 
     private final InventoryDataAccessObject inventoryDataAccessObject = new InventoryDataAccessObject();
     private final RoomDataAccessObject roomDataAccessObject = new RoomDataAccessObject();
+    private final FightMonsterDataAccessObject fightMonsterDataAccessObject = new FightMonsterDataAccessObject();
 
     private RoomDefaultViewModel roomDefaultViewModel;
     private OpenInventoryViewModel openInventoryViewModel;
+    private FightMonsterViewModel fightMonsterViewModel;
     private OpenInventoryView openInventoryView;
     private RoomView roomView;
+    private MonsterView monsterView;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -72,13 +82,20 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addFightMonsterView() {
+        fightMonsterViewModel = new FightMonsterViewModel();
+        monsterView = new MonsterView(fightMonsterViewModel);
+        cardPanel.add(monsterView, monsterView.getViewName());
+        return this;
+    }
+
     /**
      * Adds the Room Use Case to the application
      * @return this builder
      */
     public AppBuilder addRoomUseCase() {
         final RoomOutputBoundary roomOutputBoundary = new RoomDefaultPresenter(
-                viewManagerModel, roomDefaultViewModel);
+                viewManagerModel, roomDefaultViewModel, fightMonsterViewModel);
 
         final RoomInputBoundary roomInteractor = new RoomInteractor(
                 roomOutputBoundary, roomDataAccessObject, new Floor());
@@ -104,6 +121,18 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addMonsterUseCase() {
+        final FightMonsterOutputBoundary fightMonsterOutputBoundary = new FightMonsterPresenter(
+                fightMonsterViewModel, viewManagerModel, roomDefaultViewModel);
+
+        final FightMonsterInputBoundary fightMonsterInteractor =
+                new FightMonsterInteractor(fightMonsterDataAccessObject, fightMonsterOutputBoundary);
+
+        final FightMonsterController fightMonsterController = new FightMonsterController(fightMonsterInteractor);
+        monsterView.setFightMonsterController(fightMonsterController);
+        return this;
+    }
+
     /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.
      * @return the application
@@ -114,7 +143,7 @@ public class AppBuilder {
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(openInventoryView.getViewName());
+        viewManagerModel.setState(monsterView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;
