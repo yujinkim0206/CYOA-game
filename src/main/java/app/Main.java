@@ -25,6 +25,7 @@ public class Main {
                                             .addCharacterCreationUseCase()
                                             .addTalkToNpcView()
                                             .addFallForTrapView()
+                                            .addMerchantView()
                                             .build();
 
         application.pack();
