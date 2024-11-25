@@ -26,7 +26,7 @@ public class Floor {
             }
             else if (n < 7){
                 Npc npc = new Npc();
-                this.RoomList.add(new NPCRoom(npc));
+                this.RoomList.add(new NpcRoom(npc));
             }
             else{
                 Trap trap = new Trap();

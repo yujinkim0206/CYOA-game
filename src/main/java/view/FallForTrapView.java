@@ -57,7 +57,8 @@ public class FallForTrapView extends JPanel implements ActionListener, PropertyC
                         if (evt.getSource().equals(moveOn)) {
                             final FallForTrapState currentState = fallForTrapViewModel.getState();
 
-                            fallForTrapController.execute();
+                            fallForTrapController.execute(currentState.getName(), currentState.getDamage(),
+                                    currentState.getDifficulty());
                         }
                     }
                 }
