@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import data_access.FightMonsterDataAccessObject;
 import data_access.InventoryDataAccessObject;
 import data_access.PlayerDataAccessObject;
 import data_access.RoomDataAccessObject;
@@ -19,6 +20,9 @@ import interface_adapter.ViewManagerModel;
 
 import interface_adapter.merchant.MerchantController;
 import interface_adapter.merchant.MerchantPresenter;
+import interface_adapter.monster.FightMonsterController;
+import interface_adapter.monster.FightMonsterPresenter;
+import interface_adapter.monster.FightMonsterViewModel;
 import interface_adapter.room_default.RoomDefaultViewModel;
 import interface_adapter.pickup_item.PickUpItemViewModel;
 import interface_adapter.equip_item.EquipItemViewModel;
@@ -28,6 +32,9 @@ import interface_adapter.open_inventory.OpenInventoryPresenter;
 import interface_adapter.open_inventory.OpenInventoryViewModel;
 import interface_adapter.room_default.RoomDefaultController;
 import interface_adapter.room_default.RoomDefaultPresenter;
+import use_case.monster.FightMonsterInputBoundary;
+import use_case.monster.FightMonsterInteractor;
+import use_case.monster.FightMonsterOutputBoundary;
 import interface_adapter.character_creation.CharacterCreationController;
 import interface_adapter.character_creation.CharacterCreationPresenter;
 import interface_adapter.character_creation.CharacterCreationViewModel;
@@ -38,6 +45,10 @@ import interface_adapter.fall_for_trap.FallForTrapController;
 import interface_adapter.fall_for_trap.FallForTrapPresenter;
 import interface_adapter.fall_for_trap.FallForTrapViewModel;
 import use_case.merchant.*;
+import use_case.monster.FightMonsterInputBoundary;
+import use_case.monster.FightMonsterInteractor;
+import use_case.monster.FightMonsterOutputBoundary;
+
 import use_case.open_inventory.OpenInventoryInputBoundary;
 import use_case.open_inventory.OpenInventoryInteractor;
 import use_case.open_inventory.OpenInventoryOutputBoundary;
@@ -75,6 +86,7 @@ public class AppBuilder {
     private final PlayerDataAccessObject playerDataAccessObject = new PlayerDataAccessObject();
     private final NpcDataAccessObject npcDataAccessObject = new NpcDataAccessObject();
     private final TrapDataAccessObject trapDataAccessObject = new TrapDataAccessObject();
+    private final FightMonsterDataAccessObject fightMonsterDataAccessObject = new FightMonsterDataAccessObject();
 
     private TalkToNpcViewModel talkToNpcViewModel;
     private FallForTrapViewModel fallForTrapViewModel;
@@ -92,8 +104,9 @@ public class AppBuilder {
     private TalkToNpcView talkToNpcView;
     private FallForTrapView fallForTrapView;
     private MerchantView merchantView;
-
-
+    private FightMonsterViewModel fightMonsterViewModel;
+    private MonsterView monsterView;
+  
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
     }
@@ -177,6 +190,13 @@ public class AppBuilder {
         cardPanel.add(merchantView, merchantViewModel.getViewName());
         return this;
     }
+  
+      public AppBuilder addFightMonsterView() {
+        fightMonsterViewModel = new FightMonsterViewModel();
+        monsterView = new MonsterView(fightMonsterViewModel);
+        cardPanel.add(monsterView, monsterView.getViewName());
+        return this;
+    }
 
     /**
      * Adds the Room Use Case to the application
@@ -184,7 +204,7 @@ public class AppBuilder {
      */
     public AppBuilder addRoomUseCase() {
         final RoomOutputBoundary roomOutputBoundary = new RoomDefaultPresenter(
-                viewManagerModel, roomDefaultViewModel);
+                viewManagerModel, roomDefaultViewModel, fightMonsterViewModel);
 
         final RoomInputBoundary roomInteractor = new RoomInteractor(
                 roomOutputBoundary, roomDataAccessObject, new Floor());
@@ -207,6 +227,18 @@ public class AppBuilder {
 
         final OpenInventoryController openInventoryController = new OpenInventoryController(openInventoryInteractor);
         openInventoryView.setOpenInventoryController(openInventoryController);
+        return this;
+    }
+
+    public AppBuilder addMonsterUseCase() {
+        final FightMonsterOutputBoundary fightMonsterOutputBoundary = new FightMonsterPresenter(
+                fightMonsterViewModel, viewManagerModel, roomDefaultViewModel);
+
+        final FightMonsterInputBoundary fightMonsterInteractor =
+                new FightMonsterInteractor(fightMonsterDataAccessObject, fightMonsterOutputBoundary);
+
+        final FightMonsterController fightMonsterController = new FightMonsterController(fightMonsterInteractor);
+        monsterView.setFightMonsterController(fightMonsterController);
         return this;
     }
 
