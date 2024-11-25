@@ -1,25 +1,17 @@
-package entity;
+package interface_adapter.talk_to_npc;
 
 import java.util.List;
 
 /**
- * The representation of an NPC.
+ * The state for the Talk To Npc View Model.
  */
-public class Npc {
+public class TalkToNpcState {
     private String name;
     private String description;
     private List<String> dialogue;
     private int currentDialogueIndex;
-
-
-    public Npc(String name, String description, List<String> dialogue) {
-        this.name = name;
-        this.description = description;
-        this.dialogue = dialogue;
-        this.setCurrentDialogueIndex(0);
-    }
-
-    public Npc() {}
+    private boolean hasNextDialogue;
+    private boolean isMerchant;
 
     public String getName() {
         return name;
@@ -61,13 +53,15 @@ public class Npc {
         return currentDialogueIndex < dialogue.size() - 1;
     }
 
-    public void moveToNextDialogue() {
-        if (hasNextDialogue()) {
-            currentDialogueIndex++;
-        }
+    public void setNextDialogue(boolean hasNextDialogue) {
+        this.hasNextDialogue = hasNextDialogue;
     }
 
     public boolean isMerchant() {
-        return false;
+        return isMerchant;
+    }
+
+    public void setMerchant(boolean isMerchant) {
+        this.isMerchant = isMerchant;
     }
 }

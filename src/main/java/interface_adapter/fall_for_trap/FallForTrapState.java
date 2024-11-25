@@ -1,20 +1,12 @@
-package entity;
+package interface_adapter.fall_for_trap;
 
 /**
- * The representation of a trap.
+ * The state for the Fall For Trap View Model.
  */
-public class Trap {
+public class FallForTrapState {
     private String name;
     private int damage;
     private int difficulty;
-
-    public Trap(String name, int damage, int difficulty) {
-        this.setName(name);
-        this.setDamage(damage);
-        this.setDifficulty(difficulty);
-    }
-
-    public Trap() {}
 
     public String getName() {
         return name;
