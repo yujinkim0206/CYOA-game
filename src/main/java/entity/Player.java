@@ -8,6 +8,8 @@ public class Player {
     private String prace;
     private int classArmor;
     private int classDamage;
+    private int raceArmor;
+    private int raceDamage;
 
     public Player() {
 
@@ -52,4 +54,16 @@ public class Player {
     public void setClassDamage(int classDamage) {
         this.classDamage = classDamage;
     }
+
+    /**
+     * Getter and setter for raceArmor.
+     */
+    public int getRaceArmor() { return raceArmor; }
+    public void setRaceArmor(int raceArmor) { this.raceArmor = raceArmor; }
+
+    /**
+     * Getter and setter for raceDamage.
+     */
+    public int getRaceDamage() { return raceDamage; }
+    public void setRaceDamage(int raceDamage) { this.raceDamage = raceDamage; }
 }

@@ -97,6 +97,10 @@ public class PlayerDataAccessObject implements CharacterCreationDataAccessInterf
     }
 
     public String getPRaceDescription() {
+        // Early return if race is not selected yet
+        if (player.getPrace() == null) {
+            return "";
+        }
         try {
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
@@ -107,11 +111,16 @@ public class PlayerDataAccessObject implements CharacterCreationDataAccessInterf
                     .addHeader("Accept", "application/json")
                     .build();
 
-            Response response = client.newCall(request).execute();
-            if (response.isSuccessful() && response.body() != null) {
-                String jsonResponse = response.body().string();
-                System.out.println("RACE: ");
-                System.out.println(jsonResponse);
+            try(Response response = client.newCall(request).execute()) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // Analyze JSON and update player entity
+                    Map<String, Integer> bonuses = analyzeRaceJSON(response);
+                    player.setRaceDamage(bonuses.get("Damage"));
+                    player.setRaceArmor(bonuses.get("Armor"));
+                }
+                else {
+                    throw new IOException("Unexpected code " + response);
+                }
             }
 
         } catch (IOException e) {
@@ -119,5 +128,28 @@ public class PlayerDataAccessObject implements CharacterCreationDataAccessInterf
         }
 
         return "";
+    }
+
+    private Map<String, Integer> analyzeRaceJSON(Response response) throws IOException {
+        // No need to check response.body() != null here since it's done in getPRaceDescription()
+        JSONObject json = new JSONObject(response.body().string());
+
+        // Find ability bonuses and parse values into bonuses Map
+        JSONArray abilityBonuses = json.getJSONArray("ability_bonuses");
+        Map<String, Integer> bonuses = new HashMap<>();
+        bonuses.put("Damage", 0);
+        bonuses.put("Armor", 0);
+        for (int i = 0; i < abilityBonuses.length(); i++) {
+            JSONObject abilityBonus = abilityBonuses.getJSONObject(i);
+            String abilityName = abilityBonus.getJSONObject("ability_score").getString("name");
+            if (abilityName.equals("STR")) {
+                bonuses.put("Damage", abilityBonus.getInt("bonus"));
+            }
+            if (abilityName.equals("CON")) {
+                bonuses.put("Armor", abilityBonus.getInt("bonus"));
+            }
+        }
+
+        return bonuses;
     }
 }
