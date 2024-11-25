@@ -6,6 +6,8 @@ package entity;
 public class Player {
     private String pclass;
     private String prace;
+    private int classArmor;
+    private int classDamage;
 
     public Player() {
 
@@ -29,5 +31,25 @@ public class Player {
     }
     public void setPrace(String race) {
         this.prace = race;
+    }
+
+    /**
+     * Getter and setter for classArmor.
+     */
+    public int getClassArmor() {
+        return classArmor;
+    }
+    public void setClassArmor(int classArmor) {
+        this.classArmor = classArmor;
+    }
+
+    /**
+     * Getter and setter for classDamage.
+     */
+    public int getClassDamage() {
+        return classDamage;
+    }
+    public void setClassDamage(int classDamage) {
+        this.classDamage = classDamage;
     }
 }
