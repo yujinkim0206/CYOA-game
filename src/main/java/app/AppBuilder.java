@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import data_access.FightMonsterDataAccessObject;
 import data_access.InventoryDataAccessObject;
 import data_access.PlayerDataAccessObject;
 import data_access.RoomDataAccessObject;
@@ -17,14 +18,23 @@ import entity.Npc;
 import entity.Trap;
 import interface_adapter.ViewManagerModel;
 
+import interface_adapter.merchant.MerchantController;
+import interface_adapter.merchant.MerchantPresenter;
+import interface_adapter.monster.FightMonsterController;
+import interface_adapter.monster.FightMonsterPresenter;
+import interface_adapter.monster.FightMonsterViewModel;
 import interface_adapter.room_default.RoomDefaultViewModel;
 import interface_adapter.pickup_item.PickUpItemViewModel;
 import interface_adapter.equip_item.EquipItemViewModel;
+import interface_adapter.merchant.MerchantViewModel;
 import interface_adapter.open_inventory.OpenInventoryController;
 import interface_adapter.open_inventory.OpenInventoryPresenter;
 import interface_adapter.open_inventory.OpenInventoryViewModel;
 import interface_adapter.room_default.RoomDefaultController;
 import interface_adapter.room_default.RoomDefaultPresenter;
+import use_case.monster.FightMonsterInputBoundary;
+import use_case.monster.FightMonsterInteractor;
+import use_case.monster.FightMonsterOutputBoundary;
 import interface_adapter.character_creation.CharacterCreationController;
 import interface_adapter.character_creation.CharacterCreationPresenter;
 import interface_adapter.character_creation.CharacterCreationViewModel;
@@ -34,6 +44,11 @@ import interface_adapter.talk_to_npc.TalkToNpcViewModel;
 import interface_adapter.fall_for_trap.FallForTrapController;
 import interface_adapter.fall_for_trap.FallForTrapPresenter;
 import interface_adapter.fall_for_trap.FallForTrapViewModel;
+import use_case.merchant.*;
+import use_case.monster.FightMonsterInputBoundary;
+import use_case.monster.FightMonsterInteractor;
+import use_case.monster.FightMonsterOutputBoundary;
+
 import use_case.open_inventory.OpenInventoryInputBoundary;
 import use_case.open_inventory.OpenInventoryInteractor;
 import use_case.open_inventory.OpenInventoryOutputBoundary;
@@ -49,6 +64,8 @@ import use_case.talk_to_npc.TalkToNpcOutputBoundary;
 import use_case.fall_for_trap.FallForTrapInputBoundary;
 import use_case.fall_for_trap.FallForTrapInteractor;
 import use_case.fall_for_trap.FallForTrapOutputBoundary;
+import use_case.merchant.MerchantInputBoundary;
+import use_case.merchant.MerchantInteractor;
 import view.*;
 
 /**
@@ -69,11 +86,13 @@ public class AppBuilder {
     private final PlayerDataAccessObject playerDataAccessObject = new PlayerDataAccessObject();
     private final NpcDataAccessObject npcDataAccessObject = new NpcDataAccessObject();
     private final TrapDataAccessObject trapDataAccessObject = new TrapDataAccessObject();
+    private final FightMonsterDataAccessObject fightMonsterDataAccessObject = new FightMonsterDataAccessObject();
 
     private TalkToNpcViewModel talkToNpcViewModel;
     private FallForTrapViewModel fallForTrapViewModel;
     private RoomDefaultViewModel roomDefaultViewModel;
     private OpenInventoryViewModel openInventoryViewModel;
+    private MerchantViewModel merchantViewModel;
     private PickUpItemViewModel pickUpItemViewModel;
     private EquipItemViewModel equipItemViewModel;
     private OpenInventoryView openInventoryView;
@@ -84,8 +103,10 @@ public class AppBuilder {
     private CharacterCreationView characterCreationView;
     private TalkToNpcView talkToNpcView;
     private FallForTrapView fallForTrapView;
-
-
+    private MerchantView merchantView;
+    private FightMonsterViewModel fightMonsterViewModel;
+    private MonsterView monsterView;
+  
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
     }
@@ -160,12 +181,30 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Merchant View to the application.
+     * @return this builder
+     */
+    public AppBuilder addMerchantView() {
+        merchantViewModel = new MerchantViewModel();
+        merchantView = new MerchantView(merchantViewModel);
+        cardPanel.add(merchantView, merchantViewModel.getViewName());
+        return this;
+    }
+  
+      public AppBuilder addFightMonsterView() {
+        fightMonsterViewModel = new FightMonsterViewModel();
+        monsterView = new MonsterView(fightMonsterViewModel);
+        cardPanel.add(monsterView, monsterView.getViewName());
+        return this;
+    }
+
+    /**
      * Adds the Room Use Case to the application
      * @return this builder
      */
     public AppBuilder addRoomUseCase() {
         final RoomOutputBoundary roomOutputBoundary = new RoomDefaultPresenter(
-                viewManagerModel, roomDefaultViewModel);
+                viewManagerModel, roomDefaultViewModel, fightMonsterViewModel);
 
         final RoomInputBoundary roomInteractor = new RoomInteractor(
                 roomOutputBoundary, roomDataAccessObject, new Floor());
@@ -191,6 +230,18 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addMonsterUseCase() {
+        final FightMonsterOutputBoundary fightMonsterOutputBoundary = new FightMonsterPresenter(
+                fightMonsterViewModel, viewManagerModel, roomDefaultViewModel);
+
+        final FightMonsterInputBoundary fightMonsterInteractor =
+                new FightMonsterInteractor(fightMonsterDataAccessObject, fightMonsterOutputBoundary);
+
+        final FightMonsterController fightMonsterController = new FightMonsterController(fightMonsterInteractor);
+        monsterView.setFightMonsterController(fightMonsterController);
+        return this;
+    }
+
     /**
      * Adds the CharacterCreation Use Case to the application.
      * @return this builder
@@ -205,6 +256,17 @@ public class AppBuilder {
         final CharacterCreationController characterCreationController =
                 new CharacterCreationController(characterCreationInteractor);
         characterCreationView.setCharacterCreationController(characterCreationController);
+        return this;
+    }
+
+    public AppBuilder addMerchantUseCase() {
+        final MerchantOutputBoundary merchantOutputBoundary = new MerchantPresenter(merchantViewModel,
+                roomDefaultViewModel, viewManagerModel);
+
+        final MerchantInputBoundary merchantInteractor = new MerchantInteractor(npcDataAccessObject,
+                merchantOutputBoundary);
+        final MerchantController merchantController = new MerchantController(merchantInteractor);
+        merchantView.setMerchantController(merchantController);
         return this;
     }
 
@@ -253,7 +315,7 @@ public class AppBuilder {
         cardPanel.setPreferredSize(new Dimension(400, 200));
         application.add(cardPanel);
 
-        viewManagerModel.setState(fallForTrapView.getViewName());
+        viewManagerModel.setState(merchantView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;
