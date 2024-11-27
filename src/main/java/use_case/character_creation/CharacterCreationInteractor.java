@@ -26,8 +26,13 @@ public class CharacterCreationInteractor implements CharacterCreationInputBounda
 
     @Override
     public void execute() {
-        final CharacterCreationOutputData characterCreationOutputData = new CharacterCreationOutputData(false);
-        characterCreationPresenter.prepareSuccessView(characterCreationOutputData);
+        if (characterDataAccessObject.getPclass() == null || characterDataAccessObject.getPrace() == null) {
+            characterCreationPresenter.prepareFailView("Please Select Both a Class and a Race!");
+        }
+        else {
+            final CharacterCreationOutputData characterCreationOutputData = new CharacterCreationOutputData(false);
+            characterCreationPresenter.prepareSuccessView(characterCreationOutputData);
+        }
     }
 }
 

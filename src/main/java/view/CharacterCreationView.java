@@ -23,18 +23,14 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
     private final JButton barbarian;
     private final JButton rogue;
     private final JButton cleric;
-    private final JLabel barbarianDescription;
-    private final JLabel rogueDescription;
-    private final JLabel clericDescription;
     // Four sample races
     private final JButton human;
     private final JButton dwarf;
     private final JButton elf;
     private final JButton gnome;
-    private final JLabel humanDescription;
-    private final JLabel dwarfDescription;
-    private final JLabel elfDescription;
-    private final JLabel gnomeDescription;
+    // Descriptions
+    private JLabel classDescriptionText;
+    private JLabel raceDescriptionText;
 
     private final JButton next;
     private CharacterCreationController characterCreationController;
@@ -56,10 +52,7 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
         barbarianBox.setAlignmentX(Component.CENTER_ALIGNMENT);
         barbarian = new JButton("Barbarian");
         barbarian.setAlignmentX(Component.CENTER_ALIGNMENT);
-        barbarianDescription = new JLabel("Barbarian Description");
-        barbarianDescription.setAlignmentX(Component.CENTER_ALIGNMENT);
         barbarianBox.add(barbarian);
-        barbarianBox.add(barbarianDescription);
         barbarianBox.setBorder(BorderFactory.createLineBorder(Color.black));
 
         barbarian.addActionListener(
@@ -82,10 +75,7 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
         rogueBox.setAlignmentX(Component.CENTER_ALIGNMENT);
         rogue = new JButton("Rogue");
         rogue.setAlignmentX(Component.CENTER_ALIGNMENT);
-        rogueDescription = new JLabel("Rogue Description");
-        rogueDescription.setAlignmentX(Component.CENTER_ALIGNMENT);
         rogueBox.add(rogue);
-        rogueBox.add(rogueDescription);
         rogueBox.setBorder(BorderFactory.createLineBorder(Color.black));
 
         rogue.addActionListener(
@@ -108,10 +98,7 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
         clericBox.setAlignmentX(Component.CENTER_ALIGNMENT);
         cleric = new JButton("Cleric");
         cleric.setAlignmentX(Component.CENTER_ALIGNMENT);
-        clericDescription = new JLabel("Cleric Description");
-        clericDescription.setAlignmentX(Component.CENTER_ALIGNMENT);
         clericBox.add(cleric);
-        clericBox.add(clericDescription);
         clericBox.setBorder(BorderFactory.createLineBorder(Color.black));
 
         cleric.addActionListener(
@@ -136,10 +123,7 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
         humanBox.setLayout(new BoxLayout(humanBox, BoxLayout.Y_AXIS));
         human = new JButton("Human");
         human.setAlignmentX(Component.CENTER_ALIGNMENT);
-        humanDescription = new JLabel("Human Description");
-        humanDescription.setAlignmentX(Component.CENTER_ALIGNMENT);
         humanBox.add(human);
-        humanBox.add(humanDescription);
         humanBox.setBorder(BorderFactory.createLineBorder(Color.black));
 
         human.addActionListener(
@@ -161,10 +145,7 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
         dwarfBox.setLayout(new BoxLayout(dwarfBox, BoxLayout.Y_AXIS));
         dwarf = new JButton("Dwarf");
         dwarf.setAlignmentX(Component.CENTER_ALIGNMENT);
-        dwarfDescription = new JLabel("Dwarf Description");
-        dwarfDescription.setAlignmentX(Component.CENTER_ALIGNMENT);
         dwarfBox.add(dwarf);
-        dwarfBox.add(dwarfDescription);
         dwarfBox.setBorder(BorderFactory.createLineBorder(Color.black));
 
         dwarf.addActionListener(
@@ -186,10 +167,7 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
         elfBox.setLayout(new BoxLayout(elfBox, BoxLayout.Y_AXIS));
         elf = new JButton("Elf");
         elf.setAlignmentX(Component.CENTER_ALIGNMENT);
-        elfDescription = new JLabel("Elf Description");
-        elfDescription.setAlignmentX(Component.CENTER_ALIGNMENT);
         elfBox.add(elf);
-        elfBox.add(elfDescription);
         elfBox.setBorder(BorderFactory.createLineBorder(Color.black));
 
         elf.addActionListener(
@@ -211,10 +189,7 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
         raceBox4.setLayout(new BoxLayout(raceBox4, BoxLayout.Y_AXIS));
         gnome = new JButton("Gnome");
         gnome.setAlignmentX(Component.CENTER_ALIGNMENT);
-        gnomeDescription = new JLabel("Gnome Description");
-        gnomeDescription.setAlignmentX(Component.CENTER_ALIGNMENT);
         raceBox4.add(gnome);
-        raceBox4.add(gnomeDescription);
         raceBox4.setBorder(BorderFactory.createLineBorder(Color.black));
 
         gnome.addActionListener(
@@ -238,6 +213,16 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
         classes.add(rogueBox);
         classes.add(clericBox);
 
+        // Write the class description from the state.
+        JPanel classDescription = new JPanel();
+        classDescription.setLayout(new BoxLayout(classDescription, BoxLayout.Y_AXIS));
+        JPanel classDescriptionBox = new JPanel();
+        classDescriptionBox.setLayout(new BoxLayout(classDescriptionBox, BoxLayout.Y_AXIS));
+        classDescriptionBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+        classDescriptionText = new JLabel(characterCreationViewModel.getState().getPClassDescription());
+        classDescriptionBox.add(classDescriptionText, SwingConstants.CENTER);
+        classDescription.add(classDescriptionBox);
+
         // Place all four race panels in one horizontal panel for nice-looking display.
         final JPanel races = new JPanel();
         races.setLayout(new BoxLayout(races, BoxLayout.X_AXIS));
@@ -245,6 +230,16 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
         races.add(dwarfBox);
         races.add(elfBox);
         races.add(raceBox4);
+
+        // Write the race description from the state.
+        JPanel raceDescription = new JPanel();
+        raceDescription.setLayout(new BoxLayout(raceDescription, BoxLayout.Y_AXIS));
+        JPanel raceDescriptionBox = new JPanel();
+        raceDescriptionBox.setLayout(new BoxLayout(raceDescriptionBox, BoxLayout.Y_AXIS));
+        raceDescriptionBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+        raceDescriptionText = new JLabel(characterCreationViewModel.getState().getPRaceDescription());
+        raceDescriptionBox.add(raceDescriptionText, SwingConstants.CENTER);
+        raceDescription.add(raceDescriptionBox);
 
         // Create the close inventory button
         final JPanel buttons = new JPanel();
@@ -266,8 +261,10 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
         this.add(title);
         this.add(classes_title);
         this.add(classes);
+        this.add(classDescription);
         this.add(races_title);
         this.add(races);
+        this.add(raceDescription);
         this.add(buttons);
     }
 
@@ -282,6 +279,15 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final CharacterCreationState state = (CharacterCreationState) evt.getNewValue();
+        classDescriptionText.setText(state.getPClassDescription());
+        raceDescriptionText.setText(state.getPRaceDescription());
+        if (state.getError() != "") {
+            showFailureMessage(state.getError());
+            // Return error message to none after showing failure popup.
+            state.setError("");
+        }
+        revalidate(); // Ensure the layout updates
+        repaint();    // Ensure the changes are visible
     }
 
     public String getViewName() {
@@ -290,5 +296,9 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
 
     public void setCharacterCreationController(CharacterCreationController characterCreationController) {
         this.characterCreationController = characterCreationController;
+    }
+
+    public void showFailureMessage(String error) {
+        JOptionPane.showMessageDialog(this, error);
     }
 }

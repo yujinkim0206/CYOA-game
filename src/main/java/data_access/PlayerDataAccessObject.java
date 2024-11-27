@@ -57,6 +57,7 @@ public class PlayerDataAccessObject implements CharacterCreationDataAccessInterf
                     Map<String, Integer> stats = analyzeClassJSON(response);
                     player.setClassDamage(stats.get("Damage"));
                     player.setClassArmor(stats.get("Armor"));
+                    return "Damage: " + player.getClassDamage() + ", Armor: " + player.getClassArmor();
                 }
                 else {
                     throw new IOException("Unexpected code " + response);
@@ -66,8 +67,6 @@ public class PlayerDataAccessObject implements CharacterCreationDataAccessInterf
         } catch (IOException e) {
             throw new RuntimeException(e); // Rethrow as an unchecked exception
         }
-
-        return "";
     }
 
     private static Map<String, Integer> analyzeClassJSON(Response response) throws IOException {
@@ -117,6 +116,7 @@ public class PlayerDataAccessObject implements CharacterCreationDataAccessInterf
                     Map<String, Integer> bonuses = analyzeRaceJSON(response);
                     player.setRaceDamage(bonuses.get("Damage"));
                     player.setRaceArmor(bonuses.get("Armor"));
+                    return "Damage: " + player.getRaceDamage() + ", Armor: " + player.getRaceArmor();
                 }
                 else {
                     throw new IOException("Unexpected code " + response);
@@ -126,8 +126,6 @@ public class PlayerDataAccessObject implements CharacterCreationDataAccessInterf
         } catch (IOException e) {
             throw new RuntimeException(e); // Rethrow as an unchecked exception
         }
-
-        return "";
     }
 
     private Map<String, Integer> analyzeRaceJSON(Response response) throws IOException {
