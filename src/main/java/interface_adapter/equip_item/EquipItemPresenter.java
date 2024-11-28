@@ -1,32 +1,37 @@
 package interface_adapter.equip_item;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.room_default.RoomDefaultViewModel;
 import use_case.equip_item.EquipItemOutputBoundary;
 import use_case.equip_item.EquipItemOutputData;
 
 /**
- * The Presenter for the Equip Item Use Case.
+ * Presenter for the Equip Item Use Case.
  */
 public class EquipItemPresenter implements EquipItemOutputBoundary {
-
-    private EquipItemViewModel equipItemViewModel;
-    private ViewManagerModel viewManagerModel;
+    private final EquipItemViewModel viewModel;
+    private final RoomDefaultViewModel roomDefaultViewModel;
+    private final ViewManagerModel viewManagerModel;
 
     public EquipItemPresenter(ViewManagerModel viewManagerModel,
-                              EquipItemViewModel equipItemViewModel) {
+                              EquipItemViewModel viewModel,
+                              RoomDefaultViewModel roomDefaultViewModel) {
+        this.viewModel = viewModel;
+        this.roomDefaultViewModel = roomDefaultViewModel;
         this.viewManagerModel = viewManagerModel;
-        this.equipItemViewModel = equipItemViewModel;
     }
 
     @Override
     public void prepareSuccessView(EquipItemOutputData response) {
-        equipItemViewModel.updateInventory(response.getUpdatedInventory());
-        viewManagerModel.setState(equipItemViewModel.getViewName());
+        viewModel.updateInventory(new String[]{response.getItemName()});
+        viewManagerModel.setState(viewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 
     @Override
     public void prepareFailView(String error) {
-        // Handle errors appropriately
+        viewModel.setError(error);
+        viewManagerModel.setState(roomDefaultViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

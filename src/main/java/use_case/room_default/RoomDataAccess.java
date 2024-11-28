@@ -33,7 +33,7 @@ public class RoomDataAccess implements RoomDataAccessInterface {
      */
     private void initializeRooms() {
         rooms.add(new MonsterRoom(new Monster())); // Room 0: Monster Room
-        rooms.add(new ItemRoom(new Item()));       // Room 1: Item Room
+        rooms.add(new ItemRoom(Item.generateRandomItem()));       // Room 1: Item Room
         rooms.add(new TrapRoom(new Trap()));       // Room 2: Trap Room
         // Add more rooms as needed
     }

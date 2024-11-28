@@ -2,9 +2,11 @@ package entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Floor {
     private final ArrayList<Room> RoomList;
+    private final Random random;
 
     /**
      * Constructor for the Floor class, each of the parameters in the room constructors
@@ -14,6 +16,7 @@ public class Floor {
      */
     public Floor() {
         this.RoomList = new ArrayList<>();
+        this.random = new Random();
         for (int i = 0; i < RoomSize.ROOM_SIZE; i++){
             int n = (int)(Math.random() * RoomSize.ROOM_SIZE);
             if (n < 4){
@@ -21,7 +24,7 @@ public class Floor {
                 this.RoomList.add(new MonsterRoom(monster));
             }
             else if (n < 6){
-                Item item = new Item();
+                Item item = Item.generateRandomItem();
                 this.RoomList.add(new ItemRoom(item));
             }
             else if (n < 7){
@@ -42,4 +45,6 @@ public class Floor {
     public List<Room> getRoomList() {
         return RoomList;
     }
+
 }
+

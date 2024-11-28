@@ -1,16 +1,18 @@
 package use_case.equip_item;
 
+import entity.Item;
+
 /**
- * The Input Data for the Equip Item Use Case.
+ * Input Data for the Equip Item Use Case.
  */
 public class EquipItemInputData {
-    private final String itemName;
+    private final Item item;
 
-    public EquipItemInputData(String itemName) {
-        this.itemName = itemName;
+    public EquipItemInputData(Item item) {
+        this.item = item;
     }
 
-    public String getItemName() {
-        return itemName;
+    public Item getItem() {
+        return item;
     }
 }

@@ -12,6 +12,9 @@ public class Inventory {
 
     // items is Map<String, List<Item>> instead of Map<String, Item> in order to allow duplicates.
     private final Map<String, List<Item>> items;
+    private Item equippedArmor;
+    private Item equippedWeapon;
+    private Item equippedBuff;
 
     public Inventory() {
         items = new HashMap<>();
@@ -77,4 +80,69 @@ public class Inventory {
         return result;
     }
 
+    /**
+     * Equips an item by type, replacing any currently equipped item of the same type.
+     *
+     * @param item the item to equip
+     * @return true if the item was successfully equipped, false otherwise
+     */
+    public boolean equipItem(Item item) {
+        if (item == null) {
+            return false;
+        }
+
+        String itemName = item.getName();
+        if (!removeItem(itemName).equals(item)) {
+            return false; // Ensure the item is removed from inventory
+        }
+
+        if (item instanceof Armor) {
+            equippedArmor = replaceEquippedItem(equippedArmor, item);
+        } else if (item instanceof Weapon) {
+            equippedWeapon = replaceEquippedItem(equippedWeapon, item);
+        } else if (item instanceof Buff) {
+            equippedBuff = replaceEquippedItem(equippedBuff, item);
+        } else {
+            return false; // Unsupported item type
+        }
+
+        return true;
+    }
+
+    private Item replaceEquippedItem(Item currentEquipped, Item newItem) {
+        if (currentEquipped != null) {
+            addItem(currentEquipped.getName(), currentEquipped); // Return current item to inventory
+        }
+        return newItem;
+    }
+
+    /**
+     * Getters for equipped items.
+     */
+    public Item getEquippedArmor() {
+        return equippedArmor;
+    }
+
+    public Item getEquippedWeapon() {
+        return equippedWeapon;
+    }
+
+    public Item getEquippedBuff() {
+        return equippedBuff;
+    }
+
+    /**
+     * Returns a list of all items in the inventory, including duplicates.
+     */
+    public List<Item> getAllItems() {
+        List<Item> allItems = new ArrayList<>();
+        for (List<Item> itemList : items.values()) {
+            allItems.addAll(itemList);
+        }
+        return allItems;
+    }
 }
+
+
+
+

@@ -1,28 +1,41 @@
 package use_case.equip_item;
 
-import use_case.equip_item.EquipItemOutputBoundary;
-import use_case.equip_item.EquipItemOutputData;
+import entity.Item;
 
 /**
- * The Equip Item Interactor.
+ * Interactor for the Equip Item Use Case.
  */
 public class EquipItemInteractor implements EquipItemInputBoundary {
-    private final EquipItemDataAccessInterface dataAccess;
+    private final EquipItemDataAccessInterface EquipItemDataAccessObject;
     private final EquipItemOutputBoundary presenter;
 
-    public EquipItemInteractor(EquipItemDataAccessInterface dataAccess,
+    /**
+     * Constructor for EquipItemInteractor.
+     *
+     * @param dataAccessObject the DAO for accessing and updating inventory
+     * @param presenter the output boundary for preparing views
+     */
+    public EquipItemInteractor(EquipItemDataAccessInterface dataAccessObject,
                                EquipItemOutputBoundary presenter) {
-        this.dataAccess = dataAccess;
+        this.EquipItemDataAccessObject = dataAccessObject;
         this.presenter = presenter;
     }
 
     @Override
     public void execute(EquipItemInputData inputData) {
-        String itemName = inputData.getItemName();
-            dataAccess.equipItem(itemName);
-            String[] updatedInventory = dataAccess.getInventoryItems();  // Fetch updated inventory
-            EquipItemOutputData outputData = new EquipItemOutputData(updatedInventory);
-            presenter.prepareSuccessView(outputData);
+        Item itemToEquip = inputData.getItem();
+
+        if (itemToEquip == null) {
+            presenter.prepareFailView("No item selected to equip.");
+            return;
+        }
+
+        String resultMessage = EquipItemDataAccessObject.equipItem(itemToEquip);
+
+        if (resultMessage.startsWith("Equipped")) {
+            presenter.prepareSuccessView(new EquipItemOutputData(itemToEquip.getName(), resultMessage));
+        } else {
+            presenter.prepareFailView(resultMessage);
+        }
     }
 }
-

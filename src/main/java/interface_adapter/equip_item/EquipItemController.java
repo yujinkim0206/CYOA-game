@@ -1,25 +1,31 @@
 package interface_adapter.equip_item;
 
+import entity.Inventory;
+import entity.Item;
+import entity.Player;
 import use_case.equip_item.EquipItemInputBoundary;
 import use_case.equip_item.EquipItemInputData;
 
 /**
- * The controller for the Equip Item Use Case.
+ * Controller for the Equip Item Use Case.
  */
 public class EquipItemController {
+    private final EquipItemInputBoundary equipItemInteractor;
 
-    private EquipItemInputBoundary equipItemUseCaseInteractor;
-
-    public EquipItemController(EquipItemInputBoundary equipItemUseCaseInteractor) {
-        this.equipItemUseCaseInteractor = equipItemUseCaseInteractor;
+    public EquipItemController(EquipItemInputBoundary equipItemInteractor) {
+        this.equipItemInteractor = equipItemInteractor;
     }
 
-    /**
-     * Executes the Equip Item Use Case.
-     * @param itemName the name of the item to equip
-     */
     public void equipItem(String itemName) {
-        final EquipItemInputData equipItemInputData = new EquipItemInputData(itemName);
-        equipItemUseCaseInteractor.execute(equipItemInputData);
+        Inventory inventory = Player.getInstance().getInventory(); // Fetch inventory
+        Item item = inventory.getItem(itemName); // Retrieve item by name
+
+        if (item == null) {
+            System.err.println("Error: Item not found in inventory.");
+            return;
+        }
+
+        EquipItemInputData inputData = new EquipItemInputData(item);
+        equipItemInteractor.execute(inputData);
     }
 }
