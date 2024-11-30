@@ -3,12 +3,17 @@ package entity;
 public class TrapRoom extends Room{
     private Trap trap;
 
+    @Override
+    public int getRoomType() {
+        return 2; // Trap Room
+    }
     /**
      * Creates an TrapRoom
      * @param trap the trap in the TrapRoom
      */
 
-    public TrapRoom(Trap trap) {
+    public TrapRoom(int roomNumber, Trap trap) {
+        super(roomNumber);
         this.trap = trap;
     }
 

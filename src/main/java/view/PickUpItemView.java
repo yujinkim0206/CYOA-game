@@ -1,120 +1,89 @@
 package view;
 
+import interface_adapter.pickup_item.PickUpItemController;
+import interface_adapter.pickup_item.PickUpItemState;
+import interface_adapter.pickup_item.PickUpItemViewModel;
+import interface_adapter.ViewManagerModel;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.*;
-
-import interface_adapter.pickup_item.PickUpItemController;
-import interface_adapter.pickup_item.PickUpItemState;
-import interface_adapter.pickup_item.PickUpItemViewModel;
-
 /**
- * The View for when the user is picking up items.
+ * View for Picking Up Items.
  */
 public class PickUpItemView extends JPanel implements ActionListener, PropertyChangeListener {
-
     private final String viewName = "pick up item";
-    private final PickUpItemViewModel pickUpItemViewModel;
+    private final PickUpItemViewModel viewModel;
+    private final JLabel itemLabel;       // Displays the current item
+    private final JButton pickUpButton;  // Button to pick up the item
+    private final JButton closeButton;   // Button to close the view
+    private PickUpItemController controller;
+    private final ViewManagerModel viewManagerModel;
 
-    private final JLabel availableItem1;
-    private final JLabel availableItem2;
-    private final JLabel availableItem3;
+    public PickUpItemView(PickUpItemViewModel viewModel, ViewManagerModel viewManagerModel) {
+        this.viewModel = viewModel;
+        this.viewManagerModel = viewManagerModel;
+        this.viewModel.addPropertyChangeListener(this);
 
-    private final JButton pickUpItem1Button;
-    private final JButton pickUpItem2Button;
-    private final JButton pickUpItem3Button;
-    private final JButton close;
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-    private PickUpItemController pickUpItemController;
+        // Initialize components
+        String initialItemLabel = "No Item Available"; // Default text
+        if (viewModel.getState().getItems() != null && viewModel.getState().getItems().length > 0) {
+            initialItemLabel = "Item: " + viewModel.getState().getItems()[0]; // Display the first item
+        }
 
-    public PickUpItemView(PickUpItemViewModel pickUpItemViewModel) {
-        this.pickUpItemViewModel = pickUpItemViewModel;
-        this.pickUpItemViewModel.addPropertyChangeListener(this);
+        itemLabel = new JLabel(initialItemLabel);
+        itemLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        final JLabel title = new JLabel("Pick Up Item");
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pickUpButton = new JButton("Pick Up");
+        pickUpButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pickUpButton.addActionListener(this);
 
-        // Panel for the first item
-        final JPanel itemBox1 = new JPanel();
-        itemBox1.setLayout(new BoxLayout(itemBox1, BoxLayout.Y_AXIS));
-        availableItem1 = new JLabel("Item 1");
-        pickUpItem1Button = new JButton("Pick Up");
-        itemBox1.add(availableItem1);
-        itemBox1.add(pickUpItem1Button);
-        itemBox1.setBorder(BorderFactory.createLineBorder(Color.black));
+        closeButton = new JButton("Close");
+        closeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        closeButton.addActionListener(this);
 
-        // Panel for the second item
-        final JPanel itemBox2 = new JPanel();
-        itemBox2.setLayout(new BoxLayout(itemBox2, BoxLayout.Y_AXIS));
-        availableItem2 = new JLabel("Item 2");
-        pickUpItem2Button = new JButton("Pick Up");
-        itemBox2.add(availableItem2);
-        itemBox2.add(pickUpItem2Button);
-        itemBox2.setBorder(BorderFactory.createLineBorder(Color.black));
-
-        // Panel for the third item
-        final JPanel itemBox3 = new JPanel();
-        itemBox3.setLayout(new BoxLayout(itemBox3, BoxLayout.Y_AXIS));
-        availableItem3 = new JLabel("Item 3");
-        pickUpItem3Button = new JButton("Pick Up");
-        itemBox3.add(availableItem3);
-        itemBox3.add(pickUpItem3Button);
-        itemBox3.setBorder(BorderFactory.createLineBorder(Color.black));
-
-        // Adding the item panels to a horizontal panel
-        final JPanel itemsPanel = new JPanel();
-        itemsPanel.setLayout(new BoxLayout(itemsPanel, BoxLayout.X_AXIS));
-        itemsPanel.add(itemBox1);
-        itemsPanel.add(itemBox2);
-        itemsPanel.add(itemBox3);
-
-        // Close button
-        final JPanel buttons = new JPanel();
-        close = new JButton("Close");
-        buttons.add(close);
-
-        // Add action listeners
-        pickUpItem1Button.addActionListener(this);
-        pickUpItem2Button.addActionListener(this);
-        pickUpItem3Button.addActionListener(this);
-        close.addActionListener(this);
-
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.add(title);
-        this.add(itemsPanel);
-        this.add(buttons);
+        // Add components to the panel
+        add(itemLabel);
+        add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing
+        add(pickUpButton);
+        add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing
+        add(closeButton);
     }
 
     @Override
-    public void actionPerformed(ActionEvent evt) {
-        if (evt.getSource() == pickUpItem1Button) {
-            pickUpItemController.pickUpItem(availableItem1.getText());
-        } else if (evt.getSource() == pickUpItem2Button) {
-            pickUpItemController.pickUpItem(availableItem2.getText());
-        } else if (evt.getSource() == pickUpItem3Button) {
-            pickUpItemController.pickUpItem(availableItem3.getText());
-        } else if (evt.getSource() == close) {
-            // Close view logic
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == pickUpButton) {
+            // Trigger the pick-up use case and retrieve the result directly
+            if (viewModel.getState().getItems() != null && viewModel.getState().getItems().length > 0) {
+                controller.pickUpItem(); // Notify the interactor to pick up the item
+                JOptionPane.showMessageDialog(this, "Item picked successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                itemLabel.setText("No Item Available");
+            } else {
+                JOptionPane.showMessageDialog(this, "No item to pick up in this room.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else if (e.getSource() == closeButton) {
+            viewManagerModel.setState("room view");
+            viewManagerModel.firePropertyChanged();
         }
     }
 
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final PickUpItemState state = (PickUpItemState) evt.getNewValue();
-        availableItem1.setText(state.getItems()[0]);
-        availableItem2.setText(state.getItems()[1]);
-        availableItem3.setText(state.getItems()[2]);
+        final PickUpItemViewModel state = (PickUpItemViewModel) evt.getNewValue();
+    }
+
+    public void setPickUpController(PickUpItemController controller) {
+        this.controller = controller;
     }
 
     public String getViewName() {
         return viewName;
-    }
-
-    public void setPickUpItemController(PickUpItemController controller) {
-        this.pickUpItemController = controller;
     }
 }

@@ -28,6 +28,8 @@ public class Main {
                                             .addFallForTrapView()
                                             .addMerchantView()
                                             .addMonsterUseCase()
+                                            .addEquipItemUseCase()
+                                            .addPickUpItemUseCase()
                                             .build();
 
         application.pack();

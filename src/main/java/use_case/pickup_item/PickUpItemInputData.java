@@ -1,16 +1,10 @@
 package use_case.pickup_item;
 
+import entity.Player;
+
 /**
- * The Input Data for the PickUp Item Use Case.
+ * Input Data for the Pick-Up Item Use Case.
  */
 public class PickUpItemInputData {
-    private final String itemName;
 
-    public PickUpItemInputData(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public String getItemName() {
-        return itemName;
-    }
 }

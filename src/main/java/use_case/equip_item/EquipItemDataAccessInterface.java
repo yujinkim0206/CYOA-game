@@ -1,9 +1,13 @@
-package use_case.equip_item;
+package data_access;
+
+import entity.Inventory;
+import entity.Item;
 
 /**
- * DAO for the Equip Item Use Case.
+ * DAO Interface for Equip Item Use Case.
  */
 public interface EquipItemDataAccessInterface {
-    String[] getInventoryItems();  // Fetches the player's inventory
-    void equipItem(String itemName);  // Marks the item as equipped
+    Inventory getInventory();
+    void updateInventory(Inventory inventory);
+    boolean itemExists(Item item);
 }

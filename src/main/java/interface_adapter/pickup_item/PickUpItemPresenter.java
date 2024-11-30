@@ -1,32 +1,44 @@
 package interface_adapter.pickup_item;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.room_default.RoomDefaultViewModel;
 import use_case.pickup_item.PickUpItemOutputBoundary;
 import use_case.pickup_item.PickUpItemOutputData;
 
+import javax.swing.JOptionPane;
+
 /**
- * The Presenter for the PickUp Item Use Case.
+ * Presenter for the Pick-Up Item Use Case.
  */
 public class PickUpItemPresenter implements PickUpItemOutputBoundary {
-
-    private PickUpItemViewModel pickUpItemViewModel;
-    private ViewManagerModel viewManagerModel;
+    private final PickUpItemViewModel pickUpItemViewModel;
+    private final RoomDefaultViewModel roomDefaultViewModel;
+    private final ViewManagerModel viewManagerModel;
 
     public PickUpItemPresenter(ViewManagerModel viewManagerModel,
-                               PickUpItemViewModel pickUpItemViewModel) {
-        this.viewManagerModel = viewManagerModel;
+                               PickUpItemViewModel pickUpItemViewModel,
+                               RoomDefaultViewModel roomDefaultViewModel) {
         this.pickUpItemViewModel = pickUpItemViewModel;
+        this.roomDefaultViewModel = roomDefaultViewModel;
+        this.viewManagerModel = viewManagerModel;
     }
 
     @Override
     public void prepareSuccessView(PickUpItemOutputData response) {
-        pickUpItemViewModel.updateItems(response.getUpdatedItems());
+        // Update the Pick-Up Item ViewModel with the picked-up item
+        pickUpItemViewModel.updateItems(new String[]{response.getItemName()});
+
+        // Navigate to the Pick-Up Item view
         viewManagerModel.setState(pickUpItemViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 
     @Override
     public void prepareFailView(String error) {
-        // Handle any errors or failures here
+        pickUpItemViewModel.setError(error);
+
+        JOptionPane.showMessageDialog(null, error, "Pick-Up Item Error", JOptionPane.ERROR_MESSAGE);
+        viewManagerModel.setState(roomDefaultViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

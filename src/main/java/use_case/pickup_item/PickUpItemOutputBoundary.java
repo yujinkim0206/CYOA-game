@@ -6,4 +6,5 @@ package use_case.pickup_item;
 public interface PickUpItemOutputBoundary {
     void prepareSuccessView(PickUpItemOutputData outputData);
     void prepareFailView(String errorMessage);
+
 }
