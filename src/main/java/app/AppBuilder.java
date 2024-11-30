@@ -6,23 +6,22 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import data_access.FightMonsterDataAccessObject;
-import data_access.InventoryDataAccessObject;
-import data_access.PlayerDataAccessObject;
-import data_access.RoomDataAccessObject;
-import data_access.NpcDataAccessObject;
-import data_access.TrapDataAccessObject;
+import data_access.*;
 import entity.Floor;
 import entity.InventoryFactory;
 import entity.Npc;
 import entity.Trap;
 import interface_adapter.ViewManagerModel;
 
+import interface_adapter.equip_item.EquipItemController;
+import interface_adapter.equip_item.EquipItemPresenter;
 import interface_adapter.merchant.MerchantController;
 import interface_adapter.merchant.MerchantPresenter;
 import interface_adapter.monster.FightMonsterController;
 import interface_adapter.monster.FightMonsterPresenter;
 import interface_adapter.monster.FightMonsterViewModel;
+import interface_adapter.pickup_item.PickUpItemController;
+import interface_adapter.pickup_item.PickUpItemPresenter;
 import interface_adapter.room_default.RoomDefaultViewModel;
 import interface_adapter.pickup_item.PickUpItemViewModel;
 import interface_adapter.equip_item.EquipItemViewModel;
@@ -32,6 +31,9 @@ import interface_adapter.open_inventory.OpenInventoryPresenter;
 import interface_adapter.open_inventory.OpenInventoryViewModel;
 import interface_adapter.room_default.RoomDefaultController;
 import interface_adapter.room_default.RoomDefaultPresenter;
+import use_case.equip_item.EquipItemInputBoundary;
+import use_case.equip_item.EquipItemInteractor;
+import use_case.equip_item.EquipItemOutputBoundary;
 import use_case.monster.FightMonsterInputBoundary;
 import use_case.monster.FightMonsterInteractor;
 import use_case.monster.FightMonsterOutputBoundary;
@@ -52,6 +54,10 @@ import use_case.monster.FightMonsterOutputBoundary;
 import use_case.open_inventory.OpenInventoryInputBoundary;
 import use_case.open_inventory.OpenInventoryInteractor;
 import use_case.open_inventory.OpenInventoryOutputBoundary;
+import use_case.pickup_item.PickUpItemDataAccessInterface;
+import use_case.pickup_item.PickUpItemInputBoundary;
+import use_case.pickup_item.PickUpItemInteractor;
+import use_case.pickup_item.PickUpItemOutputBoundary;
 import use_case.room_default.RoomInputBoundary;
 import use_case.room_default.RoomInteractor;
 import use_case.room_default.RoomOutputBoundary;
@@ -67,6 +73,7 @@ import use_case.fall_for_trap.FallForTrapOutputBoundary;
 import use_case.merchant.MerchantInputBoundary;
 import use_case.merchant.MerchantInteractor;
 import view.*;
+
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -87,7 +94,8 @@ public class AppBuilder {
     private final NpcDataAccessObject npcDataAccessObject = new NpcDataAccessObject();
     private final TrapDataAccessObject trapDataAccessObject = new TrapDataAccessObject();
     private final FightMonsterDataAccessObject fightMonsterDataAccessObject = new FightMonsterDataAccessObject();
-
+    private final EquipItemDataAccessObject equipItemDataAccessObject = new EquipItemDataAccessObject();
+    private final PickUpItemDataAccessObject pickUpItemDataAccessObject = new PickUpItemDataAccessObject();
     private TalkToNpcViewModel talkToNpcViewModel;
     private FallForTrapViewModel fallForTrapViewModel;
     private RoomDefaultViewModel roomDefaultViewModel;
@@ -135,14 +143,14 @@ public class AppBuilder {
 
     public AppBuilder addPickUpItemView() {
         pickUpItemViewModel = new PickUpItemViewModel();
-        pickUpItemView = new PickUpItemView(pickUpItemViewModel);
+        pickUpItemView = new PickUpItemView(pickUpItemViewModel, viewManagerModel);
         cardPanel.add(pickUpItemView, pickUpItemView.getViewName());
         return this;
     }
 
     public AppBuilder addEquipItemView() {
         equipItemViewModel = new EquipItemViewModel();
-        equipItemView = new EquipItemView(equipItemViewModel);
+        equipItemView = new EquipItemView(equipItemViewModel, viewManagerModel);
         cardPanel.add(equipItemView, equipItemView.getViewName());
         return this;
     }
@@ -199,20 +207,28 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the Room Use Case to the application
+     * Adds the Room Use Case to the application.
      * @return this builder
      */
     public AppBuilder addRoomUseCase() {
+        // Create the presenter with appropriate view models
         final RoomOutputBoundary roomOutputBoundary = new RoomDefaultPresenter(
-                viewManagerModel, roomDefaultViewModel, fightMonsterViewModel);
+                viewManagerModel);
 
-        final RoomInputBoundary roomInteractor = new RoomInteractor(
-                roomOutputBoundary, roomDataAccessObject, new Floor());
+        // Create the interactor with the presenter and data access objects
+        final RoomInputBoundary roomInteractor =
+                new RoomInteractor(roomOutputBoundary, roomDataAccessObject, new Floor());
 
+        // Create the controller with the interactor
         final RoomDefaultController roomDefaultController = new RoomDefaultController(roomInteractor);
+
+        // Set the controller in the view
         roomView.setRoomController(roomDefaultController);
+
         return this;
     }
+
+
 
     /**
      * Adds the OpenInventory Use Case to the application.
@@ -304,6 +320,49 @@ public class AppBuilder {
         return this;
     }
 
+
+    /**
+     * Adds the Equip Item Use Case to the application.
+     * @return this builder
+     */
+    /**
+     * Adds the EquipItem Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addEquipItemUseCase() {
+        final EquipItemOutputBoundary equipItemOutputBoundary = new EquipItemPresenter(
+                viewManagerModel, equipItemViewModel, roomDefaultViewModel);
+        final EquipItemInputBoundary equipItemInteractor = new EquipItemInteractor(
+                equipItemDataAccessObject, equipItemOutputBoundary);
+        final EquipItemController equipItemController = new EquipItemController(equipItemInteractor);
+        equipItemView.setEquipItemController(equipItemController);
+
+        return this;
+    }
+
+
+
+
+
+
+
+    public AppBuilder addPickUpItemUseCase() {
+        final PickUpItemOutputBoundary pickUpItemOutputBoundary = new PickUpItemPresenter(
+                viewManagerModel, pickUpItemViewModel, roomDefaultViewModel);
+        final PickUpItemInputBoundary pickUpItemInteractor = new PickUpItemInteractor(pickUpItemDataAccessObject, pickUpItemOutputBoundary);
+
+        final PickUpItemController pickUpItemController = new PickUpItemController(pickUpItemInteractor);
+
+        pickUpItemView.setPickUpController(pickUpItemController);
+
+        return this;
+    }
+
+
+
+
+
+
     /**
      * Creates the JFrame for the application and initially sets the SignupView to be displayed.
      * @return the application
@@ -315,7 +374,7 @@ public class AppBuilder {
         cardPanel.setPreferredSize(new Dimension(400, 200));
         application.add(cardPanel);
 
-        viewManagerModel.setState(merchantView.getViewName());
+        viewManagerModel.setState(equipItemView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;

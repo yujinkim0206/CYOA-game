@@ -3,12 +3,19 @@ package entity;
 public class NpcRoom extends Room{
     private Npc npc;
 
+
+
+    @Override
+    public int getRoomType() {
+        return 1; // Item Room
+    }
     /**
      * Creates an NPCRoom
      * @param npc the Npc in the NPCRoom
      */
 
-    public NpcRoom(Npc npc){
+    public NpcRoom(int roomNumber, Npc npc){
+        super(roomNumber);
         this.npc = npc;
     }
 

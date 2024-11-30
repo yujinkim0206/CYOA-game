@@ -1,7 +1,6 @@
 package use_case.room_default;
 
-import entity.Floor;
-import entity.Room;
+import entity.*;
 import java.util.List;
 
 /**
@@ -11,8 +10,8 @@ public class RoomInteractor implements RoomInputBoundary {
 
     private final RoomOutputBoundary roomPresenter;
     private final RoomDataAccessInterface roomDataAccess;
-    private final Floor floor; // Added Floor as a dependency
-    private int currentRoomIndex = 0; // Track the current room
+    private final Floor floor;
+    private int currentRoomIndex = 0;
 
     public RoomInteractor(RoomOutputBoundary roomPresenter, RoomDataAccessInterface roomDataAccess, Floor floor) {
         this.roomPresenter = roomPresenter;
@@ -22,26 +21,26 @@ public class RoomInteractor implements RoomInputBoundary {
 
     @Override
     public void interactWithRoom(RoomInputData inputData) {
-        Room room = roomDataAccess.getRoomByNumber(inputData.getRoomNumber());
+        Room room = floor.getRoomList().stream()
+                .filter(r -> r.getRoomNumber() == inputData.getRoomNumber())
+                .findFirst()
+                .orElse(null);
 
         if (room == null) {
             roomPresenter.prepareFailView("Room not found.");
             return;
         }
 
-        displayRoomDetails(room);
+        roomPresenter.prepareSuccessView(new RoomOutputData(room.getDescription(), room.getClass().getSimpleName()));
     }
 
-    /**
-     * Fetches the next room from the floor and displays it.
-     */
+    @Override
     public void goToNextRoom() {
         List<Room> rooms = floor.getRoomList();
-
-        if (currentRoomIndex < rooms.size()) {
-            Room nextRoom = rooms.get(currentRoomIndex);
-            displayRoomDetails(nextRoom);
+        if (currentRoomIndex < rooms.size() - 1) {
             currentRoomIndex++;
+            Room nextRoom = rooms.get(currentRoomIndex);
+            roomPresenter.prepareSuccessView(new RoomOutputData(nextRoom.getDescription(), nextRoom.getClass().getSimpleName()));
         } else {
             roomPresenter.prepareFailView("You have reached the end of the floor.");
         }
@@ -49,30 +48,6 @@ public class RoomInteractor implements RoomInputBoundary {
 
     @Override
     public void returnToMainMenu() {
-    }
-
-    /**
-     * Helper method to prepare and display room details.
-     * @param room the room to display
-     */
-    private void displayRoomDetails(Room room) {
-        String roomContent;
-        switch (room.getRoomType()) {
-            // .getRoomType() returns an int. I don't think these correlate correctly here, but it runs.
-            case 0:
-                roomContent = "It's a monster!";
-                break;
-            case 1:
-                roomContent = "You found a treasure!";
-                break;
-            case 2:
-                roomContent = "It's a trap!";
-                break;
-            default:
-                roomContent = "You have cleared the floor!";
-        }
-
-        RoomOutputData outputData = new RoomOutputData(room.getDescription(), roomContent);
-        roomPresenter.prepareSuccessView(outputData);
+        roomPresenter.prepareFailView("Returning to Open Inventory.");
     }
 }

@@ -1,7 +1,7 @@
 package use_case.equip_item;
 
 /**
- * The Input Data for the Equip Item Use Case.
+ * Input Data for the Equip Item Use Case.
  */
 public class EquipItemInputData {
     private final String itemName;

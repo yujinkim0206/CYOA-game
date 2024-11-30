@@ -1,33 +1,25 @@
 package entity;
 
-public class ItemRoom extends Room{
+public class ItemRoom extends Room {
+    private final Item item;
 
-    private Item item;
-
-    /**
-     * Creates an ItemRoom
-     * @param item the item in the ItemRoom
-     */
-
-    public ItemRoom(Item item){
+    public ItemRoom(int roomNumber, Item item) {
+        super(roomNumber);
         this.item = item;
     }
 
-    /**
-     * Returns the item in the ItemRoom
-     * @return the item in ItemRoom
-     */
+    @Override
+    public String getDescription() {
+        return "Room " + getRoomNumber() + ": This room contains an item: " + item.getName();
+    }
+
+    @Override
+    public int getRoomType() {
+        return 1; // Item Room
+    }
 
     public Item getItem() {
         return item;
     }
-
-    /**
-     * Allows us to set the item in the ItemRoom
-     * @param item the item we want to set inside the ItemRoom
-     */
-
-    public void setItem(Item item) {
-        this.item = item;
-    }
 }
+

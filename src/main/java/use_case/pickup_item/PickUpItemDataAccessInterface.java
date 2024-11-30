@@ -1,9 +1,23 @@
 package use_case.pickup_item;
 
+import entity.Item;
+
 /**
- * DAO for the PickUp Item Use Case.
+ * DAO Interface for Pick-Up Item Use Case.
  */
 public interface PickUpItemDataAccessInterface {
-    String[] getAvailableItems();  // Fetches available items in the room
-    void addItemToInventory(String itemName);  // Adds the picked item to the player's inventory
+
+    /**
+     * Retrieves the item from the current room.
+     *
+     * @return the item, or null if no item is present
+     */
+    Item getItem();
+
+    /**
+     * Adds the given item to the player's inventory.
+     *
+     * @param item The item to add
+     */
+    void addToInventory(Item item);
 }

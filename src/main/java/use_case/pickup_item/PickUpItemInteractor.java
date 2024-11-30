@@ -1,28 +1,31 @@
 package use_case.pickup_item;
 
-import use_case.pickup_item.PickUpItemOutputBoundary;
-import use_case.pickup_item.PickUpItemOutputData;
+import entity.Item;
 
 /**
- * The PickUp Item Interactor.
+ * The Pick-Up Item Interactor.
  */
 public class PickUpItemInteractor implements PickUpItemInputBoundary {
-    private final PickUpItemDataAccessInterface dataAccess;
+    private final PickUpItemDataAccessInterface dataAccessObject;
     private final PickUpItemOutputBoundary presenter;
 
-    public PickUpItemInteractor(PickUpItemDataAccessInterface dataAccess,
+    public PickUpItemInteractor(PickUpItemDataAccessInterface dataAccessObject,
                                 PickUpItemOutputBoundary presenter) {
-        this.dataAccess = dataAccess;
+        this.dataAccessObject = dataAccessObject;
         this.presenter = presenter;
     }
 
     @Override
     public void execute(PickUpItemInputData inputData) {
-        String itemName = inputData.getItemName();
+        Item itemToPickUp = dataAccessObject.getItem();
+        if (itemToPickUp == null) {
+            presenter.prepareFailView("No item to pick up in the room.");
+            return;
+        }
 
-            dataAccess.addItemToInventory(itemName);
-            String[] updatedItems = dataAccess.getAvailableItems();  // Fetch updated items in room
-            PickUpItemOutputData outputData = new PickUpItemOutputData(updatedItems);
-            presenter.prepareSuccessView(outputData);
+        dataAccessObject.addToInventory(itemToPickUp);
+        presenter.prepareSuccessView(new PickUpItemOutputData(itemToPickUp.getName(),
+                "Picked up: " + itemToPickUp.getName()));
     }
+
 }

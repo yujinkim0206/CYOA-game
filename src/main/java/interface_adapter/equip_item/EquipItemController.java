@@ -4,22 +4,22 @@ import use_case.equip_item.EquipItemInputBoundary;
 import use_case.equip_item.EquipItemInputData;
 
 /**
- * The controller for the Equip Item Use Case.
+ * Controller for the Equip Item Use Case.
  */
 public class EquipItemController {
+    private final EquipItemInputBoundary interactor;
 
-    private EquipItemInputBoundary equipItemUseCaseInteractor;
-
-    public EquipItemController(EquipItemInputBoundary equipItemUseCaseInteractor) {
-        this.equipItemUseCaseInteractor = equipItemUseCaseInteractor;
+    public EquipItemController(EquipItemInputBoundary interactor) {
+        this.interactor = interactor;
     }
 
-    /**
-     * Executes the Equip Item Use Case.
-     * @param itemName the name of the item to equip
-     */
     public void equipItem(String itemName) {
-        final EquipItemInputData equipItemInputData = new EquipItemInputData(itemName);
-        equipItemUseCaseInteractor.execute(equipItemInputData);
+        if (itemName == null || itemName.isEmpty()) {
+            System.err.println("No item name provided to equip.");
+            return;
+        }
+
+        EquipItemInputData inputData = new EquipItemInputData(itemName);
+        interactor.execute(inputData);
     }
 }
