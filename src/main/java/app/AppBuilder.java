@@ -292,7 +292,7 @@ public class AppBuilder {
      */
     public AppBuilder addTalkToNpcUseCase() {
         final TalkToNpcOutputBoundary talkToNpcOutputBoundary = new TalkToNpcPresenter(
-                viewManagerModel, talkToNpcViewModel, roomDefaultViewModel);
+                viewManagerModel, talkToNpcViewModel, merchantViewModel, roomDefaultViewModel);
 
         final TalkToNpcInputBoundary talkToNpcInteractor =
                 new TalkToNpcInteractor(npcDataAccessObject, talkToNpcOutputBoundary);
