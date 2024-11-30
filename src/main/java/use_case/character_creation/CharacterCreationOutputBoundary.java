@@ -15,4 +15,11 @@ public interface CharacterCreationOutputBoundary {
      * @param errorMessage the explanation of the failure
      */
     void prepareFailView(String errorMessage);
+
+    /**
+     * Fetches the description of the class/race from the API call (in the interactor).
+     * @param pClassDescription the class description
+     * @param pRaceDescription the race description
+     */
+    void getDescription(String pClassDescription, String pRaceDescription);
 }

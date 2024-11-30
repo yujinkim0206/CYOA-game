@@ -264,7 +264,7 @@ public class AppBuilder {
      */
     public AppBuilder addCharacterCreationUseCase() {
         final CharacterCreationOutputBoundary characterCreationOutputBoundary = new CharacterCreationPresenter(
-                viewManagerModel);
+                viewManagerModel, characterCreationViewModel);
 
         final CharacterCreationInputBoundary characterCreationInteractor =
                 new CharacterCreationInteractor(playerDataAccessObject, characterCreationOutputBoundary);
