@@ -12,7 +12,7 @@ public interface FallForTrapDataAccessInterface {
      * @param name the name of the trap
      * @return the current trap
      */
-    Trap get(String name);
+    Trap getCurrentTrap(String name);
 
     /**
      * Returns the current trap name.
@@ -26,4 +26,7 @@ public interface FallForTrapDataAccessInterface {
      */
     void setCurrentTrapName(String name);
 
+    Trap generateRandomTrap();
+
+    void loadTraps();
 }

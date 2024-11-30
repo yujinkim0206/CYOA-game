@@ -6,12 +6,10 @@ package entity;
 public class Trap {
     private String name;
     private int damage;
-    private int difficulty;
 
-    public Trap(String name, int damage, int difficulty) {
+    public Trap(String name, int damage) {
         this.setName(name);
         this.setDamage(damage);
-        this.setDifficulty(difficulty);
     }
 
     public Trap() {}
@@ -30,13 +28,5 @@ public class Trap {
 
     public void setDamage(int damage) {
         this.damage = damage;
-    }
-
-    public int getDifficulty() {
-        return difficulty;
-    }
-
-    public void setDifficulty(int difficulty) {
-        this.difficulty = difficulty;
     }
 }

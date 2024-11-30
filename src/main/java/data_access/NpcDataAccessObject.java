@@ -15,12 +15,8 @@ public class NpcDataAccessObject implements TalkToNpcDataAccessInterface {
     private final Map<String, Npc> npcs = new HashMap<>();
     private String currentNpcName;
 
-    public NpcDataAccessObject() {
-        loadNpcs();
-    }
-
     @Override
-    public Npc get(String name) {
+    public Npc getCurrentNpc(String name) {
         return npcs.get(name);
     }
 
@@ -34,6 +30,22 @@ public class NpcDataAccessObject implements TalkToNpcDataAccessInterface {
         this.currentNpcName = name;
     }
 
+    @Override
+    public Npc generateRandomNpc() {
+        if (npcs.isEmpty()) {
+            return null;
+        }
+
+        // Retrieves the set of keys from npcs and convert it into an array
+        String keys[] = npcs.keySet().toArray(new String[0]);
+        // Pick a number between 0 and keys.length and cast to an int
+        String randomKey = keys[(int) (Math.random() * keys.length)];
+        setCurrentNpcName(randomKey);
+
+        return npcs.remove(randomKey);
+    }
+
+    @Override
     public void loadNpcs() {
         npcs.put("ALCHEMIST", new Npc("ALCHEMIST", "Medium humanoid (Artificer), any alignment",
                 Arrays.asList(

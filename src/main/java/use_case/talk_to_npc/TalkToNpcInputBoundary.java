@@ -7,9 +7,8 @@ public interface TalkToNpcInputBoundary {
 
     /**
      * Executes the talk to npc use case.
-     * @param talkToNpcInputData the input data
      */
-    void execute(TalkToNpcInputData talkToNpcInputData);
+    void execute();
 
     void moveToNextDialogue();
 

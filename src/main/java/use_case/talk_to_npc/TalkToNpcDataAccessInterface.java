@@ -12,7 +12,7 @@ public interface TalkToNpcDataAccessInterface {
      * @param name the name of the NPC
      * @return the current NPC
      */
-    Npc get(String name);
+    Npc getCurrentNpc(String name);
 
     /**
      * Returns the current NPC name.
@@ -25,5 +25,9 @@ public interface TalkToNpcDataAccessInterface {
      * @param name the name of the new NPC
      */
     void setCurrentNpcName(String name);
+
+    Npc generateRandomNpc();
+
+    void loadNpcs();
 }
 

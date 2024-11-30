@@ -11,9 +11,5 @@ public interface FallForTrapOutputBoundary {
      */
     void prepareSuccessView(FallForTrapOutputData outputData);
 
-    /**
-     * Prepares the failure view for the Fall For Trap Use Case.
-     * @param errorMessage the explanation of the failure
-     */
-    void prepareFailView(String errorMessage);
+    void exitInteraction();
 }

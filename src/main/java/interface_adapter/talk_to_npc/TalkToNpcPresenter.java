@@ -3,6 +3,8 @@ package interface_adapter.talk_to_npc;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.room_default.RoomDefaultState;
 import interface_adapter.room_default.RoomDefaultViewModel;
+import interface_adapter.merchant.MerchantState;
+import interface_adapter.merchant.MerchantViewModel;
 import use_case.talk_to_npc.TalkToNpcOutputBoundary;
 import use_case.talk_to_npc.TalkToNpcOutputData;
 
@@ -13,13 +15,16 @@ public class TalkToNpcPresenter implements TalkToNpcOutputBoundary {
 
     private final TalkToNpcViewModel talkToNpcViewModel;
     private final RoomDefaultViewModel roomDefaultViewModel;
+    private final MerchantViewModel merchantViewModel;
     private final ViewManagerModel viewManagerModel;
 
     public TalkToNpcPresenter(ViewManagerModel viewManagerModel,
                                 TalkToNpcViewModel talkToNpcViewModel,
+                                MerchantViewModel merchantViewModel,
                                 RoomDefaultViewModel roomDefaultViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.talkToNpcViewModel = talkToNpcViewModel;
+        this.merchantViewModel = merchantViewModel;
         this.roomDefaultViewModel = roomDefaultViewModel;
     }
 
@@ -27,6 +32,7 @@ public class TalkToNpcPresenter implements TalkToNpcOutputBoundary {
     public void prepareSuccessView(TalkToNpcOutputData response) {
 
         TalkToNpcState talkToNpcState = talkToNpcViewModel.getState();
+
         talkToNpcState.setName(response.getName());
         talkToNpcState.setDescription(response.getDescription());
         talkToNpcState.setDialogue(response.getDialogue());
@@ -34,30 +40,34 @@ public class TalkToNpcPresenter implements TalkToNpcOutputBoundary {
         talkToNpcState.setNextDialogue(response.hasNextDialogue());
         talkToNpcState.setMerchant(response.isMerchant());
 
-        this.viewManagerModel.setState(this.talkToNpcViewModel.getViewName());
-        this.viewManagerModel.firePropertyChanged();
-    }
+        this.talkToNpcViewModel.setState(talkToNpcState);
+        this.talkToNpcViewModel.firePropertyChanged();
 
-    public void moveToNextDialogue() {
-        TalkToNpcState talkToNpcState = this.talkToNpcViewModel.getState();
-
-        if (talkToNpcState.hasNextDialogue()) {
-            talkToNpcState.setCurrentDialogueIndex(talkToNpcState.getCurrentDialogueIndex() + 1);
-        }
-
+        this.viewManagerModel.setState(talkToNpcViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
 
     @Override
-    public void prepareFailView(String error) {
-        // We're assuming that this never fails.
+    public void moveToNextDialogue(TalkToNpcOutputData response) {
+        TalkToNpcState talkToNpcState = this.talkToNpcViewModel.getState();
+
+        talkToNpcState.setCurrentDialogueIndex(response.getCurrentDialogueIndex());
+
+        this.talkToNpcViewModel.setState(talkToNpcState);
+        this.talkToNpcViewModel.firePropertyChanged();
+
+        this.viewManagerModel.setState(talkToNpcViewModel.getViewName());
+        this.viewManagerModel.firePropertyChanged();
     }
 
     @Override
     public void switchToMerchantView() {
-//        this.viewManagerModel.setState(merchantViewModel.getViewName());
-//        this.viewManagerModel.firePropertyChanged();
-//         Update this later when merchant view is implemented
+        final MerchantState merchantState = merchantViewModel.getState();
+        this.merchantViewModel.setState(merchantState);
+        this.merchantViewModel.firePropertyChanged();
+
+        this.viewManagerModel.setState(merchantViewModel.getViewName());
+        this.viewManagerModel.firePropertyChanged();
     }
 
     @Override

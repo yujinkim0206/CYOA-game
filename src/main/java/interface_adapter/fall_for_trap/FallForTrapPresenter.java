@@ -25,18 +25,25 @@ public class FallForTrapPresenter implements FallForTrapOutputBoundary {
 
     @Override
     public void prepareSuccessView(FallForTrapOutputData response) {
-        // On success, switch to the room default view.
+        FallForTrapState fallForTrapState = fallForTrapViewModel.getState();
 
+        fallForTrapState.setName(response.getTrapName());
+        fallForTrapState.setDamage(response.getDamage());
+
+        this.fallForTrapViewModel.setState(fallForTrapState);
+        this.fallForTrapViewModel.firePropertyChanged();
+
+        this.viewManagerModel.setState(fallForTrapViewModel.getViewName());
+        this.viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void exitInteraction() {
         final RoomDefaultState roomDefaultState = roomDefaultViewModel.getState();
         this.roomDefaultViewModel.setState(roomDefaultState);
         this.roomDefaultViewModel.firePropertyChanged();
 
         this.viewManagerModel.setState(roomDefaultViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
-    }
-
-    @Override
-    public void prepareFailView(String error) {
-        // We're assuming that this never fails.
     }
 }

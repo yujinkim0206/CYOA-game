@@ -24,6 +24,7 @@ public class FallForTrapView extends JPanel implements ActionListener, PropertyC
     private final JLabel title;
     private final JTextArea description;
     private final JButton moveOn;
+
     private FallForTrapController fallForTrapController;
 
     public FallForTrapView(FallForTrapViewModel fallForTrapViewModel) {
@@ -31,12 +32,13 @@ public class FallForTrapView extends JPanel implements ActionListener, PropertyC
         this.fallForTrapViewModel = fallForTrapViewModel;
         this.fallForTrapViewModel.addPropertyChangeListener(this);
 
-        title = new JLabel("You got hit by a [Poison Trap]!");
+        title = new JLabel();
         title.setAlignmentX(CENTER_ALIGNMENT);
 
-        description = new JTextArea("It dealt 2 damage to you and corroded your [Rusty Breastplate].", 3, 20);
+        description = new JTextArea( 3, 20);
         description.setLineWrap(true);
         description.setWrapStyleWord(true);
+        description.setEditable(false);
 
         JScrollPane scrollPane = new JScrollPane(description);
 
@@ -47,18 +49,15 @@ public class FallForTrapView extends JPanel implements ActionListener, PropertyC
 
         moveOn = new JButton("Move On");
 
-        final JPanel buttons = new JPanel();
-        buttons.add(moveOn);
-        buttons.setAlignmentX(CENTER_ALIGNMENT);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(moveOn);
+        buttonPanel.setAlignmentX(CENTER_ALIGNMENT);
 
         moveOn.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(moveOn)) {
-                            final FallForTrapState currentState = fallForTrapViewModel.getState();
-
-                            fallForTrapController.execute(currentState.getName(), currentState.getDamage(),
-                                    currentState.getDifficulty());
+                            fallForTrapController.execute();
                         }
                     }
                 }
@@ -70,7 +69,7 @@ public class FallForTrapView extends JPanel implements ActionListener, PropertyC
         this.add(Box.createRigidArea(new Dimension(0, 10)));
         this.add(title);
         this.add(descriptionPanel);
-        this.add(buttons);
+        this.add(buttonPanel);
         this.add(Box.createRigidArea(new Dimension(0, 10)));
         this.add(Box.createVerticalGlue());
 
@@ -87,6 +86,9 @@ public class FallForTrapView extends JPanel implements ActionListener, PropertyC
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final FallForTrapState state = (FallForTrapState) evt.getNewValue();
+
+        title.setText("You got hit by [" + state.getName() + "]");
+        description.setText(String.format("It dealt %d damage to you.", state.getDamage()));
     }
 
     public String getViewName() {

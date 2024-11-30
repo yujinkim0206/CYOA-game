@@ -30,6 +30,11 @@ public class TalkToNpcView extends JPanel implements ActionListener, PropertyCha
     private final JLabel description;
     private final JTextArea dialogue;
 
+    private final JButton continueButton;
+    private final JButton exitButton;
+    private final JButton buyButton;
+    private final JButton closeButton;
+
     private final JPanel continueButtonPanel;
     private final JPanel merchantButtonPanel;
     private final JPanel closeButtonPanel;
@@ -59,21 +64,21 @@ public class TalkToNpcView extends JPanel implements ActionListener, PropertyCha
         dialoguePanel.add(scrollPane);
         dialoguePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        final JButton continueButton = new JButton("Continue");
+        continueButton = new JButton("Continue");
 
         continueButtonPanel = new JPanel();
         continueButtonPanel.add(continueButton);
         continueButtonPanel.setAlignmentX(CENTER_ALIGNMENT);
 
-        final JButton exitButton = new JButton("Exit");
-        final JButton buyButton = new JButton("Buy");
+        exitButton = new JButton("Exit");
+        buyButton = new JButton("Buy");
 
         merchantButtonPanel = new JPanel();
         merchantButtonPanel.add(exitButton);
         merchantButtonPanel.add(buyButton);
         merchantButtonPanel.setAlignmentX(CENTER_ALIGNMENT);
 
-        final JButton closeButton = new JButton("Close");
+        closeButton = new JButton("Close");
 
         closeButtonPanel = new JPanel();
         closeButtonPanel.add(closeButton);
@@ -83,10 +88,7 @@ public class TalkToNpcView extends JPanel implements ActionListener, PropertyCha
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(continueButton)) {
-                            final TalkToNpcState currentState = talkToNpcViewModel.getState();
-                            if (currentState != null && currentState.hasNextDialogue()) {
-                                talkToNpcController.moveToNextDialogue();
-                            }
+                            talkToNpcController.moveToNextDialogue();
                         }
                     }
                 }
@@ -152,24 +154,22 @@ public class TalkToNpcView extends JPanel implements ActionListener, PropertyCha
     public void propertyChange(PropertyChangeEvent evt) {
         final TalkToNpcState state = (TalkToNpcState) evt.getNewValue();
 
-        if (state != null) {
-            name.setText(state.getName());
-            description.setText(state.getDescription());
-            dialogue.setText(state.getCurrentDialogue());
+        name.setText(state.getName());
+        description.setText(state.getDescription());
+        dialogue.setText(state.getCurrentDialogue());
 
-            if (state.hasNextDialogue()) {
-                continueButtonPanel.setVisible(true);
-                merchantButtonPanel.setVisible(false);
-                closeButtonPanel.setVisible(false);
-            } else if (state.isMerchant()) {
-                continueButtonPanel.setVisible(false);
-                merchantButtonPanel.setVisible(true);
-                closeButtonPanel.setVisible(false);
-            } else {
-                continueButtonPanel.setVisible(false);
-                merchantButtonPanel.setVisible(false);
-                closeButtonPanel.setVisible(true);
-            }
+        if (state.hasNextDialogue()) {
+            continueButtonPanel.setVisible(true);
+            merchantButtonPanel.setVisible(false);
+            closeButtonPanel.setVisible(false);
+        } else if (state.isMerchant()) {
+            continueButtonPanel.setVisible(false);
+            merchantButtonPanel.setVisible(true);
+            closeButtonPanel.setVisible(false);
+        } else {
+            continueButtonPanel.setVisible(false);
+            merchantButtonPanel.setVisible(false);
+            closeButtonPanel.setVisible(true);
         }
     }
 

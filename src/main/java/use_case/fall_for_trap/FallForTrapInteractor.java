@@ -1,5 +1,7 @@
 package use_case.fall_for_trap;
 
+import entity.Trap;
+
 /**
  * The Fall For Trap Interactor.
  */
@@ -14,14 +16,22 @@ public class FallForTrapInteractor implements FallForTrapInputBoundary{
     }
 
     @Override
-    public void execute(FallForTrapInputData fallForTrapInputData) {
-        final String name = fallForTrapInputData.getName();
-        final int damage = fallForTrapInputData.getDamage();
-        final int difficulty = fallForTrapInputData.getDifficulty();
+    public void execute() {
+        fallForTrapDataAccessObject.loadTraps();
+        Trap trap = fallForTrapDataAccessObject.generateRandomTrap();
+        fallForTrapDataAccessObject.setCurrentTrapName(trap.getName());
+        //trapRoom.setTrap(trap);
 
-        fallForTrapDataAccessObject.setCurrentTrapName(fallForTrapInputData.getName());
+        final FallForTrapOutputData fallForTrapOutputData = new FallForTrapOutputData(
+                trap.getName(),
+                trap.getDamage()
+        );
 
-        final FallForTrapOutputData fallForTrapOutputData = new FallForTrapOutputData(false);
         fallForTrapPresenter.prepareSuccessView(fallForTrapOutputData);
+    }
+
+    @Override
+    public void exitInteraction() {
+        fallForTrapPresenter.exitInteraction();
     }
 }

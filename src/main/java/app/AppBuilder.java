@@ -276,7 +276,7 @@ public class AppBuilder {
      */
     public AppBuilder addTalkToNpcUseCase() {
         final TalkToNpcOutputBoundary talkToNpcOutputBoundary = new TalkToNpcPresenter(
-                viewManagerModel, talkToNpcViewModel, roomDefaultViewModel);
+                viewManagerModel, talkToNpcViewModel, merchantViewModel, roomDefaultViewModel);
 
         final TalkToNpcInputBoundary talkToNpcInteractor =
                 new TalkToNpcInteractor(npcDataAccessObject, talkToNpcOutputBoundary);
@@ -315,7 +315,7 @@ public class AppBuilder {
         cardPanel.setPreferredSize(new Dimension(400, 200));
         application.add(cardPanel);
 
-        viewManagerModel.setState(merchantView.getViewName());
+        viewManagerModel.setState(monsterView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;

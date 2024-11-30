@@ -11,11 +11,7 @@ public interface TalkToNpcOutputBoundary {
      */
     void prepareSuccessView(TalkToNpcOutputData outputData);
 
-    /**
-     * Prepares the failure view for the Talk To Npc Use Case.
-     * @param errorMessage the explanation of the failure
-     */
-    void prepareFailView(String errorMessage);
+    void moveToNextDialogue(TalkToNpcOutputData outputData);
 
     void switchToMerchantView();
 

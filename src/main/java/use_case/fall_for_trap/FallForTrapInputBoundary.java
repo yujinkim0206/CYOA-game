@@ -7,7 +7,8 @@ public interface FallForTrapInputBoundary {
 
     /**
      * Executes the fall for trap use case.
-     * @param fallForTrapInputData the input data
      */
-    void execute(FallForTrapInputData fallForTrapInputData);
+    void execute();
+
+    void exitInteraction();
 }

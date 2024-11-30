@@ -2,9 +2,6 @@ package use_case.talk_to_npc;
 
 import entity.Npc;
 import entity.NpcRoom;
-import use_case.open_inventory.OpenInventoryOutputData;
-
-import java.util.List;
 
 /**
  * The Talk To Npc Interactor.
@@ -12,8 +9,6 @@ import java.util.List;
 public class TalkToNpcInteractor implements TalkToNpcInputBoundary{
     private TalkToNpcDataAccessInterface talkToNpcDataAccessObject;
     private TalkToNpcOutputBoundary talkToNpcPresenter;
-    private Npc npc;
-
 
     public TalkToNpcInteractor(TalkToNpcDataAccessInterface talkToNpcDataAccessInterface,
                                TalkToNpcOutputBoundary talkToNpcOutputBoundary) {
@@ -21,11 +16,13 @@ public class TalkToNpcInteractor implements TalkToNpcInputBoundary{
         this.talkToNpcPresenter = talkToNpcOutputBoundary;
     }
 
+    //this should be moved to room interactor later.
     @Override
-    public void execute(TalkToNpcInputData talkToNpcInputData) {
-        npc = new Npc(talkToNpcInputData.getName(), talkToNpcInputData.getDescription(), talkToNpcInputData.getDialogue());
-
+    public void execute() {
+        talkToNpcDataAccessObject.loadNpcs();
+        Npc npc = talkToNpcDataAccessObject.generateRandomNpc();
         talkToNpcDataAccessObject.setCurrentNpcName(npc.getName());
+        //npcRoom.setNpc(npc);
 
         final TalkToNpcOutputData talkToNpcOutputData = new TalkToNpcOutputData(
                 npc.getName(),
@@ -41,6 +38,7 @@ public class TalkToNpcInteractor implements TalkToNpcInputBoundary{
 
     @Override
     public void moveToNextDialogue() {
+        Npc npc = talkToNpcDataAccessObject.getCurrentNpc(talkToNpcDataAccessObject.getCurrentNpcName());
         if (npc.hasNextDialogue()) {
             npc.moveToNextDialogue();
         }
@@ -54,7 +52,7 @@ public class TalkToNpcInteractor implements TalkToNpcInputBoundary{
                 npc.isMerchant()
         );
 
-        talkToNpcPresenter.prepareSuccessView(talkToNpcOutputData);
+        talkToNpcPresenter.moveToNextDialogue(talkToNpcOutputData);
     }
 
     @Override
