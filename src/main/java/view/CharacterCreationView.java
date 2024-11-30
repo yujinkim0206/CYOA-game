@@ -250,7 +250,6 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(next)) {
-                            // TODO: make this actually go to next page
                             characterCreationController.execute();
                         }
                     }
