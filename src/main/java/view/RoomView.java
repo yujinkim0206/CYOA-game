@@ -5,13 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
 import interface_adapter.room_default.RoomDefaultController;
 import interface_adapter.room_default.RoomDefaultState;
 import interface_adapter.room_default.RoomDefaultViewModel;
@@ -24,14 +22,14 @@ public class RoomView extends JPanel implements ActionListener, PropertyChangeLi
     private final String viewName = "room view";
     private final RoomDefaultViewModel roomViewModel;
 
-    private final JLabel roomDescriptionLabel = new JLabel("Room Description:");// something like: This is a Monster room
-    private final JLabel roomContentLabel = new JLabel("Room Content:"); // something like: The monster is level # and have ** skills
+    private final JLabel roomDescriptionLabel = new JLabel("Room Description:");
+    private final JLabel roomContentLabel = new JLabel("Room Content:");
 
     private RoomDefaultController roomController;
 
     private final JButton interactButton;
     private final JButton nextRoomButton;
-    private final JButton backToMainMenuButton;
+    private final JButton openInventoryButton;
 
     public RoomView(RoomDefaultViewModel roomViewModel) {
         this.roomViewModel = roomViewModel;
@@ -42,7 +40,7 @@ public class RoomView extends JPanel implements ActionListener, PropertyChangeLi
 
         interactButton = new JButton("Interact");
         nextRoomButton = new JButton("Next Room");
-        backToMainMenuButton = new JButton("Main Menu");
+        openInventoryButton = new JButton("Open Inventory");
 
         interactButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -57,7 +55,7 @@ public class RoomView extends JPanel implements ActionListener, PropertyChangeLi
             }
         });
 
-        backToMainMenuButton.addActionListener(new ActionListener() {
+        openInventoryButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 roomController.returnToMainMenu();
             }
@@ -66,7 +64,7 @@ public class RoomView extends JPanel implements ActionListener, PropertyChangeLi
         final JPanel buttons = new JPanel();
         buttons.add(interactButton);
         buttons.add(nextRoomButton);
-        buttons.add(backToMainMenuButton);
+        buttons.add(openInventoryButton);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);

@@ -1,7 +1,6 @@
 package use_case.pickup_item;
 
 import entity.Item;
-import use_case.pickup_item.PickUpItemDataAccessInterface;
 
 /**
  * The Pick-Up Item Interactor.
@@ -18,19 +17,15 @@ public class PickUpItemInteractor implements PickUpItemInputBoundary {
 
     @Override
     public void execute(PickUpItemInputData inputData) {
-        // Fetch the item from the DAO
         Item itemToPickUp = dataAccessObject.getItem();
-
         if (itemToPickUp == null) {
             presenter.prepareFailView("No item to pick up in the room.");
             return;
         }
 
-        // Add the item to the player's inventory via DAO
         dataAccessObject.addToInventory(itemToPickUp);
-
-        // Notify the presenter of success
         presenter.prepareSuccessView(new PickUpItemOutputData(itemToPickUp.getName(),
                 "Picked up: " + itemToPickUp.getName()));
     }
+
 }

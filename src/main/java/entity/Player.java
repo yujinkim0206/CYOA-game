@@ -188,4 +188,36 @@ public class Player {
     }
 
 
+
+    public Item replaceItem(Item newItem) {
+        if (newItem == null) {
+            return null; // Cannot equip null items
+        }
+
+        String category = newItem.getCategory();
+        Item oldItem;
+
+        switch (category) {
+            case "Weapon":
+                oldItem = inventory.getEquippedWeapon();
+                inventory.setEquippedWeapon(newItem);
+                break;
+            case "Armor":
+                oldItem = inventory.getEquippedArmor();
+                inventory.setEquippedArmor(newItem);
+                break;
+            case "Buff":
+                oldItem = inventory.getEquippedBuff();
+                inventory.setEquippedBuff(newItem);
+                break;
+            default:
+                return null; // Unsupported item category
+        }
+
+        if (oldItem != null) {
+            inventory.addItem(oldItem.getName(), oldItem);
+        }
+        return oldItem;
+    }
+
 }

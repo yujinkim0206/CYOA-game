@@ -4,30 +4,40 @@ import use_case.room_default.RoomInputBoundary;
 import use_case.room_default.RoomInputData;
 
 /**
- * The controller for the Room Default Use Case.
+ * Controller for the Room Default Use Case.
  */
 public class RoomDefaultController {
+    private final RoomInputBoundary interactor;
 
-    private final RoomInputBoundary roomUseCaseInteractor;
-
-    public RoomDefaultController(RoomInputBoundary roomUseCaseInteractor) {
-        this.roomUseCaseInteractor = roomUseCaseInteractor;
+    /**
+     * Constructor for RoomDefaultController.
+     *
+     * @param interactor the use case interactor for room interactions
+     */
+    public RoomDefaultController(RoomInputBoundary interactor) {
+        this.interactor = interactor;
     }
 
     /**
-     * Executes the Room Interaction Use Case.
-     * @param roomNumber the current room number the player is in.
+     * Executes interaction with the room.
+     *
+     * @param roomNumber the room number to interact with
      */
     public void interactWithRoom(int roomNumber) {
-        final RoomInputData roomInputData = new RoomInputData(roomNumber);
-        roomUseCaseInteractor.interactWithRoom(roomInputData);
+        interactor.interactWithRoom(new RoomInputData(roomNumber));
     }
 
+    /**
+     * Proceeds to the next room on the floor.
+     */
     public void goToNextRoom() {
-        roomUseCaseInteractor.goToNextRoom();
+        interactor.goToNextRoom();
     }
 
+    /**
+     * Returns to the main menu (or inventory).
+     */
     public void returnToMainMenu() {
-        roomUseCaseInteractor.returnToMainMenu();
+        interactor.returnToMainMenu();
     }
 }

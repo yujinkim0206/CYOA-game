@@ -4,14 +4,23 @@ public class MonsterRoom extends Room{
 
     private Monster monster;
 
+    @Override
+    public int getRoomType() {
+        return 0; // Monster Room
+    }
     /**
      * Creates an MonsterRoom
      * @param monster the monster in the MonsterRoom
      */
 
-    public MonsterRoom(Monster monster){
+            //    public MonsterRoom(Monster monster){
+            //        this.monster = monster;
+            //    }  //This is your original code
+
+    public MonsterRoom(int roomNumber, Monster monster) {
+        super(roomNumber);
         this.monster = monster;
-    }
+    }    // Possible need to add room number to manage a room
 
     /**
      * Returns the monster in the MonsterRoom

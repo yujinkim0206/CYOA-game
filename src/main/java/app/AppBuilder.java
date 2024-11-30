@@ -74,6 +74,7 @@ import use_case.merchant.MerchantInputBoundary;
 import use_case.merchant.MerchantInteractor;
 import view.*;
 
+
 /**
  * The AppBuilder class is responsible for putting together the pieces of
  * our CA architecture; piece by piece.
@@ -142,14 +143,14 @@ public class AppBuilder {
 
     public AppBuilder addPickUpItemView() {
         pickUpItemViewModel = new PickUpItemViewModel();
-        pickUpItemView = new PickUpItemView(pickUpItemViewModel);
+        pickUpItemView = new PickUpItemView(pickUpItemViewModel, viewManagerModel);
         cardPanel.add(pickUpItemView, pickUpItemView.getViewName());
         return this;
     }
 
     public AppBuilder addEquipItemView() {
         equipItemViewModel = new EquipItemViewModel();
-        equipItemView = new EquipItemView(equipItemViewModel);
+        equipItemView = new EquipItemView(equipItemViewModel, viewManagerModel);
         cardPanel.add(equipItemView, equipItemView.getViewName());
         return this;
     }
@@ -206,20 +207,28 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the Room Use Case to the application
+     * Adds the Room Use Case to the application.
      * @return this builder
      */
     public AppBuilder addRoomUseCase() {
+        // Create the presenter with appropriate view models
         final RoomOutputBoundary roomOutputBoundary = new RoomDefaultPresenter(
-                viewManagerModel, roomDefaultViewModel, fightMonsterViewModel);
+                viewManagerModel);
 
-        final RoomInputBoundary roomInteractor = new RoomInteractor(
-                roomOutputBoundary, roomDataAccessObject, new Floor());
+        // Create the interactor with the presenter and data access objects
+        final RoomInputBoundary roomInteractor =
+                new RoomInteractor(roomOutputBoundary, roomDataAccessObject, new Floor());
 
+        // Create the controller with the interactor
         final RoomDefaultController roomDefaultController = new RoomDefaultController(roomInteractor);
+
+        // Set the controller in the view
         roomView.setRoomController(roomDefaultController);
+
         return this;
     }
+
+
 
     /**
      * Adds the OpenInventory Use Case to the application.
@@ -321,17 +330,11 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addEquipItemUseCase() {
-        // Create the presenter with appropriate view models
         final EquipItemOutputBoundary equipItemOutputBoundary = new EquipItemPresenter(
                 viewManagerModel, equipItemViewModel, roomDefaultViewModel);
-
-        // Pass both the Data Access Object and Presenter to the Interactor
-        final EquipItemInputBoundary equipItemInteractor = new EquipItemInteractor(equipItemDataAccessObject, equipItemOutputBoundary);
-
-        // Create the controller with the interactor
+        final EquipItemInputBoundary equipItemInteractor = new EquipItemInteractor(
+                equipItemDataAccessObject, equipItemOutputBoundary);
         final EquipItemController equipItemController = new EquipItemController(equipItemInteractor);
-
-        // Set the controller in the view
         equipItemView.setEquipItemController(equipItemController);
 
         return this;
@@ -344,17 +347,12 @@ public class AppBuilder {
 
 
     public AppBuilder addPickUpItemUseCase() {
-        // Create the presenter with appropriate view models
         final PickUpItemOutputBoundary pickUpItemOutputBoundary = new PickUpItemPresenter(
                 viewManagerModel, pickUpItemViewModel, roomDefaultViewModel);
-
-        // Pass both the Data Access Object and Presenter to the Interactor
         final PickUpItemInputBoundary pickUpItemInteractor = new PickUpItemInteractor(pickUpItemDataAccessObject, pickUpItemOutputBoundary);
 
-        // Create the controller with the interactor
         final PickUpItemController pickUpItemController = new PickUpItemController(pickUpItemInteractor);
 
-        // Set the controller in the view
         pickUpItemView.setPickUpController(pickUpItemController);
 
         return this;
@@ -376,7 +374,7 @@ public class AppBuilder {
         cardPanel.setPreferredSize(new Dimension(400, 200));
         application.add(cardPanel);
 
-        viewManagerModel.setState(openInventoryView.getViewName());
+        viewManagerModel.setState(equipItemView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;

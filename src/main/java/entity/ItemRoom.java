@@ -1,36 +1,25 @@
 package entity;
 
 public class ItemRoom extends Room {
-    private final Item item; // Single item in the room
+    private final Item item;
 
-    /**
-     * Creates an ItemRoom with a single item.
-     *
-     * @param item the item in the room
-     */
-    public ItemRoom(Item item) {
+    public ItemRoom(int roomNumber, Item item) {
+        super(roomNumber);
         this.item = item;
     }
 
-    /**
-     * Gets the item in the room.
-     *
-     * @return the item
-     */
     @Override
+    public String getDescription() {
+        return "Room " + getRoomNumber() + ": This room contains an item: " + item.getName();
+    }
+
+    @Override
+    public int getRoomType() {
+        return 1; // Item Room
+    }
+
     public Item getItem() {
         return item;
     }
-
-    /**
-     * Interaction logic for the ItemRoom.
-     * Displays the item's name, category, and rarity.
-     */
-    public void interact() {
-        if (item != null) {
-            System.out.println("You see an item: " + item.getName() + " [" + item.getCategory() + " - " + item.getRarity() + "]");
-        } else {
-            System.out.println("This room is empty. (Unexpected state)");
-        }
-    }
 }
+

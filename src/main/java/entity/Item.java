@@ -29,23 +29,49 @@ public class Item {
     public static Item generateRandomItem() {
         Random random = new Random();
 
-        // Rarities
+        // Rarities and their quality ranges
         String[] rarities = {"Common", "Rare", "Epic", "Legendary"};
-        String rarity = rarities[random.nextInt(rarities.length)];
+        int rarityIndex = random.nextInt(rarities.length);
+        String rarity = rarities[rarityIndex];
 
-        // Categories
         int type = random.nextInt(3); // 0 = Weapon, 1 = Armor, 2 = Buff
-        switch (type) {
-            case 0:
-                return new Weapon("Sword of Valor", rarity, random.nextInt(50) + 10); // Random damage
-            case 1:
-                return new Armor("Shield of Fortitude", rarity, random.nextInt(20) + 5); // Random armor value
-            case 2:
-                return new Buff("Potion of Healing", rarity, random.nextInt(20) + 10); // Random healing value
-            default:
-                throw new IllegalStateException("Unexpected item type: " + type);
+
+        if (type == 0) { // Weapon
+            if ("Common".equals(rarity)) {
+                return new Weapon("Common Sword", rarity, random.nextInt(10) + 1); // Quality range: 1-10
+            } else if ("Rare".equals(rarity)) {
+                return new Weapon("Rare Blade", rarity, random.nextInt(10) + 11); // Quality range: 11-20
+            } else if ("Epic".equals(rarity)) {
+                return new Weapon("Epic Greatsword", rarity, random.nextInt(10) + 21); // Quality range: 21-30
+            } else if ("Legendary".equals(rarity)) {
+                return new Weapon("Legendary Excalibur", rarity, random.nextInt(10) + 31); // Quality range: 31-40
+            }
+        } else if (type == 1) { // Armor
+            if ("Common".equals(rarity)) {
+                return new Armor("Common Shield", rarity, random.nextInt(5) + 1); // Quality range: 1-5
+            } else if ("Rare".equals(rarity)) {
+                return new Armor("Rare Breastplate", rarity, random.nextInt(5) + 6); // Quality range: 6-10
+            } else if ("Epic".equals(rarity)) {
+                return new Armor("Epic Helm", rarity, random.nextInt(5) + 11); // Quality range: 11-15
+            } else if ("Legendary".equals(rarity)) {
+                return new Armor("Legendary Aegis", rarity, random.nextInt(5) + 16); // Quality range: 16-20
+            }
+        } else if (type == 2) { // Buff
+            if ("Common".equals(rarity)) {
+                return new Buff("Common Health Potion", rarity, random.nextInt(5) + 3); // Healing range: 3-7
+            } else if ("Rare".equals(rarity)) {
+                return new Buff("Rare Potion", rarity, random.nextInt(5) + 8); // Healing range: 8-12
+            } else if ("Epic".equals(rarity)) {
+                return new Buff("Epic Regeneration Potion", rarity, random.nextInt(5) + 13); // Healing range: 13-17
+            } else if ("Legendary".equals(rarity)) {
+                return new Buff("Legendary Vitality Potion", rarity, random.nextInt(4) + 19); // Healing range: 19-22
+            }
         }
+
+
+        throw new IllegalStateException("Unexpected item type: " + type);
     }
+
 
     /**
      * Gets the name of the item.

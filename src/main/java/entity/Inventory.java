@@ -117,18 +117,30 @@ public class Inventory {
     }
 
     /**
-     * Getters for equipped items.
+     * Getters and Setters for equipped items.
      */
-    public Item getEquippedArmor() {
-        return equippedArmor;
-    }
-
     public Item getEquippedWeapon() {
         return equippedWeapon;
     }
 
+    public void setEquippedWeapon(Item weapon) {
+        this.equippedWeapon = weapon;
+    }
+
+    public Item getEquippedArmor() {
+        return equippedArmor;
+    }
+
+    public void setEquippedArmor(Item armor) {
+        this.equippedArmor = armor;
+    }
+
     public Item getEquippedBuff() {
         return equippedBuff;
+    }
+
+    public void setEquippedBuff(Item buff) {
+        this.equippedBuff = buff;
     }
 
     /**

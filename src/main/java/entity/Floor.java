@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Floor {
-    private final ArrayList<Room> RoomList;
+    private final ArrayList<Room> roomList;
     private final Random random;
 
     /**
@@ -14,36 +14,41 @@ public class Floor {
      * Randomly populate the Rooms on the Floor with the various kinds of Room
      *
      */
+
     public Floor() {
-        this.RoomList = new ArrayList<>();
+        this.roomList = new ArrayList<>();
         this.random = new Random();
-        for (int i = 0; i < RoomSize.ROOM_SIZE; i++){
-            int n = (int)(Math.random() * RoomSize.ROOM_SIZE);
-            if (n < 4){
-                Monster monster = new Monster();
-                this.RoomList.add(new MonsterRoom(monster));
-            }
-            else if (n < 6){
+
+        for (int i = 0; i < RoomSize.ROOM_SIZE; i++) {
+            int roomType = random.nextInt(4); // Randomly choose room type: 0 to 3
+
+            if (roomType == 0) {
+                roomList.add(new MonsterRoom(i, new Monster()));
+            } else if (roomType == 1) {
                 Item item = Item.generateRandomItem();
-                this.RoomList.add(new ItemRoom(item));
-            }
-            else if (n < 7){
-                Npc npc = new Npc();
-                this.RoomList.add(new NpcRoom(npc));
-            }
-            else{
-                Trap trap = new Trap();
-                this.RoomList.add(new TrapRoom(trap));
+                if (item == null) {
+                    throw new IllegalStateException("Failed to generate an item for ItemRoom");
+                }
+                roomList.add(new ItemRoom(i, item));
+            } else if (roomType == 2) {
+                roomList.add(new TrapRoom(i, new Trap()));
+            } else if (roomType == 3) {
+                roomList.add(new TrapRoom(i, new Trap()));} //Make the code run so far use trap room
+            // else if (roomType == 3) {
+            //roomList.add(new MerchantRoom(i, new Merchant()));}
+            else {
+                throw new IllegalStateException("Unexpected room type: " + roomType);
             }
         }
     }
+
 
     /** Returns the RoomList of the Floor
      *
      * @return the RoomList of this Floor
      */
     public List<Room> getRoomList() {
-        return RoomList;
+        return roomList;
     }
 
 }

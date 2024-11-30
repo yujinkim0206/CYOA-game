@@ -3,25 +3,27 @@ package data_access;
 import entity.Inventory;
 import entity.Item;
 import entity.Player;
-import use_case.equip_item.EquipItemDataAccessInterface;
 
 /**
- * In-memory implementation of the DAO for Equip Item Use Case.
+ * DAO for managing equip item use cases.
  */
-public class EquipItemDataAccessObject implements EquipItemDataAccessInterface {
+public class EquipItemDataAccessObject implements data_access.EquipItemDataAccessInterface {
 
     @Override
     public Inventory getInventory() {
-        return Player.getInstance().getInventory(); // Assumes Player is a singleton
+        // Access the Player singleton's inventory
+        return Player.getInstance().getInventory();
     }
 
     @Override
     public void updateInventory(Inventory inventory) {
-        Player.getInstance().setInventory(inventory); // Updates the player's inventory
+        // Update the inventory in the Player singleton
+        Player.getInstance().setInventory(inventory);
     }
 
-    public String equipItem(Item item) {
-        Player player = Player.getInstance();
-        return player.equipItem(item); // Delegates the equip logic to the Player entity
+    @Override
+    public boolean itemExists(Item item) {
+        // Check if the item exists in the player's inventory
+        return getInventory().getItem(item.getName()) != null;
     }
 }
