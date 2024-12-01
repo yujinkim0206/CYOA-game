@@ -36,8 +36,6 @@ public class RoomInteractor implements RoomInputBoundary {
             NpcRoom npcRoom = (NpcRoom) room;
             npcRoomDataAccessObject.loadNpcs();
             Npc npc = npcRoomDataAccessObject.generateRandomNpc();
-            npcRoomDataAccessObject.setCurrentNpcName(npc.getName());
-            npcRoom.setNpc(npc);
 
             roomPresenter.prepareSuccessView(new NpcRoomOutputData(
                     npcRoom.getDescription(),

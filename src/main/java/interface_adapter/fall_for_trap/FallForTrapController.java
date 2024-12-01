@@ -14,13 +14,6 @@ public class FallForTrapController {
         this.fallForTrapUseCaseInteractor = fallForTrapUseCaseInteractor;
     }
 
-    /**
-     * Executes the Fall For Trap Use Case.
-     */
-    public void execute() {
-        fallForTrapUseCaseInteractor.execute();
-    }
-
     public void exitInteraction() {
         fallForTrapUseCaseInteractor.exitInteraction();
     }

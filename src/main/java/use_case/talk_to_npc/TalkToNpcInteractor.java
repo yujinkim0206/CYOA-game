@@ -3,6 +3,8 @@ package use_case.talk_to_npc;
 import entity.Npc;
 import entity.NpcRoom;
 
+import java.util.List;
+
 /**
  * The Talk To Npc Interactor.
  */
@@ -16,41 +18,15 @@ public class TalkToNpcInteractor implements TalkToNpcInputBoundary{
         this.talkToNpcPresenter = talkToNpcOutputBoundary;
     }
 
-    //this should be moved to room interactor later.
     @Override
-    public void execute() {
-        talkToNpcDataAccessObject.loadNpcs();
-        Npc npc = talkToNpcDataAccessObject.generateRandomNpc();
-        talkToNpcDataAccessObject.setCurrentNpcName(npc.getName());
-        //npcRoom.setNpc(npc);
-
-        final TalkToNpcOutputData talkToNpcOutputData = new TalkToNpcOutputData(
-                npc.getName(),
-                npc.getDescription(),
-                npc.getDialogue(),
-                npc.getCurrentDialogueIndex(),
-                npc.hasNextDialogue(),
-                npc.isMerchant()
-        );
-
-        talkToNpcPresenter.prepareSuccessView(talkToNpcOutputData);
-    }
-
-    @Override
-    public void moveToNextDialogue() {
-        Npc npc = talkToNpcDataAccessObject.getCurrentNpc(talkToNpcDataAccessObject.getCurrentNpcName());
-        if (npc.hasNextDialogue()) {
-            npc.moveToNextDialogue();
+    public void moveToNextDialogue(String name, String description, List<String> dialogue,
+                                   int currentDialogueIndex, boolean hasNextDialogue, boolean isMerchant) {
+        if (hasNextDialogue) {
+            currentDialogueIndex++;
         }
 
-        TalkToNpcOutputData talkToNpcOutputData = new TalkToNpcOutputData(
-                npc.getName(),
-                npc.getDescription(),
-                npc.getDialogue(),
-                npc.getCurrentDialogueIndex(),
-                npc.hasNextDialogue(),
-                npc.isMerchant()
-        );
+        TalkToNpcOutputData talkToNpcOutputData = new TalkToNpcOutputData(name, description, dialogue,
+                currentDialogueIndex, hasNextDialogue, isMerchant);
 
         talkToNpcPresenter.moveToNextDialogue(talkToNpcOutputData);
     }

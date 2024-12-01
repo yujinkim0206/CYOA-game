@@ -5,12 +5,6 @@ package use_case.talk_to_npc;
  */
 public interface TalkToNpcOutputBoundary {
 
-    /**
-     * Prepares the success view for the Talk To Npc Use Case.
-     * @param outputData the output data
-     */
-    void prepareSuccessView(TalkToNpcOutputData outputData);
-
     void moveToNextDialogue(TalkToNpcOutputData outputData);
 
     void switchToMerchantView();

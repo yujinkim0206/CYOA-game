@@ -29,25 +29,6 @@ public class TalkToNpcPresenter implements TalkToNpcOutputBoundary {
     }
 
     @Override
-    public void prepareSuccessView(TalkToNpcOutputData response) {
-
-        TalkToNpcState talkToNpcState = talkToNpcViewModel.getState();
-
-        talkToNpcState.setName(response.getName());
-        talkToNpcState.setDescription(response.getDescription());
-        talkToNpcState.setDialogue(response.getDialogue());
-        talkToNpcState.setCurrentDialogueIndex(response.getCurrentDialogueIndex());
-        talkToNpcState.setNextDialogue(response.hasNextDialogue());
-        talkToNpcState.setMerchant(response.isMerchant());
-
-        this.talkToNpcViewModel.setState(talkToNpcState);
-        this.talkToNpcViewModel.firePropertyChanged();
-
-        this.viewManagerModel.setState(talkToNpcViewModel.getViewName());
-        this.viewManagerModel.firePropertyChanged();
-    }
-
-    @Override
     public void moveToNextDialogue(TalkToNpcOutputData response) {
         TalkToNpcState talkToNpcState = this.talkToNpcViewModel.getState();
 

@@ -16,21 +16,6 @@ public class FallForTrapInteractor implements FallForTrapInputBoundary{
     }
 
     @Override
-    public void execute() {
-        fallForTrapDataAccessObject.loadTraps();
-        Trap trap = fallForTrapDataAccessObject.generateRandomTrap();
-        fallForTrapDataAccessObject.setCurrentTrapName(trap.getName());
-        //trapRoom.setTrap(trap);
-
-        final FallForTrapOutputData fallForTrapOutputData = new FallForTrapOutputData(
-                trap.getName(),
-                trap.getDamage()
-        );
-
-        fallForTrapPresenter.prepareSuccessView(fallForTrapOutputData);
-    }
-
-    @Override
     public void exitInteraction() {
         fallForTrapPresenter.exitInteraction();
     }
