@@ -72,7 +72,7 @@ public class MonsterView extends JPanel implements ActionListener, PropertyChang
                         monsterHealth.setText("");
                         damageDone.setText("");
                         monsterDamage.setText("");
-                        monsterVictory.setText("You died.");
+                        monsterVictory.setText("You died");
                     }
 
                     fightMonsterController.hit();
