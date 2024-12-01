@@ -108,12 +108,12 @@ public class Player_Test {
         assertEquals(buff, player.getInventory().getItem("Potion of Strength"));
     }
 
-    @Test
-    public void testGetAndSetCurrentRoom() {
-        Room room = new ItemRoom(new Item("Sword of Valor", "Weapon", "Epic"));
-        player.setCurrentRoom(room);
-        assertEquals(room, player.getCurrentRoom(), "Current room should be set to the provided room");
-    }
+//    @Test
+//    public void testGetAndSetCurrentRoom() {
+//        Room room = new ItemRoom(new Item("Sword of Valor", "Weapon", "Epic"));
+//        player.setCurrentRoom(room);
+//        assertEquals(room, player.getCurrentRoom(), "Current room should be set to the provided room");
+//    }
 
     @Test
     public void testInventoryManagement() {

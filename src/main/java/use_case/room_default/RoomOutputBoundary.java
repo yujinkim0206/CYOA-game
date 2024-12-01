@@ -11,6 +11,7 @@ public interface RoomOutputBoundary {
      */
     void prepareSuccessView(RoomOutputData outputData);
 
+    void prepareNextRoomView(RoomOutputData outputData);
     /**
      * Prepares the failure view for the Room Use Case.
      * @param errorMessage the explanation of the failure

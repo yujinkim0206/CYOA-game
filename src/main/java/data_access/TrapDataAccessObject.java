@@ -2,6 +2,7 @@ package data_access;
 
 import entity.Trap;
 import use_case.fall_for_trap.FallForTrapDataAccessInterface;
+import use_case.room_default.TrapRoomDataAccessInterface;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +11,7 @@ import java.util.Map;
  * In-memory implementation of the DAO for storing trap data. This implementation does
  * NOT persist data between runs of the program.
  */
-public class TrapDataAccessObject implements FallForTrapDataAccessInterface {
+public class TrapDataAccessObject implements FallForTrapDataAccessInterface, TrapRoomDataAccessInterface {
     private final Map<String, Trap> traps = new HashMap<>();
     private String currentTrapName;
 

@@ -18,12 +18,6 @@ public class RoomDefaultViewModel extends ViewModel<RoomDefaultState> {
         setState(currentState);
     }
 
-    public void updateRoomContent(String content) {
-        RoomDefaultState currentState = getState();
-        currentState.setRoomContent(content);
-        setState(currentState);
-    }
-
     public void updateErrorMessage(String errorMessage) {
         RoomDefaultState currentState = getState();
         currentState.setErrorMessage(errorMessage);

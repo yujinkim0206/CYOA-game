@@ -13,7 +13,7 @@ public abstract class Room {
     public int getRoomType(){
         return -1;
     };
-        //0: Monster, 1: Item, 2: Trap, 3: Merchant
+        //0: Monster, 1: Item, 2: Trap, 3: Npc
 
 
     /**

@@ -10,7 +10,7 @@ public class RoomDefaultState {
     private String roomContent = "No content available.";
     private String errorMessage = "";
     private int roomNumber = -1;
-    private String roomType = "";  // e.g., "Monster", "Item", "Trap"
+    private String roomType = "";  // e.g., "MonsterRoom", "ItemRoom", "TrapRoom"
 
     /**
      * Gets the description of the current room.
@@ -28,24 +28,6 @@ public class RoomDefaultState {
      */
     public void setRoomDescription(String roomDescription) {
         this.roomDescription = roomDescription;
-    }
-
-    /**
-     * Gets the content of the current room (e.g., details about monsters, treasures, etc.).
-     *
-     * @return the room content
-     */
-    public String getRoomContent() {
-        return roomContent;
-    }
-
-    /**
-     * Sets the content of the current room.
-     *
-     * @param roomContent the new room content
-     */
-    public void setRoomContent(String roomContent) {
-        this.roomContent = roomContent;
     }
 
     /**
@@ -72,16 +54,15 @@ public class RoomDefaultState {
      * @return the room number
      */
     public int getRoomNumber() {
-        return roomNumber;
-    }
-
-    /**
-     * Sets the current room number.
-     *
-     * @param roomNumber the room number to set
-     */
-    public void setRoomNumber(int roomNumber) {
-        this.roomNumber = roomNumber;
+        if (roomType == "MonsterRoom") {
+            return 0;
+        } else if (roomType == "ItemRoom") {
+            return 1;
+        } else if (roomType == "TrapRoom") {
+            return 2;
+        } else {
+            return 3;
+        }
     }
 
     /**
@@ -102,13 +83,13 @@ public class RoomDefaultState {
         this.roomType = roomType;
     }
 
-    /**
-     * Resets the state for transitioning to a new room, clearing content and error messages.
-     */
-    public void resetState() {
-        this.roomDescription = "No description available.";
-        this.roomContent = "No content available.";
-        this.errorMessage = "";
-        this.roomType = "";
-    }
+//    /**
+//     * Resets the state for transitioning to a new room, clearing content and error messages.
+//     */
+//    public void resetState() {
+//        this.roomDescription = "No description available.";
+//        this.roomContent = "No content available.";
+//        this.errorMessage = "";
+//        this.roomType = "";
+//    }
 }
