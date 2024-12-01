@@ -3,9 +3,9 @@ package view;
 import interface_adapter.monster.FightMonsterController;
 import interface_adapter.monster.FightMonsterState;
 import interface_adapter.monster.FightMonsterViewModel;
+import entity.Player;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -16,9 +16,14 @@ public class MonsterView extends JPanel implements ActionListener, PropertyChang
     private final FightMonsterViewModel fightMonsterViewModel;
     private final FightMonsterState fightMonsterState = new FightMonsterState();
 
-    private final JLabel monsterDescriptionLabel = new JLabel("You encountered a [Monster]!");
+    private final JLabel monsterDescriptionLabel = new JLabel("You encountered a " + fightMonsterState.name + "!");
     private JLabel monsterHealth = new JLabel("Health: " + fightMonsterState.health);
+    private JLabel playerHealth = new JLabel("");
     private JLabel damageDone = new JLabel("");
+    private JLabel monsterDamage = new JLabel("");
+    private JLabel victoryLabel = new JLabel("");
+    private JLabel victoryResources = new JLabel("");
+    private JLabel monsterVictory = new JLabel("");
 
     private final JButton fightButton;
     private final JButton nextButton;
@@ -28,8 +33,9 @@ public class MonsterView extends JPanel implements ActionListener, PropertyChang
     public MonsterView(FightMonsterViewModel fightMonsterViewModel) {
         this.fightMonsterViewModel = fightMonsterViewModel;
         this.fightMonsterViewModel.addPropertyChangeListener(this);
-        final JLabel title = new JLabel("Monster Screen");
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        Player player = Player.getInstance();
+        int initHealth = fightMonsterState.health;
+        int initPlayerHealth = player.getHealth();
 
         fightButton = new JButton("Fight");
         nextButton = new JButton("Next");
@@ -41,13 +47,32 @@ public class MonsterView extends JPanel implements ActionListener, PropertyChang
         fightButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 if (evt.getSource().equals(fightButton)) {
-                    final FightMonsterState currentState = fightMonsterViewModel.getState();
-                    int damage = currentState.hit();
-                    monsterHealth.setText("Health: " + currentState.health);
-                    damageDone.setText("Did " + damage + " damage");
+                    nextButton.setVisible(false);
+                    int damage = fightMonsterState.hit(player.getTotalDamage());
+                    monsterHealth.setText("Health: " + fightMonsterState.health);
+                    damageDone.setText("Did " + damage + " damage!");
+                    monsterDamage.setText(fightMonsterState.name + " did " + fightMonsterState.damage(player.getTotalArmor()) + " damage!");
+                    player.setHealth(initPlayerHealth - damage);
 
-                    if (currentState.health <= 0) {
-                        fightMonsterController.execute();
+                    if (fightMonsterState.health <= 0) {
+                        nextButton.setVisible(true);
+                        fightButton.setVisible(false);
+                        monsterDescriptionLabel.setText("");
+                        monsterHealth.setText("");
+                        damageDone.setText("");
+                        monsterDamage.setText("");
+                        victoryLabel.setText("Congratulations! You defeated the " + fightMonsterState.name + "!");
+                        victoryResources.setText("You gain " + (initHealth/10 + 1) + " gold");
+                    }
+
+                    if (player.getHealth() <= 0) {
+                        nextButton.setVisible(true);
+                        fightButton.setVisible(false);
+                        monsterDescriptionLabel.setText("");
+                        monsterHealth.setText("");
+                        damageDone.setText("");
+                        monsterDamage.setText("");
+                        monsterVictory.setText("You died.");
                     }
 
                     fightMonsterController.hit();
@@ -70,7 +95,12 @@ public class MonsterView extends JPanel implements ActionListener, PropertyChang
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(monsterDescriptionLabel);
         this.add(monsterHealth);
+        this.add(playerHealth);
         this.add(damageDone);
+        this.add(monsterDamage);
+        this.add(victoryLabel);
+        this.add(victoryResources);
+        this.add(monsterVictory);
         this.add(buttons);
     }
 
