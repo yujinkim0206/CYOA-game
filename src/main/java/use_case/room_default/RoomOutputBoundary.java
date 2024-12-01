@@ -11,6 +11,7 @@ public interface RoomOutputBoundary {
      */
     void prepareSuccessView(RoomOutputData outputData);
 
+    void prepareNextRoomView(RoomOutputData outputData);
     /**
      * Prepares the view for transitioning to the next room.
      * @param outputData the output data containing details of the next room.
