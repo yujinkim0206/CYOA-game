@@ -1,7 +1,7 @@
 package data_access;
 
+import entity.AbstractRoom;
 import entity.Floor;
-import entity.Room;
 import use_case.room_default.RoomDataAccessInterface;
 
 /**
@@ -10,7 +10,7 @@ import use_case.room_default.RoomDataAccessInterface;
  */
 public class RoomDataAccessObject implements RoomDataAccessInterface {
     private Floor floor = new Floor();
-    private int currentRoomIndex = 0;
+    private int currentRoomIndex;
 
     @Override
     public Floor getFloor() {
@@ -28,34 +28,7 @@ public class RoomDataAccessObject implements RoomDataAccessInterface {
     }
 
     @Override
-    public Room getCurrentRoom() {
+    public AbstractRoom getCurrentRoom() {
         return floor.getRoomList().get(currentRoomIndex);
     }
-
-//    public void initializeFloor() {
-//        floor = new Floor();
-//    }
-
-//    /**
-//     * Constructor for RoomDataAccess.
-//     * Initializes the rooms with a random floor layout.
-//     */
-//    public RoomDataAccessObject() {
-//        rooms = new ArrayList<>();
-//        initializeRooms();
-//    }
-
-//    /**
-//     * Fetches a room by its number.
-//     *
-//     * @param roomNumber the room number
-//     * @return the Room object or null if not found
-//     */
-//    @Override
-//    public Room getRoomByNumber(int roomNumber) {
-//        if (roomNumber >= 0 && roomNumber < rooms.size()) {
-//            return rooms.get(roomNumber);
-//        }
-//        return null;
-//    }
 }

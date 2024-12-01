@@ -1,34 +1,33 @@
 package entity;
 
-public class NpcRoom extends Room{
+/**
+ * Represents a room that contains an NPC.
+ */
+public class NpcRoom extends AbstractRoom {
+
+    private static final int ROOM_TYPE_NPC = 3;
+
     private Npc npc;
 
     /**
-     * Creates an NPCRoom
+     * Creates an NpcRoom with the specified room number.
+     * @param roomNumber the unique number of the room.
      */
-    public NpcRoom(int roomNumber){
+    public NpcRoom(int roomNumber) {
         super(roomNumber);
     }
 
-    /**
-     * Returns the Npc in the NPCRoom
-     * @return the Npc in NPCRoom
-     */
-    public Npc getNpc(){
+    public Npc getNpc() {
         return npc;
     }
 
-    /**
-     * Allows us to set the Npc in the NPCRoom
-     * @param npc the npc we want to set inside the NPCRoom
-     */
-    public void setNpc(Npc npc){
+    public void setNpc(Npc npc) {
         this.npc = npc;
     }
 
     @Override
     public int getRoomType() {
-        return 3;
+        return ROOM_TYPE_NPC;
     }
 
     @Override

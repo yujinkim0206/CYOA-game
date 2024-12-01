@@ -1,6 +1,6 @@
 package entity;
 
-public class ItemRoom extends Room {
+public class ItemRoom extends AbstractRoom {
     private final Item item;
 
     public ItemRoom(int roomNumber, Item item) {

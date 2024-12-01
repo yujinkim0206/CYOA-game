@@ -39,6 +39,10 @@ public class TalkToNpcOutputData {
         return currentDialogueIndex;
     }
 
+    /**
+     * Checks if the NPC has next dialogue.
+     * @return true if the NPC has next dialogue, false otherwise.
+     */
     public boolean hasNextDialogue() {
         return hasNextDialogue;
     }

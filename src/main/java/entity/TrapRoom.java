@@ -1,34 +1,30 @@
 package entity;
 
-public class TrapRoom extends Room{
+/**
+ * Represents a room containing a trap.
+ */
+public class TrapRoom extends AbstractRoom {
     private Trap trap;
 
     /**
-     * Creates an TrapRoom
+     * Creates a TrapRoom with the specified room number.
+     * @param roomNumber the number of the room
      */
     public TrapRoom(int roomNumber) {
         super(roomNumber);
     }
 
-    /**
-     * Returns the trap in the TrapRoom
-     * @return the trap in TrapRoom
-     */
     public Trap getTrap() {
         return trap;
     }
 
-    /**
-     * Allows us to set the trap in the TrapRoom
-     * @param trap the trap we want to set inside the TrapRoom
-     */
     public void setTrap(Trap trap) {
         this.trap = trap;
     }
 
     @Override
     public int getRoomType() {
-        return 2; // Trap Room
+        return 2;
     }
 
     @Override

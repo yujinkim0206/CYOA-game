@@ -1,11 +1,9 @@
 package use_case.fall_for_trap;
 
-import entity.Trap;
-
 /**
  * The Fall For Trap Interactor.
  */
-public class FallForTrapInteractor implements FallForTrapInputBoundary{
+public class FallForTrapInteractor implements FallForTrapInputBoundary {
     private FallForTrapDataAccessInterface fallForTrapDataAccessObject;
     private FallForTrapOutputBoundary fallForTrapPresenter;
 

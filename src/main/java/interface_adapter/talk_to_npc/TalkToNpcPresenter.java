@@ -1,10 +1,10 @@
 package interface_adapter.talk_to_npc;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.room_default.RoomDefaultState;
-import interface_adapter.room_default.RoomDefaultViewModel;
 import interface_adapter.merchant.MerchantState;
 import interface_adapter.merchant.MerchantViewModel;
+import interface_adapter.room_default.RoomDefaultState;
+import interface_adapter.room_default.RoomDefaultViewModel;
 import use_case.talk_to_npc.TalkToNpcOutputBoundary;
 import use_case.talk_to_npc.TalkToNpcOutputData;
 
@@ -30,7 +30,7 @@ public class TalkToNpcPresenter implements TalkToNpcOutputBoundary {
 
     @Override
     public void moveToNextDialogue(TalkToNpcOutputData response) {
-        TalkToNpcState talkToNpcState = this.talkToNpcViewModel.getState();
+        final TalkToNpcState talkToNpcState = this.talkToNpcViewModel.getState();
 
         talkToNpcState.setCurrentDialogueIndex(response.getCurrentDialogueIndex());
 

@@ -13,10 +13,21 @@ public interface TalkToNpcDataAccessInterface {
      */
     Npc getCurrentNpc();
 
+    /**
+     * Sets the current NPC being interacted with.
+     * @param npc the NPC to set as the current NPC.
+     */
     void setCurrentNpc(Npc npc);
 
+    /**
+     * Generates a random NPC for interaction.
+     * @return a randomly generated NPC.
+     */
     Npc generateRandomNpc();
 
+    /**
+     * Loads all NPCs into the system.
+     */
     void loadNpcs();
 }
 

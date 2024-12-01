@@ -26,7 +26,15 @@ public interface FallForTrapDataAccessInterface {
      */
     void setCurrentTrapName(String name);
 
+    /**
+     * Generates a random trap.
+     *
+     * @return a randomly generated trap
+     */
     Trap generateRandomTrap();
 
+    /**
+     * Loads all traps into the system.
+     */
     void loadTraps();
 }

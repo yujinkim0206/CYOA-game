@@ -2,7 +2,11 @@ package use_case.room_default;
 
 import java.util.List;
 
+/**
+ * Represents the output data for an NPC room.
+ */
 public class NpcRoomOutputData extends RoomOutputData {
+
     private final String name;
     private final String description;
     private final List<String> dialogue;
@@ -37,6 +41,10 @@ public class NpcRoomOutputData extends RoomOutputData {
         return currentDialogueIndex;
     }
 
+    /**
+     * Checks whether the NPC has next dialogue.
+     * @return true if the NPC has next dialogue, false otherwise.
+     */
     public boolean hasNextDialogue() {
         return hasNextDialogue;
     }

@@ -1,22 +1,27 @@
 package view;
 
-import interface_adapter.fall_for_trap.FallForTrapController;
-import interface_adapter.fall_for_trap.FallForTrapState;
-import interface_adapter.fall_for_trap.FallForTrapViewModel;
-
-import java.awt.*;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import interface_adapter.fall_for_trap.FallForTrapController;
+import interface_adapter.fall_for_trap.FallForTrapState;
+import interface_adapter.fall_for_trap.FallForTrapViewModel;
 
 /**
  * The View for when the user fell for a trap.
  */
 public class FallForTrapView extends JPanel implements ActionListener, PropertyChangeListener {
+
+    private static final int HEIGHT = 10;
 
     private final String viewName = "fall for trap";
     private final FallForTrapViewModel fallForTrapViewModel;
@@ -24,6 +29,8 @@ public class FallForTrapView extends JPanel implements ActionListener, PropertyC
     private final JLabel title;
     private final JLabel description;
     private final JButton moveOn;
+
+    private final JPanel buttonPanel;
 
     private FallForTrapController fallForTrapController;
 
@@ -40,7 +47,7 @@ public class FallForTrapView extends JPanel implements ActionListener, PropertyC
 
         moveOn = new JButton("Move On");
 
-        JPanel buttonPanel = new JPanel();
+        buttonPanel = new JPanel();
         buttonPanel.add(moveOn);
         buttonPanel.setAlignmentX(CENTER_ALIGNMENT);
 
@@ -54,15 +61,14 @@ public class FallForTrapView extends JPanel implements ActionListener, PropertyC
                 }
         );
 
-
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(Box.createVerticalGlue());
-        this.add(Box.createRigidArea(new Dimension(0, 10)));
+        this.add(Box.createRigidArea(new Dimension(0, HEIGHT)));
         this.add(title);
         this.add(description);
-        this.add(Box.createRigidArea(new Dimension(0, 10)));
+        this.add(Box.createRigidArea(new Dimension(0, HEIGHT)));
         this.add(buttonPanel);
-        this.add(Box.createRigidArea(new Dimension(0, 10)));
+        this.add(Box.createRigidArea(new Dimension(0, HEIGHT)));
         this.add(Box.createVerticalGlue());
 
     }

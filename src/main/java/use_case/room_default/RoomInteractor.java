@@ -1,9 +1,12 @@
 package use_case.room_default;
 
-import entity.*;
-import use_case.fall_for_trap.FallForTrapOutputData;
-
 import java.util.List;
+
+import entity.AbstractRoom;
+import entity.Npc;
+import entity.NpcRoom;
+import entity.Trap;
+import entity.TrapRoom;
 
 /**
  * The Room Default Interactor.
@@ -12,7 +15,7 @@ public class RoomInteractor implements RoomInputBoundary {
     private final RoomOutputBoundary roomPresenter;
     private final RoomDataAccessInterface roomDataAccessObject;
     private final NpcRoomDataAccessInterface npcRoomDataAccessObject;
-    private final TrapRoomDataAccessInterface trapRoomDataAccessObject;;
+    private final TrapRoomDataAccessInterface trapRoomDataAccessObject;
 
     public RoomInteractor(RoomOutputBoundary roomPresenter, RoomDataAccessInterface roomDataAccessInterface,
                           NpcRoomDataAccessInterface npcRoomDataAccessInterface,
@@ -25,17 +28,15 @@ public class RoomInteractor implements RoomInputBoundary {
 
     @Override
     public void interactWithRoom(RoomInputData inputData) {
-        Room room = roomDataAccessObject.getCurrentRoom();
+        final AbstractRoom abstractRoom = roomDataAccessObject.getCurrentRoom();
 
-        if (room == null) {
+        if (abstractRoom == null) {
             roomPresenter.prepareFailView("Room not found.");
-            return;
         }
-
-        if (room instanceof NpcRoom) {
-            NpcRoom npcRoom = (NpcRoom) room;
+        else if (abstractRoom instanceof NpcRoom) {
+            final NpcRoom npcRoom = (NpcRoom) abstractRoom;
             npcRoomDataAccessObject.loadNpcs();
-            Npc npc = npcRoomDataAccessObject.generateRandomNpc();
+            final Npc npc = npcRoomDataAccessObject.generateRandomNpc();
 
             roomPresenter.prepareSuccessView(new NpcRoomOutputData(
                     npcRoom.getDescription(),
@@ -46,10 +47,11 @@ public class RoomInteractor implements RoomInputBoundary {
                     npc.hasNextDialogue(),
                     npc.isMerchant()
             ));
-        } else if (room instanceof TrapRoom) {
-            TrapRoom trapRoom = (TrapRoom) room;
+        }
+        else if (abstractRoom instanceof TrapRoom) {
+            final TrapRoom trapRoom = (TrapRoom) abstractRoom;
             trapRoomDataAccessObject.loadTraps();
-            Trap trap = trapRoomDataAccessObject.generateRandomTrap();
+            final Trap trap = trapRoomDataAccessObject.generateRandomTrap();
             trapRoomDataAccessObject.setCurrentTrapName(trap.getName());
             trapRoom.setTrap(trap);
 
@@ -58,20 +60,24 @@ public class RoomInteractor implements RoomInputBoundary {
                     trap.getName(),
                     trap.getDamage()
             ));
-        } else {
-            roomPresenter.prepareSuccessView(new RoomOutputData(room.getDescription(), room.getClass().getSimpleName()));
+        }
+        else {
+            roomPresenter.prepareSuccessView(new RoomOutputData(abstractRoom.getDescription(),
+                    abstractRoom.getClass().getSimpleName()));
         }
     }
 
     @Override
     public void goToNextRoom() {
-        List<Room> rooms = roomDataAccessObject.getFloor().getRoomList();
+        final List<AbstractRoom> abstractRooms = roomDataAccessObject.getFloor().getRoomList();
 
-        if (roomDataAccessObject.getCurrentRoomIndex() < rooms.size() - 1) {
+        if (roomDataAccessObject.getCurrentRoomIndex() < abstractRooms.size() - 1) {
             roomDataAccessObject.setCurrentRoomIndex(roomDataAccessObject.getCurrentRoomIndex() + 1);
-            Room nextRoom = rooms.get(roomDataAccessObject.getCurrentRoomIndex());
-            roomPresenter.prepareNextRoomView(new RoomOutputData(nextRoom.getDescription(), nextRoom.getClass().getSimpleName()));
-        } else {
+            final AbstractRoom nextAbstractRoom = abstractRooms.get(roomDataAccessObject.getCurrentRoomIndex());
+            roomPresenter.prepareNextRoomView(new RoomOutputData(nextAbstractRoom.getDescription(),
+                    nextAbstractRoom.getClass().getSimpleName()));
+        }
+        else {
             roomPresenter.prepareFailView("You have reached the end of the floor.");
         }
     }

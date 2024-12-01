@@ -24,8 +24,11 @@ public class RoomDefaultPresenter implements RoomOutputBoundary {
 
     /**
      * Constructor for RoomDefaultPresenter.
-     *
-     * @param viewManagerModel the model managing view states
+     * @param viewManagerModel the model managing view states.
+     * @param roomDefaultViewModel the view model for the default room state.
+     * @param talkToNpcViewModel the view model for NPC interactions.
+     * @param fallForTrapViewModel the view model for traps.
+     * @param openInventoryViewModel the view model for the inventory.
      */
     public RoomDefaultPresenter(ViewManagerModel viewManagerModel,
                                 RoomDefaultViewModel roomDefaultViewModel,
@@ -41,7 +44,7 @@ public class RoomDefaultPresenter implements RoomOutputBoundary {
 
     @Override
     public void prepareSuccessView(RoomOutputData outputData) {
-        String roomType = outputData.getRoomType();
+        final String roomType = outputData.getRoomType();
         switch (roomType) {
             case "ItemRoom":
                 viewManagerModel.setState("pick up item");
@@ -49,8 +52,8 @@ public class RoomDefaultPresenter implements RoomOutputBoundary {
 
             case "TrapRoom":
                 if (outputData instanceof TrapRoomOutputData) {
-                    TrapRoomOutputData trapRoomOutputData = (TrapRoomOutputData) outputData;
-                    FallForTrapState fallForTrapState = fallForTrapViewModel.getState();
+                    final TrapRoomOutputData trapRoomOutputData = (TrapRoomOutputData) outputData;
+                    final FallForTrapState fallForTrapState = fallForTrapViewModel.getState();
 
                     fallForTrapState.setName(trapRoomOutputData.getTrapName());
                     fallForTrapState.setDamage(trapRoomOutputData.getDamage());
@@ -60,7 +63,8 @@ public class RoomDefaultPresenter implements RoomOutputBoundary {
 
                     this.viewManagerModel.setState(fallForTrapViewModel.getViewName());
                     this.viewManagerModel.firePropertyChanged();
-                } else {
+                }
+                else {
                     throw new IllegalArgumentException("Invalid RoomOutputData for TrapRoom.");
                 }
                 break;
@@ -71,8 +75,8 @@ public class RoomDefaultPresenter implements RoomOutputBoundary {
 
             case "NpcRoom":
                 if (outputData instanceof NpcRoomOutputData) {
-                    NpcRoomOutputData npcRoomOutputData = (NpcRoomOutputData) outputData;
-                    TalkToNpcState talkToNpcState = talkToNpcViewModel.getState();
+                    final NpcRoomOutputData npcRoomOutputData = (NpcRoomOutputData) outputData;
+                    final TalkToNpcState talkToNpcState = talkToNpcViewModel.getState();
 
                     talkToNpcState.setName(npcRoomOutputData.getName());
                     talkToNpcState.setDescription(npcRoomOutputData.getDescription());
@@ -86,7 +90,8 @@ public class RoomDefaultPresenter implements RoomOutputBoundary {
 
                     this.viewManagerModel.setState(talkToNpcViewModel.getViewName());
                     this.viewManagerModel.firePropertyChanged();
-                } else {
+                }
+                else {
                     throw new IllegalArgumentException("Invalid RoomOutputData for NpcRoom.");
                 }
                 break;
@@ -99,7 +104,7 @@ public class RoomDefaultPresenter implements RoomOutputBoundary {
 
     @Override
     public void prepareNextRoomView(RoomOutputData outputData) {
-        RoomDefaultState roomDefaultState = this.roomDefaultViewModel.getState();
+        final RoomDefaultState roomDefaultState = this.roomDefaultViewModel.getState();
 
         roomDefaultState.setRoomDescription(outputData.getRoomDescription());
         roomDefaultState.setRoomType(outputData.getRoomType());

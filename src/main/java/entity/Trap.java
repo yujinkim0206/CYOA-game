@@ -12,7 +12,8 @@ public class Trap {
         this.setDamage(damage);
     }
 
-    public Trap() {}
+    public Trap() {
+    }
 
     public String getName() {
         return name;
