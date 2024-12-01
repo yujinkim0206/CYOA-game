@@ -14,21 +14,16 @@ import java.util.Map;
  */
 public class NpcDataAccessObject implements TalkToNpcDataAccessInterface, NpcRoomDataAccessInterface {
     private final Map<String, Npc> npcs = new HashMap<>();
-    private String currentNpcName;
+    private Npc currentNpc;
 
     @Override
-    public Npc getCurrentNpc(String name) {
-        return npcs.get(name);
+    public Npc getCurrentNpc() {
+        return currentNpc;
     }
 
     @Override
-    public String getCurrentNpcName() {
-        return currentNpcName;
-    }
-
-    @Override
-    public void setCurrentNpcName(String name) {
-        this.currentNpcName = name;
+    public void setCurrentNpc(Npc currentNpc) {
+        this.currentNpc = currentNpc;
     }
 
     @Override
@@ -39,9 +34,8 @@ public class NpcDataAccessObject implements TalkToNpcDataAccessInterface, NpcRoo
 
         String keys[] = npcs.keySet().toArray(new String[0]);
         String randomKey = keys[(int) (Math.random() * keys.length)];
-        setCurrentNpcName(randomKey);
-
-        return npcs.remove(randomKey);
+        currentNpc = npcs.remove(randomKey);
+        return currentNpc;
     }
 
     @Override
