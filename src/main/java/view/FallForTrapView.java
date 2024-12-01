@@ -57,7 +57,7 @@ public class FallForTrapView extends JPanel implements ActionListener, PropertyC
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(moveOn)) {
-                            fallForTrapController.execute();
+                            fallForTrapController.exitInteraction();
                         }
                     }
                 }
@@ -87,7 +87,7 @@ public class FallForTrapView extends JPanel implements ActionListener, PropertyC
     public void propertyChange(PropertyChangeEvent evt) {
         final FallForTrapState state = (FallForTrapState) evt.getNewValue();
 
-        title.setText("You got hit by [" + state.getName() + "]");
+        title.setText("You got hit by [" + state.getName() + "]!");
         description.setText(String.format("It dealt %d damage to you.", state.getDamage()));
     }
 

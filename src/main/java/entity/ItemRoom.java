@@ -10,7 +10,7 @@ public class ItemRoom extends Room {
 
     @Override
     public String getDescription() {
-        return "Room " + getRoomNumber() + ": This room contains an item: " + item.getName();
+        return "Room " + getRoomNumber() + ": This room contains an item [" + item.getName() + "]";
     }
 
     @Override

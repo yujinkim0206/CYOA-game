@@ -1,6 +1,7 @@
 package data_access;
 
 import entity.Npc;
+import use_case.room_default.NpcRoomDataAccessInterface;
 import use_case.talk_to_npc.TalkToNpcDataAccessInterface;
 
 import java.util.Arrays;
@@ -11,7 +12,7 @@ import java.util.Map;
  * In-memory implementation of the DAO for storing NPC data. This implementation does
  * NOT persist data between runs of the program.
  */
-public class NpcDataAccessObject implements TalkToNpcDataAccessInterface {
+public class NpcDataAccessObject implements TalkToNpcDataAccessInterface, NpcRoomDataAccessInterface {
     private final Map<String, Npc> npcs = new HashMap<>();
     private String currentNpcName;
 
@@ -36,9 +37,7 @@ public class NpcDataAccessObject implements TalkToNpcDataAccessInterface {
             return null;
         }
 
-        // Retrieves the set of keys from npcs and convert it into an array
         String keys[] = npcs.keySet().toArray(new String[0]);
-        // Pick a number between 0 and keys.length and cast to an int
         String randomKey = keys[(int) (Math.random() * keys.length)];
         setCurrentNpcName(randomKey);
 

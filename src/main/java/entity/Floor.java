@@ -31,17 +31,14 @@ public class Floor {
                 }
                 roomList.add(new ItemRoom(i, item));
             } else if (roomType == 2) {
-                roomList.add(new TrapRoom(i, new Trap()));
+                roomList.add(new TrapRoom(i));
             } else if (roomType == 3) {
-                roomList.add(new TrapRoom(i, new Trap()));} //Make the code run so far use trap room
-            // else if (roomType == 3) {
-            //roomList.add(new MerchantRoom(i, new Merchant()));}
-            else {
+                roomList.add(new NpcRoom(i));
+            } else {
                 throw new IllegalStateException("Unexpected room type: " + roomType);
             }
         }
     }
-
 
     /** Returns the RoomList of the Floor
      *
