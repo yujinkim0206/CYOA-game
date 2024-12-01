@@ -1,7 +1,5 @@
 package use_case.talk_to_npc;
 
-import java.util.List;
-
 /**
  * The Talk To Npc Interactor.
  */
@@ -16,15 +14,19 @@ public class TalkToNpcInteractor implements TalkToNpcInputBoundary {
     }
 
     @Override
-    public void moveToNextDialogue(String name, String description, List<String> dialogue,
-                                   int currentDialogueIndex, boolean hasNextDialogue, boolean isMerchant) {
-        int nextDialogueIndex = currentDialogueIndex;
-        if (hasNextDialogue) {
+    public void moveToNextDialogue(TalkToNpcInputData talkToNpcInputData) {
+        int nextDialogueIndex = talkToNpcInputData.getCurrentDialogueIndex();
+        if (talkToNpcInputData.isHasNextDialogue()) {
             nextDialogueIndex++;
         }
 
-        final TalkToNpcOutputData talkToNpcOutputData = new TalkToNpcOutputData(name, description, dialogue,
-                nextDialogueIndex, hasNextDialogue, isMerchant);
+        final TalkToNpcOutputData talkToNpcOutputData = new TalkToNpcOutputData(
+                talkToNpcInputData.getName(),
+                talkToNpcInputData.getDescription(),
+                talkToNpcInputData.getDialogue(),
+                nextDialogueIndex,
+                talkToNpcInputData.isHasNextDialogue(),
+                talkToNpcInputData.isMerchant());
 
         talkToNpcPresenter.moveToNextDialogue(talkToNpcOutputData);
     }

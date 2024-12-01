@@ -3,6 +3,7 @@ package interface_adapter.talk_to_npc;
 import java.util.List;
 
 import use_case.talk_to_npc.TalkToNpcInputBoundary;
+import use_case.talk_to_npc.TalkToNpcInputData;
 
 /**
  * Controller for the Talk to NPC Use Case.
@@ -27,8 +28,9 @@ public class TalkToNpcController {
      */
     public void moveToNextDialogue(String name, String description, List<String> dialogue,
                                    int currentDialogueIndex, boolean hasNextDialogue, boolean isMerchant) {
-        talkToNpcUseCaseInteractor.moveToNextDialogue(name, description, dialogue, currentDialogueIndex,
-                hasNextDialogue, isMerchant);
+        final TalkToNpcInputData talkToNpcInputData = new TalkToNpcInputData(name, description, dialogue,
+                currentDialogueIndex, hasNextDialogue, isMerchant);
+        talkToNpcUseCaseInteractor.moveToNextDialogue(talkToNpcInputData);
     }
 
     /**

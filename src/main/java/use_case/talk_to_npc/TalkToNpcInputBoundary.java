@@ -9,15 +9,9 @@ public interface TalkToNpcInputBoundary {
 
     /**
      * Moves to the next dialogue with the NPC.
-     * @param name the name of the NPC.
-     * @param description the description of the NPC.
-     * @param dialogue the list of dialogues available for the NPC.
-     * @param currentDialogueIndex the current dialogue index being displayed.
-     * @param hasNextDialogue whether the NPC has more dialogue available.
-     * @param isMerchant whether the NPC is a merchant.
+     * @param talkToNpcInputData input data for talk to npc.
      */
-    void moveToNextDialogue(String name, String description, List<String> dialogue,
-                            int currentDialogueIndex, boolean hasNextDialogue, boolean isMerchant);
+    void moveToNextDialogue(TalkToNpcInputData talkToNpcInputData);
 
     /**
      * Switches the view to the merchant interface if the NPC is a merchant.
