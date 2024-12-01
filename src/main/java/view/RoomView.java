@@ -82,7 +82,6 @@ public class RoomView extends JPanel implements ActionListener, PropertyChangeLi
         this.add(Box.createVerticalGlue());
         this.add(Box.createRigidArea(new Dimension(0, 10)));
         this.add(title);
-        this.add(Box.createRigidArea(new Dimension(0, 10)));
         this.add(roomDescriptionLabel);
         this.add(Box.createRigidArea(new Dimension(0, 10)));
         this.add(buttons);

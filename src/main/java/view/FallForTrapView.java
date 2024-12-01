@@ -22,7 +22,7 @@ public class FallForTrapView extends JPanel implements ActionListener, PropertyC
     private final FallForTrapViewModel fallForTrapViewModel;
 
     private final JLabel title;
-    private final JTextArea description;
+    private final JLabel description;
     private final JButton moveOn;
 
     private FallForTrapController fallForTrapController;
@@ -35,17 +35,8 @@ public class FallForTrapView extends JPanel implements ActionListener, PropertyC
         title = new JLabel();
         title.setAlignmentX(CENTER_ALIGNMENT);
 
-        description = new JTextArea( 3, 20);
-        description.setLineWrap(true);
-        description.setWrapStyleWord(true);
-        description.setEditable(false);
-
-        JScrollPane scrollPane = new JScrollPane(description);
-
-        JPanel descriptionPanel = new JPanel();
-        descriptionPanel.setLayout(new BoxLayout(descriptionPanel, BoxLayout.Y_AXIS));
-        descriptionPanel.add(scrollPane);
-        descriptionPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        description = new JLabel();
+        description.setAlignmentX(CENTER_ALIGNMENT);
 
         moveOn = new JButton("Move On");
 
@@ -68,7 +59,8 @@ public class FallForTrapView extends JPanel implements ActionListener, PropertyC
         this.add(Box.createVerticalGlue());
         this.add(Box.createRigidArea(new Dimension(0, 10)));
         this.add(title);
-        this.add(descriptionPanel);
+        this.add(description);
+        this.add(Box.createRigidArea(new Dimension(0, 10)));
         this.add(buttonPanel);
         this.add(Box.createRigidArea(new Dimension(0, 10)));
         this.add(Box.createVerticalGlue());
