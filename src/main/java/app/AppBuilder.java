@@ -308,7 +308,7 @@ public class AppBuilder {
      */
     public AppBuilder addFallForTrapUseCase() {
         final FallForTrapOutputBoundary fallForTrapOutputBoundary = new FallForTrapPresenter(
-                viewManagerModel, roomDefaultViewModel);
+                viewManagerModel, fallForTrapViewModel, roomDefaultViewModel);
 
         final FallForTrapInputBoundary fallForTrapInteractor =
                 new FallForTrapInteractor(trapDataAccessObject, fallForTrapOutputBoundary);
