@@ -106,6 +106,7 @@ public class RoomDefaultPresenter implements RoomOutputBoundary {
     @Override
     public void prepareNextRoomView(RoomOutputData outputData) {
         final RoomDefaultState roomDefaultState = this.roomDefaultViewModel.getState();
+        roomDefaultState.setInteractAvailable(true);
 
         roomDefaultState.setRoomDescription(outputData.getRoomDescription());
         roomDefaultState.setRoomType(outputData.getRoomType());

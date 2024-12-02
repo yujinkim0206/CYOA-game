@@ -22,6 +22,8 @@ public class FallForTrapPresenter implements FallForTrapOutputBoundary {
     @Override
     public void exitInteraction() {
         final RoomDefaultState roomDefaultState = roomDefaultViewModel.getState();
+        roomDefaultState.setInteractAvailable(false);
+
         this.roomDefaultViewModel.setState(roomDefaultState);
         this.roomDefaultViewModel.firePropertyChanged();
 
