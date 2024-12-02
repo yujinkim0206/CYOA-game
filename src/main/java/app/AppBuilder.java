@@ -211,7 +211,7 @@ public class AppBuilder {
         // Create the presenter with appropriate view models
         final RoomOutputBoundary roomOutputBoundary = new RoomDefaultPresenter(
                 viewManagerModel, roomDefaultViewModel, talkToNpcViewModel,
-                fallForTrapViewModel, openInventoryViewModel);
+                fallForTrapViewModel, openInventoryViewModel, fightMonsterViewModel);
 
         // Create the interactor with the presenter and data access objects
         final RoomInputBoundary roomInteractor =
@@ -367,7 +367,7 @@ public class AppBuilder {
         cardPanel.setPreferredSize(new Dimension(400, 200));
         application.add(cardPanel);
 
-        viewManagerModel.setState(monsterView.getViewName());
+        viewManagerModel.setState(characterCreationView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;

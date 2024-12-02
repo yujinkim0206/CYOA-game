@@ -27,9 +27,9 @@ public class MonsterView extends JPanel implements ActionListener, PropertyChang
     private FightMonsterController fightMonsterController;
 
     public MonsterView(FightMonsterViewModel fightMonsterViewModel) {
-        final JLabel monsterDescriptionLabel = new JLabel("You encountered a " + fightMonsterState.name + "!");
+        final JLabel monsterDescriptionLabel = new JLabel("You encountered a " + fightMonsterState.getName() + "!");
         monsterDescriptionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        final JLabel monsterHealth = new JLabel("Health: " + fightMonsterState.health);
+        final JLabel monsterHealth = new JLabel("Health: " + fightMonsterState.getHealth());
         monsterHealth.setAlignmentX(Component.CENTER_ALIGNMENT);
         final JLabel playerHealth = new JLabel("");
         playerHealth.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -47,7 +47,7 @@ public class MonsterView extends JPanel implements ActionListener, PropertyChang
         this.fightMonsterViewModel = fightMonsterViewModel;
         this.fightMonsterViewModel.addPropertyChangeListener(this);
         Player player = Player.getInstance();
-        int initHealth = fightMonsterState.health;
+        int initHealth = fightMonsterState.getHealth();
         final int[] pHealth = {player.getHealth()};
 
         fightButton = new JButton("Fight");
@@ -65,12 +65,12 @@ public class MonsterView extends JPanel implements ActionListener, PropertyChang
                     int attack = fightMonsterState.damage(player.getTotalArmor());
                     pHealth[0] -= attack;
                     player.setHealth(pHealth[0]);
-                    monsterHealth.setText("Health: " + fightMonsterState.health);
+                    monsterHealth.setText("Health: " + fightMonsterState.getHealth());
                     playerHealth.setText("Remaining Health: " + player.getHealth());
                     damageDone.setText("Did " + damage + " damage!");
-                    monsterDamage.setText(fightMonsterState.name + " did " + attack + " damage!");
+                    monsterDamage.setText(fightMonsterState.getName() + " did " + attack + " damage!");
 
-                    if (fightMonsterState.health <= 0) {
+                    if (fightMonsterState.getHealth() <= 0) {
                         nextButton.setVisible(true);
                         fightButton.setVisible(false);
                         monsterDescriptionLabel.setText("");
@@ -78,7 +78,7 @@ public class MonsterView extends JPanel implements ActionListener, PropertyChang
                         playerHealth.setText("");
                         damageDone.setText("");
                         monsterDamage.setText("");
-                        victoryLabel.setText("Congratulations! You defeated the " + fightMonsterState.name + "!");
+                        victoryLabel.setText("Congratulations! You defeated the " + fightMonsterState.getName() + "!");
                         victoryResources.setText("You gain " + (initHealth/10 + 1) + " gold");
                     }
 
@@ -136,5 +136,9 @@ public class MonsterView extends JPanel implements ActionListener, PropertyChang
 
     public void setFightMonsterController(FightMonsterController controller) {
         this.fightMonsterController = controller;
+    }
+
+    public MonsterView refresh() {
+        return new MonsterView(fightMonsterViewModel);
     }
 }

@@ -7,10 +7,14 @@ import interface_adapter.open_inventory.OpenInventoryState;
 import interface_adapter.open_inventory.OpenInventoryViewModel;
 import interface_adapter.talk_to_npc.TalkToNpcState;
 import interface_adapter.talk_to_npc.TalkToNpcViewModel;
+import interface_adapter.monster.FightMonsterViewModel;
+import interface_adapter.monster.FightMonsterState;
 import use_case.room_default.NpcRoomOutputData;
 import use_case.room_default.RoomOutputBoundary;
 import use_case.room_default.RoomOutputData;
 import use_case.room_default.TrapRoomOutputData;
+import use_case.room_default.MonsterRoomOutputData;
+import view.MonsterView;
 
 /**
  * Presenter for the Room Default Use Case.
@@ -21,6 +25,7 @@ public class RoomDefaultPresenter implements RoomOutputBoundary {
     private final TalkToNpcViewModel talkToNpcViewModel;
     private final FallForTrapViewModel fallForTrapViewModel;
     private final OpenInventoryViewModel openInventoryViewModel;
+    private final FightMonsterViewModel fightMonsterViewModel;
 
     /**
      * Constructor for RoomDefaultPresenter.
@@ -34,12 +39,14 @@ public class RoomDefaultPresenter implements RoomOutputBoundary {
                                 RoomDefaultViewModel roomDefaultViewModel,
                                 TalkToNpcViewModel talkToNpcViewModel,
                                 FallForTrapViewModel fallForTrapViewModel,
-                                OpenInventoryViewModel openInventoryViewModel) {
+                                OpenInventoryViewModel openInventoryViewModel,
+                                FightMonsterViewModel fightMonsterViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.roomDefaultViewModel = roomDefaultViewModel;
         this.talkToNpcViewModel = talkToNpcViewModel;
         this.fallForTrapViewModel = fallForTrapViewModel;
         this.openInventoryViewModel = openInventoryViewModel;
+        this.fightMonsterViewModel = fightMonsterViewModel;
     }
 
     @Override
@@ -70,7 +77,12 @@ public class RoomDefaultPresenter implements RoomOutputBoundary {
                 break;
 
             case "MonsterRoom":
-                viewManagerModel.setState("fight monster");
+                final FightMonsterState fightMonsterState = new FightMonsterState();
+                this.fightMonsterViewModel.setState(fightMonsterState);
+                this.fightMonsterViewModel.firePropertyChanged();
+
+                this.viewManagerModel.setState(fightMonsterViewModel.getViewName());
+                this.viewManagerModel.firePropertyChanged();
                 break;
 
             case "NpcRoom":
@@ -108,6 +120,9 @@ public class RoomDefaultPresenter implements RoomOutputBoundary {
 
         roomDefaultState.setRoomDescription(outputData.getRoomDescription());
         roomDefaultState.setRoomType(outputData.getRoomType());
+
+        this.fightMonsterViewModel.setState(new FightMonsterState());
+        this.fightMonsterViewModel.firePropertyChanged();
 
         this.roomDefaultViewModel.setState(roomDefaultState);
         this.roomDefaultViewModel.firePropertyChanged();

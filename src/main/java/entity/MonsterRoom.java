@@ -39,4 +39,8 @@ public class MonsterRoom extends AbstractRoom {
     public void setMonster(Monster monster) {
         this.monster = monster;
     }
+
+    public String getDescription() {
+        return "Room " + getRoomNumber() + ": There are noises coming from behind the door.";
+    }
 }
