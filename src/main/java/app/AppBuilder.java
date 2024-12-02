@@ -239,7 +239,7 @@ public class AppBuilder {
         // Create the interactor with the presenter and data access objects
         final RoomInputBoundary roomInteractor =
                 new RoomInteractor(roomOutputBoundary, roomDataAccessObject,
-                        npcRoomDataAccessObject, trapRoomDataAccessObject);
+                        npcRoomDataAccessObject, trapRoomDataAccessObject, playerDataAccessObject);
 
         // Create the controller with the interactor
         final RoomDefaultController roomDefaultController = new RoomDefaultController(roomInteractor);
@@ -338,7 +338,7 @@ public class AppBuilder {
      */
     public AppBuilder addFallForTrapUseCase() {
         final FallForTrapOutputBoundary fallForTrapOutputBoundary = new FallForTrapPresenter(
-                viewManagerModel, roomDefaultViewModel);
+                viewManagerModel, fallForTrapViewModel, roomDefaultViewModel);
 
         final FallForTrapInputBoundary fallForTrapInteractor =
                 new FallForTrapInteractor(trapDataAccessObject, fallForTrapOutputBoundary);
@@ -391,7 +391,7 @@ public class AppBuilder {
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(characterCreationView.getViewName());
+        viewManagerModel.setState(monsterView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;

@@ -3,7 +3,7 @@ package interface_adapter.monster;
 import interface_adapter.ViewModel;
 
 /**
- * View Model for the Fight Monster Use Case.
+ * The View Model for the Fight Monster View.
  */
 public class FightMonsterViewModel extends ViewModel<FightMonsterState> {
 

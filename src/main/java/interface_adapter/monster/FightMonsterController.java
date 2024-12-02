@@ -3,9 +3,6 @@ package interface_adapter.monster;
 import use_case.monster.FightMonsterInputBoundary;
 import use_case.monster.FightMonsterInputData;
 
-/**
- * Controller for the Fight Monster Use Case.
- */
 public class FightMonsterController {
     private FightMonsterInputBoundary fightMonsterUseCaseInteractor;
 

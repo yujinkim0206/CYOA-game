@@ -1,18 +1,19 @@
 package use_case.monster;
 
 /**
- * Input Boundary Interface for Fight Monsters Use Case.
+ * Input Boundary for actions which are related to fighting a Monster.
  */
-public interface FightMonsterInputBoundary {
+public interface FightMonsterInputBoundary  {
+
     /**
-     * Execute method.
-     * @param FightMonsterInputData input data
+     * Executes the Fight Monster use case.
+     * @param FightMonsterInputData the input data
      */
     void execute(FightMonsterInputData FightMonsterInputData);
 
     /**
-     * Hit method.
-     * @param FightMonsterInputData input data
+     * Executes a turn of attack
+     * @param FightMonsterInputData
      */
     void hit(FightMonsterInputData FightMonsterInputData);
 }

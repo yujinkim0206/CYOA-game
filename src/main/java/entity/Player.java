@@ -94,6 +94,9 @@ public class Player {
 
     public void setHealth(int health) {
         this.health = Math.min(health, maxHealth);
+        if (this.health < 0) {
+            this.health = 0;
+        }
     }
 
     public int getMaxHealth() {

@@ -1,7 +1,7 @@
 package use_case.monster;
 
 /**
- * Input Data for Fight Monsters Use Case.
+ * The Input Data for the Fight Monster Use Case.
  */
 public class FightMonsterInputData {
 
