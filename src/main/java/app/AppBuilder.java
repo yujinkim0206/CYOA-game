@@ -216,7 +216,7 @@ public class AppBuilder {
         // Create the interactor with the presenter and data access objects
         final RoomInputBoundary roomInteractor =
                 new RoomInteractor(roomOutputBoundary, roomDataAccessObject,
-                        npcRoomDataAccessInterface, trapRoomDataAccessInterface);
+                        npcRoomDataAccessInterface, trapRoomDataAccessInterface, playerDataAccessObject);
 
         // Create the controller with the interactor
         final RoomDefaultController roomDefaultController = new RoomDefaultController(roomInteractor);

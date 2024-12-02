@@ -57,6 +57,7 @@ public class RoomDefaultPresenter implements RoomOutputBoundary {
 
                     fallForTrapState.setName(trapRoomOutputData.getTrapName());
                     fallForTrapState.setDamage(trapRoomOutputData.getDamage());
+                    fallForTrapState.setHealth(trapRoomOutputData.getHealth());
 
                     this.fallForTrapViewModel.setState(fallForTrapState);
                     this.fallForTrapViewModel.firePropertyChanged();

@@ -69,12 +69,14 @@ public class Player {
         return inventory;
     }
 
-
     public int getHealth() {
         return health;
     }
     public void setHealth(int health) {
         this.health = Math.min(health, maxHealth);
+        if (this.health < 0) {
+            this.health = 0;
+        }
     }
 
     /**
