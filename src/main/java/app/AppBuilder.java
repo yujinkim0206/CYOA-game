@@ -374,7 +374,7 @@ public class AppBuilder {
         cardPanel.setPreferredSize(new Dimension(400, 200));
         application.add(cardPanel);
 
-        viewManagerModel.setState(characterCreationView.getViewName());
+        viewManagerModel.setState(monsterView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;

@@ -23,12 +23,15 @@ public class FightMonsterState {
 
     public int hit(int power) {
         int damage = (int)(Math.random() * 3) + power - (int)(Math.random() * 3);
+        if (damage <= 0){
+            damage = 1;
+        }
         this.health -= damage;
         return damage;
     }
 
     public int damage(int armor) {
-        int damTaken = (int)(Math.random() * 3) + 10 - (int)(Math.random() * 3);
+        int damTaken = (int)(Math.random() * 3) + 5 - (int)(Math.random() * 3);
         if(armor == 0){
             damTaken *= 2;
         }

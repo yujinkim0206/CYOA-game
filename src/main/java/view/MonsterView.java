@@ -48,7 +48,7 @@ public class MonsterView extends JPanel implements ActionListener, PropertyChang
         this.fightMonsterViewModel.addPropertyChangeListener(this);
         Player player = Player.getInstance();
         int initHealth = fightMonsterState.health;
-        int initPlayerHealth = player.getHealth();
+        final int[] pHealth = {player.getHealth()};
 
         fightButton = new JButton("Fight");
         nextButton = new JButton("Next");
@@ -62,31 +62,36 @@ public class MonsterView extends JPanel implements ActionListener, PropertyChang
                 if (evt.getSource().equals(fightButton)) {
                     nextButton.setVisible(false);
                     int damage = fightMonsterState.hit(player.getTotalDamage());
+                    int attack = fightMonsterState.damage(player.getTotalArmor());
+                    pHealth[0] -= attack;
+                    player.setHealth(pHealth[0]);
                     monsterHealth.setText("Health: " + fightMonsterState.health);
                     playerHealth.setText("Remaining Health: " + player.getHealth());
                     damageDone.setText("Did " + damage + " damage!");
-                    monsterDamage.setText(fightMonsterState.name + " did " + fightMonsterState.damage(player.getTotalArmor()) + " damage!");
+                    monsterDamage.setText(fightMonsterState.name + " did " + attack + " damage!");
 
                     if (fightMonsterState.health <= 0) {
                         nextButton.setVisible(true);
                         fightButton.setVisible(false);
                         monsterDescriptionLabel.setText("");
                         monsterHealth.setText("");
+                        playerHealth.setText("");
                         damageDone.setText("");
                         monsterDamage.setText("");
                         victoryLabel.setText("Congratulations! You defeated the " + fightMonsterState.name + "!");
                         victoryResources.setText("You gain " + (initHealth/10 + 1) + " gold");
                     }
-                    player.setHealth(initPlayerHealth - damage);
+                    player.setHealth(pHealth[0]);
 
                     if (player.getHealth() <= 0) {
                         nextButton.setVisible(true);
                         fightButton.setVisible(false);
                         monsterDescriptionLabel.setText("");
+                        playerHealth.setText("");
                         monsterHealth.setText("");
                         damageDone.setText("");
                         monsterDamage.setText("");
-                        monsterVictory.setText("You died");
+                        monsterVictory.setText("You lost.");
                     }
 
                     fightMonsterController.hit();
