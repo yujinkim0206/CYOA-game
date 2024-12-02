@@ -7,6 +7,10 @@ import org.json.JSONArray;
 import java.io.IOException;
 import java.util.*;
 
+
+/**
+ * The state for the Fight Monster view model
+ */
 public class FightMonsterState {
     public int health = (int)getAPIData().get("health");
     public String name = (String)getAPIData().get("name");

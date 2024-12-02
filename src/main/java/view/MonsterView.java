@@ -11,6 +11,10 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+
+/**
+The View for when the player is in a Fight with a Monster
+ */
 public class MonsterView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "monster";
     private final FightMonsterViewModel fightMonsterViewModel;
@@ -50,9 +54,9 @@ public class MonsterView extends JPanel implements ActionListener, PropertyChang
                     nextButton.setVisible(false);
                     int damage = fightMonsterState.hit(player.getTotalDamage());
                     monsterHealth.setText("Health: " + fightMonsterState.health);
+                    playerHealth.setText("Remaining Health: " + player.getHealth());
                     damageDone.setText("Did " + damage + " damage!");
                     monsterDamage.setText(fightMonsterState.name + " did " + fightMonsterState.damage(player.getTotalArmor()) + " damage!");
-                    player.setHealth(initPlayerHealth - damage);
 
                     if (fightMonsterState.health <= 0) {
                         nextButton.setVisible(true);
@@ -64,6 +68,7 @@ public class MonsterView extends JPanel implements ActionListener, PropertyChang
                         victoryLabel.setText("Congratulations! You defeated the " + fightMonsterState.name + "!");
                         victoryResources.setText("You gain " + (initHealth/10 + 1) + " gold");
                     }
+                    player.setHealth(initPlayerHealth - damage);
 
                     if (player.getHealth() <= 0) {
                         nextButton.setVisible(true);
