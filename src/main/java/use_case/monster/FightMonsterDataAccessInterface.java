@@ -1,7 +1,7 @@
 package use_case.monster;
 
 /**
- * Input Boundary for actions which are related to fighting a Monster.
+ * Data Access Interface for Fight Monsters Use Case.
  */
 public interface FightMonsterDataAccessInterface {
 

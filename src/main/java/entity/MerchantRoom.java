@@ -1,21 +1,24 @@
 package entity;
 
+/**
+ * Merchant Room entity.
+ */
 public class MerchantRoom extends AbstractRoom {
     private Merchant merchant;
 
-
-    @Override
-    public int getRoomType() {
-        return 3; // Merchant Room
-    }
     /**
      * Creates a MerchantRoom.
+     * @param roomNumber the room number
      * @param merchant the merchant in the MerchantRoom.
      */
-
     public MerchantRoom(int roomNumber, Merchant merchant) {
         super(roomNumber);
         this.merchant = merchant;
+    }
+
+    @Override
+    public int getRoomType() {
+        return 3;
     }
 
     /**

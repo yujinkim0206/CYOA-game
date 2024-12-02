@@ -5,6 +5,9 @@ import interface_adapter.room_default.RoomDefaultViewModel;
 import use_case.merchant.MerchantOutputBoundary;
 import view.MerchantView;
 
+/**
+ * Presenter for the Merchant Use Case.
+ */
 public class MerchantPresenter implements MerchantOutputBoundary {
     private final MerchantViewModel merchantViewModel;
     private final RoomDefaultViewModel roomDefaultViewModel;

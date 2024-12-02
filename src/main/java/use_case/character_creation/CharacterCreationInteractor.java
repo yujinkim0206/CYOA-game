@@ -24,8 +24,8 @@ public class CharacterCreationInteractor implements CharacterCreationInputBounda
         characterDataAccessObject.setPclass(characterCreationInputData.getPclass());
         characterDataAccessObject.setPrace(characterCreationInputData.getPrace());
 
-        String pClassDescription = characterDataAccessObject.getPClassDescription();
-        String pRaceDescription = characterDataAccessObject.getPRaceDescription();
+        final String pClassDescription = characterDataAccessObject.getPclassDescription();
+        final String pRaceDescription = characterDataAccessObject.getPraceDescription();
 
         characterCreationPresenter.getDescription(pClassDescription, pRaceDescription);
     }
@@ -38,7 +38,7 @@ public class CharacterCreationInteractor implements CharacterCreationInputBounda
         else {
             roomDataAccessObject.setCurrentRoomIndex(0);
             final AbstractRoom room = roomDataAccessObject.getFloor().getRoomList().get(0);
-            CharacterCreationOutputData characterCreationOutputData = new CharacterCreationOutputData(
+            final CharacterCreationOutputData characterCreationOutputData = new CharacterCreationOutputData(
                     room.getDescription(), room.getClass().getSimpleName()
             );
             characterCreationPresenter.prepareSuccessView(characterCreationOutputData);

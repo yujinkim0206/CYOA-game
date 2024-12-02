@@ -1,10 +1,13 @@
 package use_case.merchant;
 
-import entity.Item;
-
 import java.util.List;
 import java.util.Map;
 
+import entity.Item;
+
+/**
+ * Input Data for the Merchant Use Case.
+ */
 public class MerchantInputData {
     private final Map<String, List<Item>> items;
 

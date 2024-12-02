@@ -1,11 +1,11 @@
 package interface_adapter.merchant;
 
+import java.util.List;
+import java.util.Map;
+
 import entity.Item;
 import use_case.merchant.MerchantInputBoundary;
 import use_case.merchant.MerchantInputData;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * The controller for the Merchant use case.
@@ -18,6 +18,10 @@ public class MerchantController {
         this.merchantUseCaseInteractor = merchantUseCaseInteractor;
     }
 
+    /**
+     * Execute method.
+     * @param items items
+     */
     public void execute(Map<String, List<Item>> items) {
         final MerchantInputData merchantInputData = new MerchantInputData(items);
         merchantUseCaseInteractor.execute(merchantInputData);

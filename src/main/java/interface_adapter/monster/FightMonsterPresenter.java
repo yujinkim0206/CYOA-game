@@ -7,10 +7,10 @@ import use_case.monster.FightMonsterOutputBoundary;
 import use_case.monster.FightMonsterOutputData;
 
 /**
- * The Presenter for the Fight Monster Use Case
+ * The Presenter for the Fight Monster Use Case.
  */
 public class FightMonsterPresenter implements FightMonsterOutputBoundary {
-    private FightMonsterViewModel fightMonsterViewModel; // Would be used for fail view when implemented
+    private FightMonsterViewModel fightMonsterViewModel;
     private ViewManagerModel viewManagerModel;
     private RoomDefaultViewModel roomDefaultViewModel;
 
@@ -22,6 +22,10 @@ public class FightMonsterPresenter implements FightMonsterOutputBoundary {
         this.roomDefaultViewModel = roomDefaultViewModel;
     }
 
+    /**
+     * Prepares the success view.
+     * @param outputData the output data
+     */
     public void prepareSuccessView(FightMonsterOutputData outputData) {
         final RoomDefaultState roomDefaultState = roomDefaultViewModel.getState();
         this.roomDefaultViewModel.setState(roomDefaultState);
@@ -29,8 +33,12 @@ public class FightMonsterPresenter implements FightMonsterOutputBoundary {
 
         this.viewManagerModel.setState(roomDefaultViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
-        }
+    }
 
+    /**
+     * Prepares the hit view.
+     * @param outputData the output data
+     */
     public void prepareHitView(FightMonsterOutputData outputData) {
         final FightMonsterState fightMonsterState = fightMonsterViewModel.getState();
         fightMonsterState.hit();

@@ -1,7 +1,5 @@
 package use_case.talk_to_npc;
 
-import java.util.List;
-
 /**
  * Input Boundary for actions which are related to talking to NPC.
  */

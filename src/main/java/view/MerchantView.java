@@ -1,18 +1,24 @@
 package view;
 
-import entity.Item;
-import interface_adapter.merchant.MerchantController;
-import interface_adapter.merchant.MerchantState;
-import interface_adapter.merchant.MerchantViewModel;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.Map;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import entity.Item;
+import interface_adapter.merchant.MerchantController;
+import interface_adapter.merchant.MerchantState;
+import interface_adapter.merchant.MerchantViewModel;
 
 /**
  * The View for when the user interacts with a merchant.
@@ -52,8 +58,8 @@ public class MerchantView extends JPanel implements ActionListener, PropertyChan
         this.itemsMap = merchantViewModel.getState().getItems();
         if (itemsMap != null) {
             for (String itemName : itemsMap.keySet()) {
-                List<Item> itemDescriptions = itemsMap.get(itemName);
-                itemList.addAll(itemDescriptions); // Add item descriptions
+                final List<Item> itemDescriptions = itemsMap.get(itemName);
+                itemList.addAll(itemDescriptions);
             }
         }
 
@@ -139,13 +145,15 @@ public class MerchantView extends JPanel implements ActionListener, PropertyChan
      * @param evt the ActionEvent to react to
      */
     public void actionPerformed(ActionEvent evt) {
-        String command = evt.getActionCommand();
-        if (command.equals("Sample Item 1")) {
+        final String command = evt.getActionCommand();
+        if ("Sample Item 1".equals(command)) {
             System.out.println("Buying Sample Item 1");
             // Trigger merchantController logic to handle the purchase
-        } else if (command.equals("Sample Item 2")) {
+        }
+        else if ("Sample Item 2".equals(command)) {
             System.out.println("Buying Sample Item 2");
-        } else if (command.equals("Sample Item 3")) {
+        }
+        else if ("Sample Item 3".equals(command)) {
             System.out.println("Buying Sample Item 3");
         }
     }

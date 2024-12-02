@@ -15,6 +15,7 @@ public class CharacterCreationInputData {
     public String getPclass() {
         return pClass;
     }
+
     public String getPrace() {
         return pRace;
     }

@@ -16,6 +16,8 @@ public class CharacterCreationController {
 
     /**
      * Executes the Character Creation Use Case to update the class or race.
+     * @param pClass the class button the user selected
+     * @param pRace the race button the user selected
      */
     public void execute(String pClass, String pRace) {
         final CharacterCreationInputData characterCreationInputData = new CharacterCreationInputData(pClass, pRace);

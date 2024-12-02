@@ -1,9 +1,9 @@
 package interface_adapter.open_inventory;
 
-import entity.Item;
-
 import java.util.List;
 import java.util.Map;
+
+import entity.Item;
 
 /**
  * The state for the Open Inventory View Model.

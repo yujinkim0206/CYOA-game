@@ -8,9 +8,9 @@ import java.util.Map;
  */
 public class Player {
     private static Player instance;
+    private static Inventory inventory;
     private String pclass;
     private String prace;
-    private static Inventory inventory;
     private final Map<String, Item> equippedItems;
     private AbstractRoom currentAbstractRoom;
     private int classArmor;
@@ -20,39 +20,54 @@ public class Player {
     private int totalArmor;
     private int totalDamage;
 
-
     private int health;
     private int maxHealth;
     private int healthRegeneration;
 
+    private String armor = "Armor";
+    private String weapon = "Weapon";
+    private String buff = "Buff";
 
     public Player() {
-        this.inventory = new Inventory();     //assume Base information for all race, add value if race changed.
-        this.health = 100;
+        // Assume Base information for all race, add value if race changed.
+        this.inventory = new Inventory();
         this.maxHealth = 100;
+        this.health = maxHealth;
         this.healthRegeneration = 0;
         this.equippedItems = new HashMap<>();
-        this.equippedItems.put("Armor", null);
-        this.equippedItems.put("Weapon", null);
-        this.equippedItems.put("Buff", null);
+        this.equippedItems.put(armor, null);
+        this.equippedItems.put(weapon, null);
+        this.equippedItems.put(buff, null);
     }
 
     /**
-     * Getter and setter for pclass.
+     * Getter for pClass.
+     * @return pclass
      */
     public String getPclass() {
         return pclass;
     }
+
+    /**
+     * Setter for pClass.
+     * @param pclass new pclass
+     */
     public void setPclass(String pclass) {
         this.pclass = pclass;
     }
 
     /**
-     * Getter and setter for prace.
+     * Getter for pRace.
+     * @return prace
      */
     public String getPrace() {
         return prace;
     }
+
+    /**
+     * Setter for pRace.
+     * @param race prace
+     */
     public void setPrace(String race) {
         this.prace = race;
     }
@@ -61,10 +76,14 @@ public class Player {
         inventory = newInventory;
     }
 
-
+    /**
+     * Get the player's inventory.
+     * @return inventory
+     */
     public static Inventory getInventory() {
         if (inventory == null) {
-            inventory = new Inventory(); // Initialize if not already set
+            // Initialize if not already set
+            inventory = new Inventory();
         }
         return inventory;
     }
@@ -72,6 +91,7 @@ public class Player {
     public int getHealth() {
         return health;
     }
+
     public void setHealth(int health) {
         this.health = Math.min(health, maxHealth);
         if (this.health < 0) {
@@ -79,26 +99,31 @@ public class Player {
         }
     }
 
-    /**
-     * Getter and setter for max health.
-     */
     public int getMaxHealth() {
         return maxHealth;
     }
+
+    /**
+     * Increase the player's max health limit.
+     * @param amount by how much to increase
+     */
     public void increaseHealthLimit(int amount) {
         this.maxHealth += amount;
         System.out.println("Max health increased by " + amount + ". New max health: " + maxHealth);
     }
 
-    /**
-     * Getter and setter for health regeneration.
-     */
     public int getHealthRegeneration() {
         return healthRegeneration;
     }
+
+    /**
+     * Increase the player's health regeneration.
+     * @param amount by how much to increase
+     */
     public void increaseHealthRegeneration(int amount) {
         this.healthRegeneration += amount;
-        System.out.println("Health regeneration increased by " + amount + ". New health regeneration: " + healthRegeneration);
+        System.out.println(
+                "Health regeneration increased by " + amount + ". New health regeneration: " + healthRegeneration);
     }
 
     /**
@@ -118,15 +143,18 @@ public class Player {
      * @return A message indicating the result of the operation.
      */
     public String equipItem(Item item) {
-        String slot;
+        final String slot;
         if (item instanceof Armor) {
-            slot = "Armor";
-        } else if (item instanceof Weapon) {
-            slot = "Weapon";
-        } else if (item instanceof Buff) {
-            slot = "Buff";
-        } else {
-            return "Invalid item type.";
+            slot = armor;
+        }
+        else if (item instanceof Weapon) {
+            slot = weapon;
+        }
+        else if (item instanceof Buff) {
+            slot = buff;
+        }
+        else {
+            slot = "Invalid item type.";
         }
 
         // Add the item to the inventory
@@ -136,7 +164,6 @@ public class Player {
         equippedItems.put(slot, item);
         return "Equipped " + item.getName() + " in " + slot + " slot.";
     }
-
 
     /**
      * Returns the singleton instance of Player.
@@ -162,21 +189,20 @@ public class Player {
     /**
      * Setter for the current room.
      *
-     * @param currentAbstractRoom the room to set as the player's current room
+     * @param newCurrentAbstractRoom the room to set as the player's current room
      */
-    public void setCurrentRoom(AbstractRoom currentAbstractRoom) {
-        this.currentAbstractRoom = currentAbstractRoom;
+    public void setCurrentRoom(AbstractRoom newCurrentAbstractRoom) {
+        this.currentAbstractRoom = newCurrentAbstractRoom;
     }
 
-
-
+    /**
+     * Replace an equipped item with a new item.
+     * @param newItem the new item
+     * @return the old item
+     */
     public Item replaceItem(Item newItem) {
-        if (newItem == null) {
-            return null; // Cannot equip null items
-        }
-
-        String category = newItem.getCategory();
-        Item oldItem;
+        final String category = newItem.getCategory();
+        Item oldItem = null;
 
         switch (category) {
             case "Weapon":
@@ -192,7 +218,6 @@ public class Player {
                 inventory.setEquippedBuff(newItem);
                 break;
             default:
-                return null; // Unsupported item category
         }
 
         if (oldItem != null) {
@@ -201,71 +226,91 @@ public class Player {
         return oldItem;
     }
 
-    /**
-     * Getter and setter for classArmor.
-     */
     public int getClassArmor() {
         return classArmor;
     }
+
+    /**
+     * Setter for classArmor.
+     * @param classArmor new class armor
+     */
     public void setClassArmor(int classArmor) {
         this.setTotalArmor(this.getTotalArmor() - this.getClassArmor());
         this.classArmor = classArmor;
         this.setTotalArmor(this.getTotalArmor() + classArmor);
     }
 
-    /**
-     * Getter and setter for classDamage.
-     */
     public int getClassDamage() {
         return classDamage;
     }
+
+    /**
+     * Setter for classDamage.
+     * @param classDamage new class damage
+     */
     public void setClassDamage(int classDamage) {
         this.setTotalDamage(this.getTotalDamage() - this.getClassDamage());
         this.classDamage = classDamage;
         this.setTotalDamage(this.getTotalDamage() + classDamage);
     }
 
+    public int getRaceArmor() {
+        return raceArmor;
+    }
+
     /**
-     * Getter and setter for raceArmor.
+     * Setter for race armor.
+     * @param raceArmor new race armor
      */
-    public int getRaceArmor() { return raceArmor; }
     public void setRaceArmor(int raceArmor) {
         this.setTotalArmor(this.getTotalArmor() - this.getRaceArmor());
         this.raceArmor = raceArmor;
         this.setTotalArmor(this.getTotalArmor() + raceArmor);
     }
 
+    public int getRaceDamage() {
+        return raceDamage;
+    }
+
     /**
-     * Getter and setter for raceDamage.
+     * Setter for race damage.
+     * @param raceDamage new race damage
      */
-    public int getRaceDamage() { return raceDamage; }
     public void setRaceDamage(int raceDamage) {
         this.setTotalDamage(this.getTotalDamage() - this.getRaceDamage());
         this.raceDamage = raceDamage;
         this.setTotalDamage(this.getTotalDamage() + raceDamage);
     }
 
-    /**
-     * Getter and setter for totalArmor.
-     */
-    public int getTotalArmor() { return totalArmor; }
-    public void setTotalArmor(int totalArmor) { this.totalArmor = totalArmor; }
+    public int getTotalArmor() {
+        return totalArmor;
+    }
+
+    public void setTotalArmor(int totalArmor) {
+        this.totalArmor = totalArmor;
+    }
+
+    public int getTotalDamage() {
+        return totalDamage;
+    }
+
+    public void setTotalDamage(int totalDamage) {
+        this.totalDamage = totalDamage;
+    }
 
     /**
-     * Getter and setter for totalDamage.
-     */
-    public int getTotalDamage() { return totalDamage; }
-    public void setTotalDamage(int totalDamage) { this.totalDamage = totalDamage; }
-
-    /**
-     * Increasers for Armor/Damage
-     * @param amount how much armor/damage has increased by
+     * Increaser for Armor.
+     * @param amount how much armor has increased by
      */
     public void increaseArmor(int amount) {
         this.setTotalArmor(this.getTotalArmor() + amount);
         System.out.println("Defense increased by " + amount + ". New defense: " + this.getTotalArmor());
     }
 
+    /**
+     * Increaser for damage.
+     * @param amount how much damage has increased by
+     */
     public void increaseDamage(int amount) {
         this.setTotalDamage(this.getTotalDamage() + amount);
         System.out.println("Attack power increased by " + amount + ". New attack power: " + this.getTotalDamage());

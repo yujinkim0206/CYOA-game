@@ -3,11 +3,12 @@ package data_access;
 import entity.Inventory;
 import entity.Item;
 import entity.Player;
+import use_case.equip_item.EquipItemDataAccessInterface;
 
 /**
  * DAO for managing equip item use cases.
  */
-public class EquipItemDataAccessObject implements data_access.EquipItemDataAccessInterface {
+public class EquipItemDataAccessObject implements EquipItemDataAccessInterface {
 
     @Override
     public Inventory getInventory() {
