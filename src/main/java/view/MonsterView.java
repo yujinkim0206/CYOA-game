@@ -81,9 +81,8 @@ public class MonsterView extends JPanel implements ActionListener, PropertyChang
                         victoryLabel.setText("Congratulations! You defeated the " + fightMonsterState.name + "!");
                         victoryResources.setText("You gain " + (initHealth/10 + 1) + " gold");
                     }
-                    player.setHealth(pHealth[0]);
 
-                    if (player.getHealth() <= 0) {
+                    else if (player.getHealth() <= 0) {
                         nextButton.setVisible(true);
                         fightButton.setVisible(false);
                         monsterDescriptionLabel.setText("");
