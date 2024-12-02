@@ -391,7 +391,7 @@ public class AppBuilder {
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(monsterView.getViewName());
+        viewManagerModel.setState(characterCreationView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;

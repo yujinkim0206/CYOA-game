@@ -1,9 +1,17 @@
 package use_case.character_creation;
 
+import entity.Player;
+
 /**
  * DAO for the Character Creation Use Case.
  */
 public interface CharacterCreationDataAccessInterface {
+    /**
+     * Return the player instance.
+     * @return the player instance
+     */
+    Player getInstance();
+
     /**
      * Set the class of the player.
      * @param pclass the class button the user clicked on
