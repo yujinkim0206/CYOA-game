@@ -6,6 +6,7 @@ import interface_adapter.monster.FightMonsterViewModel;
 import entity.Player;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -20,21 +21,29 @@ public class MonsterView extends JPanel implements ActionListener, PropertyChang
     private final FightMonsterViewModel fightMonsterViewModel;
     private final FightMonsterState fightMonsterState = new FightMonsterState();
 
-    private final JLabel monsterDescriptionLabel = new JLabel("You encountered a " + fightMonsterState.name + "!");
-    private JLabel monsterHealth = new JLabel("Health: " + fightMonsterState.health);
-    private JLabel playerHealth = new JLabel("");
-    private JLabel damageDone = new JLabel("");
-    private JLabel monsterDamage = new JLabel("");
-    private JLabel victoryLabel = new JLabel("");
-    private JLabel victoryResources = new JLabel("");
-    private JLabel monsterVictory = new JLabel("");
-
     private final JButton fightButton;
     private final JButton nextButton;
 
     private FightMonsterController fightMonsterController;
 
     public MonsterView(FightMonsterViewModel fightMonsterViewModel) {
+        final JLabel monsterDescriptionLabel = new JLabel("You encountered a " + fightMonsterState.name + "!");
+        monsterDescriptionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        final JLabel monsterHealth = new JLabel("Health: " + fightMonsterState.health);
+        monsterHealth.setAlignmentX(Component.CENTER_ALIGNMENT);
+        final JLabel playerHealth = new JLabel("");
+        playerHealth.setAlignmentX(Component.CENTER_ALIGNMENT);
+        final JLabel damageDone = new JLabel("");
+        damageDone.setAlignmentX(Component.CENTER_ALIGNMENT);
+        final JLabel monsterDamage = new JLabel("");
+        monsterDamage.setAlignmentX(Component.CENTER_ALIGNMENT);
+        final JLabel victoryLabel = new JLabel("");
+        victoryLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        final JLabel victoryResources = new JLabel("");
+        victoryResources.setAlignmentX(Component.CENTER_ALIGNMENT);
+        final JLabel monsterVictory = new JLabel("");
+        monsterVictory.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         this.fightMonsterViewModel = fightMonsterViewModel;
         this.fightMonsterViewModel.addPropertyChangeListener(this);
         Player player = Player.getInstance();
