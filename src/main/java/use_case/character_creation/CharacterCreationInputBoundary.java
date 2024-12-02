@@ -6,9 +6,13 @@ package use_case.character_creation;
 public interface CharacterCreationInputBoundary {
 
     /**
-     * Executes the Character Creation use case.
+     * Executes the Character Creation use case (class/race descriptions).
      * @param CharacterCreationInputData the input data
      */
     void execute(CharacterCreationInputData CharacterCreationInputData);
+
+    /**
+     * Executes the Character Creation use case (go to dungeon).
+     */
     void execute();
 }

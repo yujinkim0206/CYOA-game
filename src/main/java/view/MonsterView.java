@@ -1,16 +1,23 @@
 package view;
 
-import interface_adapter.monster.FightMonsterController;
-import interface_adapter.monster.FightMonsterState;
-import interface_adapter.monster.FightMonsterViewModel;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import interface_adapter.monster.FightMonsterController;
+import interface_adapter.monster.FightMonsterState;
+import interface_adapter.monster.FightMonsterViewModel;
+
+/**
+ * View for the Fight Monster Use Case.
+ */
 public class MonsterView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "monster";
     private final FightMonsterViewModel fightMonsterViewModel;
@@ -42,7 +49,7 @@ public class MonsterView extends JPanel implements ActionListener, PropertyChang
             public void actionPerformed(ActionEvent evt) {
                 if (evt.getSource().equals(fightButton)) {
                     final FightMonsterState currentState = fightMonsterViewModel.getState();
-                    int damage = currentState.hit();
+                    final int damage = currentState.hit();
                     monsterHealth.setText("Health: " + currentState.health);
                     damageDone.setText("Did " + damage + " damage");
 
@@ -59,8 +66,6 @@ public class MonsterView extends JPanel implements ActionListener, PropertyChang
         nextButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 if (evt.getSource().equals(nextButton)) {
-                    final FightMonsterState currentState = fightMonsterViewModel.getState();
-
                     fightMonsterController.execute();
                 }
             }
@@ -74,12 +79,21 @@ public class MonsterView extends JPanel implements ActionListener, PropertyChang
         this.add(buttons);
     }
 
+    /**
+     * Process actions (button clicks, usually).
+     * @param evt the event to be processed
+     */
     public void actionPerformed(ActionEvent evt) {
         System.out.println("Click " + evt.getActionCommand());
     }
 
+    /**
+     * Change the view when an event occurs.
+     * @param evt A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     public void propertyChange(PropertyChangeEvent evt) {
-        final FightMonsterState state = (FightMonsterState) evt.getNewValue();
+
     }
 
     public String getViewName() {

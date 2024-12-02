@@ -87,37 +87,42 @@ public class Inventory {
      * @return true if the item was successfully equipped, false otherwise
      */
     public boolean equipItem(Item item) {
-        if (item == null) {
-            return false;
-        }
+        boolean result = true;
 
-        String itemName = item.getName();
+        final String itemName = item.getName();
         if (!removeItem(itemName).equals(item)) {
-            return false; // Ensure the item is removed from inventory
+            // Ensure the item is removed from inventory
+            result = false;
         }
 
         if (item instanceof Armor) {
             equippedArmor = replaceEquippedItem(equippedArmor, item);
-        } else if (item instanceof Weapon) {
+        }
+        else if (item instanceof Weapon) {
             equippedWeapon = replaceEquippedItem(equippedWeapon, item);
-        } else if (item instanceof Buff) {
+        }
+        else if (item instanceof Buff) {
             equippedBuff = replaceEquippedItem(equippedBuff, item);
-        } else {
-            return false; // Unsupported item type
+        }
+        else {
+            // Unsupported item type
+            result = false;
         }
 
-        return true;
+        return result;
     }
 
     private Item replaceEquippedItem(Item currentEquipped, Item newItem) {
         if (currentEquipped != null) {
-            addItem(currentEquipped.getName(), currentEquipped); // Return current item to inventory
+            // Return current item to inventory
+            addItem(currentEquipped.getName(), currentEquipped);
         }
         return newItem;
     }
 
     /**
      * Getters and Setters for equipped items.
+     * @return the equipped weapon
      */
     public Item getEquippedWeapon() {
         return equippedWeapon;
@@ -145,16 +150,13 @@ public class Inventory {
 
     /**
      * Returns a list of all items in the inventory, including duplicates.
+     * @return a list of all items in the inventory, including duplicates.
      */
     public List<Item> getAllItems() {
-        List<Item> allItems = new ArrayList<>();
+        final List<Item> allItems = new ArrayList<>();
         for (List<Item> itemList : items.values()) {
             allItems.addAll(itemList);
         }
         return allItems;
     }
 }
-
-
-
-

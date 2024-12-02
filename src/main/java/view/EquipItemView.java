@@ -1,15 +1,20 @@
 package view;
 
-import interface_adapter.equip_item.EquipItemController;
-import interface_adapter.equip_item.EquipItemState;
-import interface_adapter.equip_item.EquipItemViewModel;
-import interface_adapter.ViewManagerModel;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import interface_adapter.ViewManagerModel;
+import interface_adapter.equip_item.EquipItemController;
+import interface_adapter.equip_item.EquipItemState;
+import interface_adapter.equip_item.EquipItemViewModel;
 
 /**
  * View for equipping items.
@@ -34,18 +39,19 @@ public class EquipItemView extends JPanel implements ActionListener, PropertyCha
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        JLabel title = new JLabel("Equip Item");
+        final JLabel title = new JLabel("Equip Item");
         title.setAlignmentX(CENTER_ALIGNMENT);
         add(title);
 
-        inventoryLabels = new JLabel[3];
-        equipButtons = new JButton[3];
+        final int number = 3;
+        inventoryLabels = new JLabel[number];
+        equipButtons = new JButton[number];
 
-        JPanel itemsPanel = new JPanel();
+        final JPanel itemsPanel = new JPanel();
         itemsPanel.setLayout(new BoxLayout(itemsPanel, BoxLayout.X_AXIS));
 
         for (int i = 0; i < slotLabels.length; i++) {
-            JPanel slotPanel = new JPanel();
+            final JPanel slotPanel = new JPanel();
             slotPanel.setLayout(new BoxLayout(slotPanel, BoxLayout.Y_AXIS));
 
             inventoryLabels[i] = new JLabel(slotLabels[i] + ": No Item");
@@ -68,9 +74,9 @@ public class EquipItemView extends JPanel implements ActionListener, PropertyCha
     public void actionPerformed(ActionEvent e) {
         for (int i = 0; i < equipButtons.length; i++) {
             if (e.getSource() == equipButtons[i]) {
-                String itemName = viewModel.getState().getInventory()[i];
+                final String itemName = viewModel.getState().getInventory()[i];
                 controller.equipItem(itemName);
-                return;
+                break;
             }
         }
 
@@ -82,22 +88,28 @@ public class EquipItemView extends JPanel implements ActionListener, PropertyCha
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        EquipItemState state = (EquipItemState) evt.getNewValue();
+        final EquipItemState state = (EquipItemState) evt.getNewValue();
 
-        String[] inventory = state.getInventory();
+        final String[] inventory = state.getInventory();
         for (int i = 0; i < inventoryLabels.length; i++) {
-            inventoryLabels[i].setText(slotLabels[i] + ": " + (inventory[i] != null ? inventory[i] : "No Item"));
+            if (inventory[i] != null) {
+                inventoryLabels[i].setText(slotLabels[i] + ": " + inventory[i]);
+            }
+            else {
+                inventoryLabels[i].setText(slotLabels[i] + ": " + "No Item");
+            }
         }
 
         if (state.getMessage() != null) {
             JOptionPane.showMessageDialog(this, state.getMessage(), "Success", JOptionPane.INFORMATION_MESSAGE);
-        } else if (state.getError() != null) {
+        }
+        else if (state.getError() != null) {
             JOptionPane.showMessageDialog(this, state.getError(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    public void setEquipItemController(EquipItemController controller) {
-        this.controller = controller;
+    public void setEquipItemController(EquipItemController newController) {
+        this.controller = newController;
     }
 
     public String getViewName() {

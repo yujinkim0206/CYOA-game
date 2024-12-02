@@ -5,9 +5,12 @@ package interface_adapter.equip_item;
  * Holds data related to the current state of the Equip Item View.
  */
 public class EquipItemState {
-    private String[] inventory; // Represents items in slots (e.g., Armor, Weapon, Buff)
-    private String error;       // Holds any error message for the view
-    private String message;     // Holds success messages for the view
+    // Represents items in slots (e.g., Armor, Weapon, Buff)
+    private String[] inventory;
+    // Holds any error message for the view
+    private String error;
+    // Holds success messages for the view
+    private String message;
 
     /**
      * Gets the current inventory.

@@ -46,8 +46,8 @@ public class CharacterCreationPresenter implements CharacterCreationOutputBounda
     @Override
     public void getDescription(String pClassDescription, String pRaceDescription) {
         final CharacterCreationState characterCreationState = characterCreationViewModel.getState();
-        characterCreationState.setPClassDescription(pClassDescription);
-        characterCreationState.setPRaceDescription(pRaceDescription);
+        characterCreationState.setPclassDescription(pClassDescription);
+        characterCreationState.setPraceDescription(pRaceDescription);
         this.characterCreationViewModel.setState(characterCreationState);
         this.characterCreationViewModel.firePropertyChanged();
     }

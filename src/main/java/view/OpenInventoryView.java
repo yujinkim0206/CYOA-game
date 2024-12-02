@@ -1,6 +1,7 @@
 package view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -8,16 +9,18 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import entity.Item;
-import entity.Inventory;
 import interface_adapter.open_inventory.OpenInventoryController;
-import interface_adapter.open_inventory.OpenInventoryState;
 import interface_adapter.open_inventory.OpenInventoryViewModel;
 
 /**
- * The View for when the user is on the open inventory
+ * The View for when the user is on the open inventory.
  */
 public class OpenInventoryView extends JPanel implements ActionListener, PropertyChangeListener {
 
@@ -50,7 +53,7 @@ public class OpenInventoryView extends JPanel implements ActionListener, Propert
         this.itemsMap = openInventoryViewModel.getState().getItems();
         if (itemsMap != null) {
             for (String itemName : itemsMap.keySet()) {
-                List<Item> itemList = itemsMap.get(itemName);
+                final List<Item> itemList = itemsMap.get(itemName);
                 itemsList.addAll(itemList);
             }
         }
@@ -114,9 +117,7 @@ public class OpenInventoryView extends JPanel implements ActionListener, Propert
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(close)) {
-                            final OpenInventoryState currentState = openInventoryViewModel.getState();
-
-                            openInventoryController.execute( );
+                            openInventoryController.execute();
                         }
                     }
                 }
@@ -138,7 +139,7 @@ public class OpenInventoryView extends JPanel implements ActionListener, Propert
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final OpenInventoryState state = (OpenInventoryState) evt.getNewValue();
+
     }
 
     public String getViewName() {

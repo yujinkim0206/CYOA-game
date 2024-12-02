@@ -10,26 +10,43 @@ public class CharacterCreationState {
     private String pRaceDescription = "Not Selected";
     private String error = "";
 
-    public String getPClass() {
+    public String getPclass() {
         return pClass;
     }
-    public void setPClass(String pClass) {
-        this.pClass = pClass;
+
+    public void setPclass(String newpClass) {
+        this.pClass = newpClass;
     }
 
-    public String getPRace() {
+    public String getPrace() {
         return pRace;
     }
-    public void setPRace(String pRace) {
-        this.pRace = pRace;
+
+    public void setPrace(String newpRace) {
+        this.pRace = newpRace;
     }
 
-    public String getPClassDescription() { return pClassDescription; }
-    public void setPClassDescription(String pClassDescription) { this.pClassDescription = pClassDescription; }
+    public String getPclassDescription() {
+        return pClassDescription;
+    }
 
-    public String getPRaceDescription() { return pRaceDescription; }
-    public void setPRaceDescription(String pRaceDescription) { this.pRaceDescription = pRaceDescription; }
+    public void setPclassDescription(String newpClassDescription) {
+        this.pClassDescription = newpClassDescription;
+    }
 
-    public String getError() { return error; }
-    public void setError(String error) { this.error = error; }
+    public String getPraceDescription() {
+        return pRaceDescription;
+    }
+
+    public void setPraceDescription(String newpRaceDescription) {
+        this.pRaceDescription = newpRaceDescription;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
 }

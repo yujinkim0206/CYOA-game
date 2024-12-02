@@ -11,14 +11,22 @@ public class PickUpItemViewModel extends ViewModel<PickUpItemState> {
         setState(new PickUpItemState());
     }
 
+    /**
+     * Update items state.
+     * @param items items to update
+     */
     public void updateItems(String[] items) {
-        PickUpItemState state = getState();
+        final PickUpItemState state = getState();
         state.setItems(items);
         setState(state);
     }
 
+    /**
+     * Set error in the state.
+     * @param error error to set
+     */
     public void setError(String error) {
-        PickUpItemState state = getState();
+        final PickUpItemState state = getState();
         state.setError(error);
         setState(state);
     }

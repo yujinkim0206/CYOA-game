@@ -1,18 +1,26 @@
 package view;
 
-import interface_adapter.character_creation.CharacterCreationController;
-import interface_adapter.character_creation.CharacterCreationState;
-import interface_adapter.character_creation.CharacterCreationViewModel;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
+import interface_adapter.character_creation.CharacterCreationController;
+import interface_adapter.character_creation.CharacterCreationState;
+import interface_adapter.character_creation.CharacterCreationViewModel;
+
 /**
- * The View for when the user is on the character creator
+ * The View for when the user is on the character creator.
  */
 public class CharacterCreationView extends JPanel implements ActionListener, PropertyChangeListener {
 
@@ -56,12 +64,12 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
         classes.add(clericBox);
 
         // Write the class description from the state.
-        JPanel classDescription = new JPanel();
+        final JPanel classDescription = new JPanel();
         classDescription.setLayout(new BoxLayout(classDescription, BoxLayout.Y_AXIS));
-        JPanel classDescriptionBox = new JPanel();
+        final JPanel classDescriptionBox = new JPanel();
         classDescriptionBox.setLayout(new BoxLayout(classDescriptionBox, BoxLayout.Y_AXIS));
         classDescriptionBox.setAlignmentX(Component.CENTER_ALIGNMENT);
-        classDescriptionText = new JLabel(characterCreationViewModel.getState().getPClassDescription());
+        classDescriptionText = new JLabel(characterCreationViewModel.getState().getPclassDescription());
         classDescriptionBox.add(classDescriptionText, SwingConstants.CENTER);
         classDescription.add(classDescriptionBox);
 
@@ -74,12 +82,12 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
         races.add(gnomeBox);
 
         // Write the race description from the state.
-        JPanel raceDescription = new JPanel();
+        final JPanel raceDescription = new JPanel();
         raceDescription.setLayout(new BoxLayout(raceDescription, BoxLayout.Y_AXIS));
-        JPanel raceDescriptionBox = new JPanel();
+        final JPanel raceDescriptionBox = new JPanel();
         raceDescriptionBox.setLayout(new BoxLayout(raceDescriptionBox, BoxLayout.Y_AXIS));
         raceDescriptionBox.setAlignmentX(Component.CENTER_ALIGNMENT);
-        raceDescriptionText = new JLabel(characterCreationViewModel.getState().getPRaceDescription());
+        raceDescriptionText = new JLabel(characterCreationViewModel.getState().getPraceDescription());
         raceDescriptionBox.add(raceDescriptionText, SwingConstants.CENTER);
         raceDescription.add(raceDescriptionBox);
 
@@ -120,15 +128,17 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final CharacterCreationState state = (CharacterCreationState) evt.getNewValue();
-        classDescriptionText.setText(state.getPClassDescription());
-        raceDescriptionText.setText(state.getPRaceDescription());
-        if (state.getError() != "") {
+        classDescriptionText.setText(state.getPclassDescription());
+        raceDescriptionText.setText(state.getPraceDescription());
+        if (!state.getError().equals("")) {
             showFailureMessage(state.getError());
             // Return error message to none after showing failure popup.
             state.setError("");
         }
-        revalidate(); // Ensure the layout updates
-        repaint();    // Ensure the changes are visible
+        // Ensure the layout updates
+        revalidate();
+        // Ensure the changes are visible
+        repaint();
     }
 
     public String getViewName() {
@@ -139,6 +149,10 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
         this.characterCreationController = characterCreationController;
     }
 
+    /**
+     * Show popup with the given failure message.
+     * @param error the failure message to show
+     */
     public void showFailureMessage(String error) {
         JOptionPane.showMessageDialog(this, error);
     }
@@ -146,7 +160,7 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
     private JPanel createRacePanel(String raceName) {
         final JPanel raceBox = new JPanel();
         raceBox.setLayout(new BoxLayout(raceBox, BoxLayout.Y_AXIS));
-        JButton raceNameButton = new JButton(raceName);
+        final JButton raceNameButton = new JButton(raceName);
         raceNameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         raceBox.add(raceNameButton);
         raceBox.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -156,10 +170,10 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(raceNameButton)) {
                             final CharacterCreationState currentState = characterCreationViewModel.getState();
-                            currentState.setPRace(raceName);
+                            currentState.setPrace(raceName);
                             characterCreationViewModel.setState(currentState);
 
-                            characterCreationController.execute(currentState.getPClass(), currentState.getPRace());
+                            characterCreationController.execute(currentState.getPclass(), currentState.getPrace());
                         }
                     }
                 }
@@ -171,7 +185,7 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
         final JPanel classBox = new JPanel();
         classBox.setLayout(new BoxLayout(classBox, BoxLayout.Y_AXIS));
         classBox.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JButton classNameButton = new JButton(className);
+        final JButton classNameButton = new JButton(className);
         classNameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         classBox.add(classNameButton);
         classBox.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -181,10 +195,10 @@ public class CharacterCreationView extends JPanel implements ActionListener, Pro
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(classNameButton)) {
                             final CharacterCreationState currentState = characterCreationViewModel.getState();
-                            currentState.setPClass(className);
+                            currentState.setPclass(className);
                             characterCreationViewModel.setState(currentState);
 
-                            characterCreationController.execute(currentState.getPClass(), currentState.getPRace());
+                            characterCreationController.execute(currentState.getPclass(), currentState.getPrace());
                         }
                     }
                 }

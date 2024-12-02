@@ -1,6 +1,5 @@
 package use_case.equip_item;
 
-import data_access.EquipItemDataAccessInterface;
 import entity.Inventory;
 import entity.Item;
 
@@ -18,39 +17,39 @@ public class EquipItemInteractor implements EquipItemInputBoundary {
 
     @Override
     public void execute(EquipItemInputData inputData) {
-        String itemName = inputData.getItemName();
+        final String itemName = inputData.getItemName();
 
         if (itemName == null || itemName.isEmpty()) {
             presenter.prepareFailView("No item name provided.");
-            return;
         }
+        else {
+            // Retrieve inventory from DAO
+            final Inventory inventory = dataAccess.getInventory();
 
-        // Retrieve inventory from DAO
-        Inventory inventory = dataAccess.getInventory();
+            // Fetch the item by name
+            final Item itemToEquip = inventory.getItem(itemName);
 
-        // Fetch the item by name
-        Item itemToEquip = inventory.getItem(itemName);
+            if (itemToEquip == null) {
+                presenter.prepareFailView("Item not found in inventory.");
+            }
+            else {
+                // Equip the item and update inventory
+                final boolean isEquipped = inventory.equipItem(itemToEquip);
 
-        if (itemToEquip == null) {
-            presenter.prepareFailView("Item not found in inventory.");
-            return;
+                if (!isEquipped) {
+                    presenter.prepareFailView("Failed to equip the item.");
+                }
+                else {
+                    // Send success response
+                    presenter.prepareSuccessView(new EquipItemOutputData(
+                            itemToEquip.getName(),
+                            "Equipped " + itemToEquip.getName() + " successfully."
+                    ));
+
+                    // Update the inventory in the DAO
+                    dataAccess.updateInventory(inventory);
+                }
+            }
         }
-
-        // Equip the item and update inventory
-        boolean isEquipped = inventory.equipItem(itemToEquip);
-
-        if (!isEquipped) {
-            presenter.prepareFailView("Failed to equip the item.");
-            return;
-        }
-
-        // Send success response
-        presenter.prepareSuccessView(new EquipItemOutputData(
-                itemToEquip.getName(),
-                "Equipped " + itemToEquip.getName() + " successfully."
-        ));
-
-        // Update the inventory in the DAO
-        dataAccess.updateInventory(inventory);
     }
 }

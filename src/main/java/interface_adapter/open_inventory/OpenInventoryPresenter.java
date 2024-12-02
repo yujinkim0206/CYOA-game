@@ -1,8 +1,8 @@
 package interface_adapter.open_inventory;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.room_default.RoomDefaultViewModel;
 import interface_adapter.room_default.RoomDefaultState;
+import interface_adapter.room_default.RoomDefaultViewModel;
 import use_case.open_inventory.OpenInventoryOutputBoundary;
 import use_case.open_inventory.OpenInventoryOutputData;
 
@@ -10,8 +10,8 @@ import use_case.open_inventory.OpenInventoryOutputData;
  * The Presenter for the Open Inventory Use Case.
  */
 public class OpenInventoryPresenter implements OpenInventoryOutputBoundary {
-
-    private OpenInventoryViewModel openInventoryViewModel; // Would be used for fail view when implemented
+    // Was to be used for fail view
+    private OpenInventoryViewModel openInventoryViewModel;
     private ViewManagerModel viewManagerModel;
     private RoomDefaultViewModel roomDefaultViewModel;
 

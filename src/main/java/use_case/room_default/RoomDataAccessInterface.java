@@ -15,7 +15,7 @@ public interface RoomDataAccessInterface {
     Floor getFloor();
 
     /**
-     * Creates a new floor
+     * Creates a new floor.
      * @return the new floor.
      */
     Floor makeNewFloor();

@@ -1,5 +1,8 @@
 package entity;
 
+/**
+ * Item Room entity.
+ */
 public class ItemRoom extends AbstractRoom {
     private final Item item;
 
@@ -15,7 +18,7 @@ public class ItemRoom extends AbstractRoom {
 
     @Override
     public int getRoomType() {
-        return 1; // Item Room
+        return 1;
     }
 
     public Item getItem() {

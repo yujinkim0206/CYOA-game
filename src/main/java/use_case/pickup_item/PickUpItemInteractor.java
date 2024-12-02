@@ -17,15 +17,15 @@ public class PickUpItemInteractor implements PickUpItemInputBoundary {
 
     @Override
     public void execute(PickUpItemInputData inputData) {
-        Item itemToPickUp = dataAccessObject.getItem();
+        final Item itemToPickUp = dataAccessObject.getItem();
         if (itemToPickUp == null) {
             presenter.prepareFailView("No item to pick up in the room.");
-            return;
         }
-
-        dataAccessObject.addToInventory(itemToPickUp);
-        presenter.prepareSuccessView(new PickUpItemOutputData(itemToPickUp.getName(),
-                "Picked up: " + itemToPickUp.getName()));
+        else {
+            dataAccessObject.addToInventory(itemToPickUp);
+            presenter.prepareSuccessView(new PickUpItemOutputData(itemToPickUp.getName(),
+                    "Picked up: " + itemToPickUp.getName()));
+        }
     }
 
 }

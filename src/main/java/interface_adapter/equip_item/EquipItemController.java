@@ -13,13 +13,17 @@ public class EquipItemController {
         this.interactor = interactor;
     }
 
+    /**
+     * Equip the item by name.
+     * @param itemName the item's name
+     */
     public void equipItem(String itemName) {
         if (itemName == null || itemName.isEmpty()) {
             System.err.println("No item name provided to equip.");
-            return;
         }
-
-        EquipItemInputData inputData = new EquipItemInputData(itemName);
-        interactor.execute(inputData);
+        else {
+            final EquipItemInputData inputData = new EquipItemInputData(itemName);
+            interactor.execute(inputData);
+        }
     }
 }

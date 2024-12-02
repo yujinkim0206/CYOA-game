@@ -13,6 +13,9 @@ public class PickUpItemController {
         this.pickUpItemInteractor = pickUpItemInteractor;
     }
 
+    /**
+     * Calls interactor execute method.
+     */
     public void pickUpItem() {
         pickUpItemInteractor.execute(new PickUpItemInputData());
     }

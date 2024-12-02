@@ -1,16 +1,22 @@
 package view;
 
-import interface_adapter.pickup_item.PickUpItemController;
-import interface_adapter.pickup_item.PickUpItemState;
-import interface_adapter.pickup_item.PickUpItemViewModel;
-import interface_adapter.ViewManagerModel;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import interface_adapter.ViewManagerModel;
+import interface_adapter.pickup_item.PickUpItemController;
+import interface_adapter.pickup_item.PickUpItemViewModel;
 
 /**
  * View for Picking Up Items.
@@ -18,9 +24,12 @@ import java.beans.PropertyChangeListener;
 public class PickUpItemView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "pick up item";
     private final PickUpItemViewModel viewModel;
-    private final JLabel itemLabel;       // Displays the current item
-    private final JButton pickUpButton;  // Button to pick up the item
-    private final JButton closeButton;   // Button to close the view
+    // Displays the current item
+    private final JLabel itemLabel;
+    // Button to pick up the item
+    private final JButton pickUpButton;
+    // Button to close the view
+    private final JButton closeButton;
     private PickUpItemController controller;
     private final ViewManagerModel viewManagerModel;
 
@@ -32,9 +41,10 @@ public class PickUpItemView extends JPanel implements ActionListener, PropertyCh
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         // Initialize components
-        String initialItemLabel = "No Item Available"; // Default text
+        String initialItemLabel = "No Item Available";
         if (viewModel.getState().getItems() != null && viewModel.getState().getItems().length > 0) {
-            initialItemLabel = "Item: " + viewModel.getState().getItems()[0]; // Display the first item
+            // Display the first item
+            initialItemLabel = "Item: " + viewModel.getState().getItems()[0];
         }
 
         itemLabel = new JLabel(initialItemLabel);
@@ -48,11 +58,11 @@ public class PickUpItemView extends JPanel implements ActionListener, PropertyCh
         closeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         closeButton.addActionListener(this);
 
-        // Add components to the panel
+        // Add components to the panel (with spacing)
         add(itemLabel);
-        add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing
+        add(Box.createRigidArea(new Dimension(0, 10)));
         add(pickUpButton);
-        add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing
+        add(Box.createRigidArea(new Dimension(0, 10)));
         add(closeButton);
     }
 
@@ -61,26 +71,30 @@ public class PickUpItemView extends JPanel implements ActionListener, PropertyCh
         if (e.getSource() == pickUpButton) {
             // Trigger the pick-up use case and retrieve the result directly
             if (viewModel.getState().getItems() != null && viewModel.getState().getItems().length > 0) {
-                controller.pickUpItem(); // Notify the interactor to pick up the item
-                JOptionPane.showMessageDialog(this, "Item picked successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                // Notify the interactor to pick up the item
+                controller.pickUpItem();
+                JOptionPane.showMessageDialog(
+                        this, "Item picked successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 itemLabel.setText("No Item Available");
-            } else {
-                JOptionPane.showMessageDialog(this, "No item to pick up in this room.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } else if (e.getSource() == closeButton) {
+            else {
+                JOptionPane.showMessageDialog(
+                        this, "No item to pick up in this room.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        else if (e.getSource() == closeButton) {
             viewManagerModel.setState("room view");
             viewManagerModel.firePropertyChanged();
         }
     }
 
-
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final PickUpItemViewModel state = (PickUpItemViewModel) evt.getNewValue();
+
     }
 
-    public void setPickUpController(PickUpItemController controller) {
-        this.controller = controller;
+    public void setPickUpController(PickUpItemController newController) {
+        this.controller = newController;
     }
 
     public String getViewName() {

@@ -17,7 +17,7 @@ public class EquipItemViewModel extends ViewModel<EquipItemState> {
      * @param inventory Array of items in inventory slots (Armor, Weapon, Buff)
      */
     public void updateInventory(String[] inventory) {
-        EquipItemState state = getState();
+        final EquipItemState state = getState();
         state.setInventory(inventory);
         setState(state);
     }
@@ -28,7 +28,7 @@ public class EquipItemViewModel extends ViewModel<EquipItemState> {
      * @param error The error message to display
      */
     public void setError(String error) {
-        EquipItemState state = getState();
+        final EquipItemState state = getState();
         state.setError(error);
         setState(state);
     }
