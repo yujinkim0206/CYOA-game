@@ -1,7 +1,7 @@
 package use_case.pickup_item;
 
 /**
- * The output boundary for the PickUp Item Use Case.
+ * Output Boundary for the Pick-Up Item Use Case.
  */
 public interface PickUpItemOutputBoundary {
     /**
@@ -16,4 +16,5 @@ public interface PickUpItemOutputBoundary {
      */
     void prepareFailView(String errorMessage);
 
+    void clearItemState();
 }

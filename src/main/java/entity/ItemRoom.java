@@ -24,5 +24,8 @@ public class ItemRoom extends AbstractRoom {
     public Item getItem() {
         return item;
     }
+
+    public void setItem(Object o) {
+    }
 }
 

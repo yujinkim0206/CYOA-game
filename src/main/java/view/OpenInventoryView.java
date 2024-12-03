@@ -1,23 +1,18 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Component;
+import interface_adapter.open_inventory.OpenInventoryController;
+import interface_adapter.open_inventory.OpenInventoryState;
+import interface_adapter.open_inventory.OpenInventoryViewModel;
+import interface_adapter.ViewManagerModel;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.Map;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import entity.Item;
-import interface_adapter.open_inventory.OpenInventoryController;
-import interface_adapter.open_inventory.OpenInventoryViewModel;
 
 /**
  * The View for when the user is on the open inventory.
@@ -26,127 +21,157 @@ public class OpenInventoryView extends JPanel implements ActionListener, Propert
 
     private final String viewName = "open inventory";
     private final OpenInventoryViewModel openInventoryViewModel;
-
-    private Map<String, List<Item>> itemsMap;
-    private List<Item> itemsList;
-
-    // Three sample items, to show what the inventory screen will potentially look like.
-    private final JLabel sampleItem1;
-    private final JLabel sampleDescription1;
-    private final JLabel sampleItem2;
-    private final JLabel sampleDescription2;
-    private final JLabel sampleItem3;
-    private final JLabel sampleDescription3;
-
-    private final JButton close;
+    private final ViewManagerModel viewManagerModel;
     private OpenInventoryController openInventoryController;
 
-    public OpenInventoryView(OpenInventoryViewModel openInventoryViewModel) {
-
+    public OpenInventoryView(OpenInventoryViewModel openInventoryViewModel, ViewManagerModel viewManagerModel) {
         this.openInventoryViewModel = openInventoryViewModel;
+        this.viewManagerModel = viewManagerModel;
+
         this.openInventoryViewModel.addPropertyChangeListener(this);
 
-        final JLabel title = new JLabel("Inventory Screen");
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        // Add all the items from the State to the List "items"
-        this.itemsMap = openInventoryViewModel.getState().getItems();
-        if (itemsMap != null) {
-            for (String itemName : itemsMap.keySet()) {
-                final List<Item> itemList = itemsMap.get(itemName);
-                itemsList.addAll(itemList);
+        JLabel title = new JLabel("Inventory");
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(title);
+
+        // Container for all items
+        JPanel itemsPanel = new JPanel();
+        itemsPanel.setLayout(new BoxLayout(itemsPanel, BoxLayout.Y_AXIS));
+
+        // Get inventory items from the view model
+        Map<String, List<String>> items = openInventoryViewModel.getState().getItems();
+        if (items != null) {
+            for (Map.Entry<String, List<String>> entry : items.entrySet()) {
+                String itemName = entry.getKey();
+                List<String> itemDetails = entry.getValue();
+
+                // Panel for each item
+                JPanel itemPanel = new JPanel();
+                itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.Y_AXIS));
+                itemPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+                // Display item name
+                JLabel nameLabel = new JLabel("Name: " + itemName);
+                nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+                itemPanel.add(nameLabel);
+
+                // Display item details
+                for (String detail : itemDetails) {
+                    JLabel detailLabel = new JLabel(detail);
+                    detailLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+                    itemPanel.add(detailLabel);
+                }
+
+                // Add "Equip" button for each item
+                JButton equipButton = new JButton("Equip");
+                equipButton.setActionCommand(itemName);
+                equipButton.addActionListener(this);
+                equipButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                itemPanel.add(equipButton);
+
+                itemsPanel.add(itemPanel);
             }
+        } else {
+            JLabel emptyLabel = new JLabel("No items in inventory.");
+            emptyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            itemsPanel.add(emptyLabel);
         }
 
-        /* TODO: implement this in a way that actually works and displays, after Item object is created
-        for (Item item : itemsList) {
-            final JPanel itemPanel = new JPanel();
-            itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.Y_AXIS));
-            itemPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            JLabel itemName = new JLabel(item.toString()); // TODO: Add "get name" to Item object
-            itemName.setAlignmentX(Component.CENTER_ALIGNMENT);
-            itemPanel.add(itemName);
-        } */
+        add(itemsPanel);
 
-        // Create panel for the first item. For now it's just sample text, but will probably contain name & description
-        final JPanel itemBox1 = new JPanel();
-        itemBox1.setLayout(new BoxLayout(itemBox1, BoxLayout.Y_AXIS));
-        sampleItem1 = new JLabel("Sample Item 1");
-        sampleItem1.setAlignmentX(Component.CENTER_ALIGNMENT);
-        sampleDescription1 = new JLabel("Sample Description 1");
-        sampleDescription1.setAlignmentX(Component.CENTER_ALIGNMENT);
-        itemBox1.add(sampleItem1);
-        itemBox1.add(sampleDescription1);
-        itemBox1.setBorder(BorderFactory.createLineBorder(Color.black));
-
-        // Create panel for the second item. For now it's just sample text, but will probably contain name & description
-        final JPanel itemBox2 = new JPanel();
-        itemBox2.setLayout(new BoxLayout(itemBox2, BoxLayout.Y_AXIS));
-        sampleItem2 = new JLabel("Sample Item 2");
-        sampleItem2.setAlignmentX(Component.CENTER_ALIGNMENT);
-        sampleDescription2 = new JLabel("Sample Description 2");
-        sampleDescription2.setAlignmentX(Component.CENTER_ALIGNMENT);
-        itemBox2.add(sampleItem2);
-        itemBox2.add(sampleDescription2);
-        itemBox2.setBorder(BorderFactory.createLineBorder(Color.black));
-
-        // Create panel for the third item. For now it's just sample text, but will probably contain name & description
-        final JPanel itemBox3 = new JPanel();
-        itemBox3.setLayout(new BoxLayout(itemBox3, BoxLayout.Y_AXIS));
-        sampleItem3 = new JLabel("Sample Item 3");
-        sampleDescription3 = new JLabel("Sample Description 3");
-        sampleDescription3.setAlignmentX(Component.CENTER_ALIGNMENT);
-        sampleItem3.setAlignmentX(Component.CENTER_ALIGNMENT);
-        itemBox3.add(sampleItem3);
-        itemBox3.add(sampleDescription3);
-        itemBox3.setBorder(BorderFactory.createLineBorder(Color.black));
-
-        // Place all three item panels in one horizontal panel for nice-looking display.
-        final JPanel items = new JPanel();
-        items.setLayout(new BoxLayout(items, BoxLayout.X_AXIS));
-        items.add(itemBox1);
-        items.add(itemBox2);
-        items.add(itemBox3);
-
-        // Create the close inventory button
-        final JPanel buttons = new JPanel();
-        close = new JButton("Close");
-        buttons.add(close);
-
-        close.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(close)) {
-                            openInventoryController.execute();
-                        }
-                    }
-                }
-        );
-
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.add(title);
-        this.add(items);
-        this.add(buttons);
-    }
-
-    /**
-     * React to a button click that results in evt.
-     * @param evt the ActionEvent to react to
-     */
-    public void actionPerformed(ActionEvent evt) {
-        System.out.println("Click " + evt.getActionCommand());
+        // Close button
+        JButton closeButton = new JButton("Close");
+        closeButton.addActionListener(e -> {
+            viewManagerModel.setState("room view"); // Navigate back to room view
+            viewManagerModel.firePropertyChanged();
+        });
+        closeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(closeButton);
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() instanceof JButton) {
+            JButton equipButton = (JButton) e.getSource(); // Explicit cast
+            String itemName = equipButton.getActionCommand();
 
+            // Transition to EquipItemView via state
+            viewManagerModel.setState("equip item");
+            viewManagerModel.firePropertyChanged();
+        }
+    }
+
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if ("state".equals(evt.getPropertyName())) {
+            OpenInventoryState state = (OpenInventoryState) evt.getNewValue();
+
+            removeAll(); // Clear the existing UI components
+            setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+            JLabel title = new JLabel("Inventory");
+            title.setAlignmentX(Component.CENTER_ALIGNMENT);
+            add(title);
+
+            // Create a new panel for items
+            JPanel itemsPanel = new JPanel();
+            itemsPanel.setLayout(new BoxLayout(itemsPanel, BoxLayout.Y_AXIS));
+
+            Map<String, List<String>> items = state.getItems();
+            if (items != null && !items.isEmpty()) {
+                for (Map.Entry<String, List<String>> entry : items.entrySet()) {
+                    String itemName = entry.getKey();
+                    List<String> itemDetails = entry.getValue();
+
+                    JPanel itemPanel = new JPanel();
+                    itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.Y_AXIS));
+                    itemPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+                    for (String detail : itemDetails) {
+                        JLabel detailLabel = new JLabel(detail);
+                        detailLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+                        itemPanel.add(detailLabel);
+                    }
+
+                    JButton equipButton = new JButton("Equip");
+                    equipButton.setActionCommand(itemName);
+                    equipButton.addActionListener(this);
+                    equipButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    itemPanel.add(equipButton);
+
+                    itemsPanel.add(itemPanel);
+                }
+            } else {
+                JLabel emptyLabel = new JLabel("No items in inventory.");
+                emptyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                itemsPanel.add(emptyLabel);
+            }
+
+            add(itemsPanel);
+
+            JButton closeButton = new JButton("Close");
+            closeButton.addActionListener(e -> {
+                viewManagerModel.setState("room view");
+                viewManagerModel.firePropertyChanged();
+            });
+            closeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            add(closeButton);
+
+            revalidate(); // Refresh the UI
+            repaint();
+        }
+    }
+
+
+
+    public void setOpenInventoryController(OpenInventoryController controller) {
+        this.openInventoryController = controller;
     }
 
     public String getViewName() {
         return viewName;
-    }
-
-    public void setOpenInventoryController(OpenInventoryController openInventoryController) {
-        this.openInventoryController = openInventoryController;
     }
 }

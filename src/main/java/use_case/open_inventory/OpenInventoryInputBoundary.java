@@ -7,7 +7,7 @@ public interface OpenInventoryInputBoundary {
 
     /**
      * Executes the Open Inventory use case.
-     * @param OpenInventoryInputData the input data
      */
-    void execute(OpenInventoryInputData OpenInventoryInputData);
+    void execute();
+
 }

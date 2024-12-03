@@ -25,16 +25,17 @@ public class OpenInventoryPresenter implements OpenInventoryOutputBoundary {
 
     @Override
     public void prepareSuccessView(OpenInventoryOutputData response) {
-        final RoomDefaultState roomDefaultState = roomDefaultViewModel.getState();
-        this.roomDefaultViewModel.setState(roomDefaultState);
-        this.roomDefaultViewModel.firePropertyChanged();
-
-        this.viewManagerModel.setState(roomDefaultViewModel.getViewName());
-        this.viewManagerModel.firePropertyChanged();
+        openInventoryViewModel.updateInventory(response.getInventory());
+        viewManagerModel.setState(openInventoryViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
+
 
     @Override
     public void prepareFailView(String error) {
-        // We're assuming that this never fails.
+        openInventoryViewModel.setError(error);
+        viewManagerModel.setState("room view");
+        viewManagerModel.firePropertyChanged();
     }
+
 }

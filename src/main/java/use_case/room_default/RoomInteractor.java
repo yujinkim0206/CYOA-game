@@ -5,6 +5,7 @@ import java.util.List;
 import entity.*;
 import use_case.character_creation.CharacterCreationDataAccessInterface;
 
+
 /**
  * The Room Default Interactor.
  */
@@ -13,16 +14,19 @@ public class RoomInteractor implements RoomInputBoundary {
     private final RoomDataAccessInterface roomDataAccessObject;
     private final NpcRoomDataAccessInterface npcRoomDataAccessObject;
     private final TrapRoomDataAccessInterface trapRoomDataAccessObject;
+    private final ItemRoomDataAccessInterface itemRoomDataAccessObject;
     private final CharacterCreationDataAccessInterface characterCreationDataAccessObject;
 
     public RoomInteractor(RoomOutputBoundary roomPresenter, RoomDataAccessInterface roomDataAccessInterface,
                           NpcRoomDataAccessInterface npcRoomDataAccessInterface,
                           TrapRoomDataAccessInterface trapRoomDataAccessInterface,
+                            ItemRoomDataAccessInterface itemRoomDataAccessObject,
                           CharacterCreationDataAccessInterface characterCreationDataAccessInterface) {
         this.roomPresenter = roomPresenter;
         this.roomDataAccessObject = roomDataAccessInterface;
         this.npcRoomDataAccessObject = npcRoomDataAccessInterface;
         this.trapRoomDataAccessObject = trapRoomDataAccessInterface;
+        this.itemRoomDataAccessObject = itemRoomDataAccessObject;
         this.characterCreationDataAccessObject = characterCreationDataAccessInterface;
     }
 
@@ -47,6 +51,26 @@ public class RoomInteractor implements RoomInputBoundary {
                     npc.hasNextDialogue(),
                     npc.isMerchant()
             ));
+        }
+        else if (abstractRoom instanceof ItemRoom) {
+
+            final ItemRoom itemRoom = (ItemRoom) abstractRoom;
+            System.out.println("[DEBUG] Interacting with ItemRoom. Item: " + itemRoom.getItem().getName());
+            String description = itemRoomDataAccessObject.getRoomDescription(itemRoom);
+            Item item = itemRoomDataAccessObject.getItem(itemRoom);
+
+            if (item == null) {
+                roomPresenter.prepareFailView("No item to pick up in this room.");
+            } else {
+                System.out.println("[DEBUG] You reached here");
+                roomPresenter.prepareSuccessView(new ItemRoomOutputData(
+                        description,
+                        item.getName(),
+                        item.getRarity(),
+                        item.getCategory()
+
+                ));
+            }
         }
         else if (abstractRoom instanceof TrapRoom) {
             final TrapRoom trapRoom = (TrapRoom) abstractRoom;
@@ -77,13 +101,15 @@ public class RoomInteractor implements RoomInputBoundary {
 
     @Override
     public void goToNextRoom() {
-        final List<AbstractRoom> abstractRooms = roomDataAccessObject.getFloor().getRoomList();
+        final List<AbstractRoom> rooms = roomDataAccessObject.getFloor().getRoomList();
+        int currentIndex = roomDataAccessObject.getCurrentRoomIndex();
 
-        if (roomDataAccessObject.getCurrentRoomIndex() < abstractRooms.size() - 1) {
-            roomDataAccessObject.setCurrentRoomIndex(roomDataAccessObject.getCurrentRoomIndex() + 1);
-            final AbstractRoom nextAbstractRoom = abstractRooms.get(roomDataAccessObject.getCurrentRoomIndex());
-            roomPresenter.prepareNextRoomView(new RoomOutputData(nextAbstractRoom.getDescription(),
-                    nextAbstractRoom.getClass().getSimpleName()));
+        if (currentIndex < rooms.size() - 1) {
+            AbstractRoom nextRoom = rooms.get(++currentIndex);
+            roomDataAccessObject.setCurrentRoomIndex(currentIndex);
+            Player.getInstance().setCurrentRoom(nextRoom); // Update the player's current room
+            roomPresenter.prepareNextRoomView(new RoomOutputData(nextRoom.getDescription(),
+                    nextRoom.getClass().getSimpleName()));
         }
         else {
             Floor newFloor = roomDataAccessObject.makeNewFloor();
@@ -99,3 +125,4 @@ public class RoomInteractor implements RoomInputBoundary {
         roomPresenter.prepareInventoryView();
     }
 }
+

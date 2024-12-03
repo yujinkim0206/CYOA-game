@@ -1,5 +1,8 @@
 package use_case.open_inventory;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * The Open Inventory Interactor.
  */
@@ -13,11 +16,20 @@ public class OpenInventoryInteractor implements OpenInventoryInputBoundary {
         this.openInventoryPresenter = openInventoryOutputBoundary;
     }
 
-    @Override
-    public void execute(OpenInventoryInputData openInventoryInputData) {
-        // For now, this code will always prepare success when requesting the inventory.
-        final OpenInventoryOutputData openInventoryOutputData = new OpenInventoryOutputData(false);
-        openInventoryPresenter.prepareSuccessView(openInventoryOutputData);
+    public void execute() {
+        try {
+            // Fetch inventory data from the repository
+            Map<String, List<String>> inventory = userDataAccessObject.getInventory();
+
+            // Create the output data
+            OpenInventoryOutputData outputData = new OpenInventoryOutputData(inventory);
+
+            // Pass the output data to the presenter
+            openInventoryPresenter.prepareSuccessView(outputData);
+        } catch (Exception e) {
+            openInventoryPresenter.prepareFailView("Failed to load inventory: " + e.getMessage());
+        }
     }
+
 }
 

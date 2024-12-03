@@ -19,6 +19,7 @@ public class OpenInventoryController {
      */
     public void execute() {
         final OpenInventoryInputData openInventoryInputData = new OpenInventoryInputData();
-        openInventoryUseCaseInteractor.execute(openInventoryInputData);
+        openInventoryUseCaseInteractor.execute();
     }
+
 }
