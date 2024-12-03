@@ -97,7 +97,6 @@ public class OpenInventoryView extends JPanel implements ActionListener, Propert
             JButton equipButton = (JButton) e.getSource(); // Explicit cast
             String itemName = equipButton.getActionCommand();
 
-            openInventoryController.handleEquipItem(itemName);
             // Transition to EquipItemView via state
             viewManagerModel.setState("equip item");
             viewManagerModel.firePropertyChanged();

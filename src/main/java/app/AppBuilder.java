@@ -67,6 +67,7 @@ import use_case.open_inventory.OpenInventoryOutputBoundary;
 import use_case.pickup_item.PickUpItemInputBoundary;
 import use_case.pickup_item.PickUpItemInteractor;
 import use_case.pickup_item.PickUpItemOutputBoundary;
+import use_case.room_default.ItemRoomDataAccessInterface;
 import use_case.room_default.RoomInputBoundary;
 import use_case.room_default.RoomInteractor;
 import use_case.room_default.RoomOutputBoundary;
@@ -256,8 +257,8 @@ public class AppBuilder {
         // Create the interactor with the presenter and data access objects
         final RoomInputBoundary roomInteractor =
                 new RoomInteractor(roomOutputBoundary, roomDataAccessObject,
-                        npcRoomDataAccessInterface, trapRoomDataAccessInterface, itemRoomDataAccessObject);
-                        npcRoomDataAccessObject, trapRoomDataAccessObject, playerDataAccessObject);
+                        npcRoomDataAccessObject, trapRoomDataAccessObject, itemRoomDataAccessObject,
+                         playerDataAccessObject);
 
         // Create the controller with the interactor
         final RoomDefaultController roomDefaultController = new RoomDefaultController(roomInteractor);
@@ -388,12 +389,10 @@ public class AppBuilder {
      */
     public AppBuilder addPickUpItemUseCase() {
         final PickUpItemOutputBoundary pickUpItemOutputBoundary = new PickUpItemPresenter(
-                viewManagerModel, pickUpItemViewModel, roomDefaultViewModel);
-        final PickUpItemInputBoundary pickUpItemInteractor = new PickUpItemInteractor(
-                pickUpItemDataAccessObject, pickUpItemOutputBoundary);
                 pickUpItemViewModel, viewManagerModel);
-        final PickUpItemInputBoundary pickUpItemInteractor = new PickUpItemInteractor(pickUpItemDataAccessObject, pickUpItemOutputBoundary, openInventoryViewModel);
-
+        final PickUpItemInputBoundary pickUpItemInteractor = new PickUpItemInteractor(
+                pickUpItemDataAccessObject,
+                pickUpItemOutputBoundary, openInventoryViewModel);
         final PickUpItemController pickUpItemController = new PickUpItemController(pickUpItemInteractor);
 
         pickUpItemView.setPickUpController(pickUpItemController);

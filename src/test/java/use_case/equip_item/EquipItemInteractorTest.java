@@ -1,6 +1,6 @@
 package use_case.equip_item;
 
-import data_access.EquipItemDataAccessInterface;
+import use_case.equip_item.EquipItemDataAccessInterface;
 import entity.Inventory;
 import entity.Item;
 import org.junit.jupiter.api.BeforeEach;

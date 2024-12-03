@@ -5,6 +5,7 @@ import java.util.List;
 import entity.*;
 import use_case.character_creation.CharacterCreationDataAccessInterface;
 
+
 /**
  * The Room Default Interactor.
  */
@@ -19,8 +20,8 @@ public class RoomInteractor implements RoomInputBoundary {
     public RoomInteractor(RoomOutputBoundary roomPresenter, RoomDataAccessInterface roomDataAccessInterface,
                           NpcRoomDataAccessInterface npcRoomDataAccessInterface,
                           TrapRoomDataAccessInterface trapRoomDataAccessInterface,
+                            ItemRoomDataAccessInterface itemRoomDataAccessObject,
                           CharacterCreationDataAccessInterface characterCreationDataAccessInterface) {
-                          TrapRoomDataAccessInterface trapRoomDataAccessInterface, ItemRoomDataAccessInterface itemRoomDataAccessObject) {
         this.roomPresenter = roomPresenter;
         this.roomDataAccessObject = roomDataAccessInterface;
         this.npcRoomDataAccessObject = npcRoomDataAccessInterface;
@@ -120,3 +121,4 @@ public class RoomInteractor implements RoomInputBoundary {
         roomPresenter.prepareInventoryView();
     }
 }
+
