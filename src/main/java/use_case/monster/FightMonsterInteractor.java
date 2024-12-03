@@ -28,5 +28,6 @@ public class FightMonsterInteractor implements FightMonsterInputBoundary {
      */
     public void hit(FightMonsterInputData openInventoryInputData) {
         final FightMonsterOutputData openInventoryOutputData = new FightMonsterOutputData(false);
+        fightMonsterOutputBoundary.prepareHitView(openInventoryOutputData);
     }
 }

@@ -16,7 +16,7 @@ public class Monster_Test {
     void testMonsterInitialization2() {
         Monster monster = new Monster();
         monster.setHealth(10);
-        assertEquals("10", monster.getHealth());
+        assertEquals(10, monster.getHealth());
         assertEquals("Basic Monster", monster.getName());
     }
 }
