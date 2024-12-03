@@ -58,7 +58,7 @@ public class PlayerDataAccessObject implements CharacterCreationDataAccessInterf
      */
     public String getPclassDescription() {
         String output = "";
-        if (player.getPrace() != null) {
+        if (player.getPclass() != null) {
             try {
                 final OkHttpClient client = new OkHttpClient().newBuilder().build();
 
