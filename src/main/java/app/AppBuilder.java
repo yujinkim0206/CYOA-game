@@ -252,8 +252,8 @@ public class AppBuilder {
         // Create the presenter with appropriate view models
         final RoomOutputBoundary roomOutputBoundary = new RoomDefaultPresenter(
                 viewManagerModel, roomDefaultViewModel, talkToNpcViewModel,
-                fallForTrapViewModel, openInventoryViewModel, pickUpItemViewModel);
-
+                fallForTrapViewModel, openInventoryViewModel, fightMonsterViewModel, pickUpItemViewModel);
+      
         // Create the interactor with the presenter and data access objects
         final RoomInputBoundary roomInteractor =
                 new RoomInteractor(roomOutputBoundary, roomDataAccessObject,
