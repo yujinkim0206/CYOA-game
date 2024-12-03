@@ -23,20 +23,14 @@ public class EquipItemPresenter implements EquipItemOutputBoundary {
 
     @Override
     public void prepareSuccessView(EquipItemOutputData response) {
-        // Update inventory with the newly equipped item
         viewModel.updateInventory(new String[]{response.getItemName()});
-
-        // Set the view to reflect the success state
         viewManagerModel.setState(viewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 
     @Override
     public void prepareFailView(String error) {
-        // Update the view model with the error message
         viewModel.setError(error);
-
-        // Revert to the default view state (Room Default View)
         viewManagerModel.setState(roomDefaultViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

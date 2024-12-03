@@ -1,5 +1,6 @@
 package interface_adapter.pickup_item;
 
+import use_case.pickup_item.PickUpItemDataAccessInterface;
 import use_case.pickup_item.PickUpItemInputBoundary;
 import use_case.pickup_item.PickUpItemInputData;
 
@@ -7,16 +8,16 @@ import use_case.pickup_item.PickUpItemInputData;
  * Controller for the Pick-Up Item Use Case.
  */
 public class PickUpItemController {
-    private final PickUpItemInputBoundary pickUpItemInteractor;
+    private final PickUpItemInputBoundary interactor;
 
-    public PickUpItemController(PickUpItemInputBoundary pickUpItemInteractor) {
-        this.pickUpItemInteractor = pickUpItemInteractor;
+    public PickUpItemController(PickUpItemInputBoundary interactor) {
+        this.interactor = interactor;
     }
 
     /**
      * Calls interactor execute method.
      */
     public void pickUpItem() {
-        pickUpItemInteractor.execute(new PickUpItemInputData());
+        interactor.execute(new PickUpItemInputData());
     }
 }

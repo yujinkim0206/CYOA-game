@@ -5,12 +5,11 @@ import interface_adapter.fall_for_trap.FallForTrapState;
 import interface_adapter.fall_for_trap.FallForTrapViewModel;
 import interface_adapter.open_inventory.OpenInventoryState;
 import interface_adapter.open_inventory.OpenInventoryViewModel;
+import interface_adapter.pickup_item.PickUpItemState;
+import interface_adapter.pickup_item.PickUpItemViewModel;
 import interface_adapter.talk_to_npc.TalkToNpcState;
 import interface_adapter.talk_to_npc.TalkToNpcViewModel;
-import use_case.room_default.NpcRoomOutputData;
-import use_case.room_default.RoomOutputBoundary;
-import use_case.room_default.RoomOutputData;
-import use_case.room_default.TrapRoomOutputData;
+import use_case.room_default.*;
 
 /**
  * Presenter for the Room Default Use Case.
@@ -21,6 +20,7 @@ public class RoomDefaultPresenter implements RoomOutputBoundary {
     private final TalkToNpcViewModel talkToNpcViewModel;
     private final FallForTrapViewModel fallForTrapViewModel;
     private final OpenInventoryViewModel openInventoryViewModel;
+    private final PickUpItemViewModel  pickUpItemViewModel;
 
     /**
      * Constructor for RoomDefaultPresenter.
@@ -34,12 +34,13 @@ public class RoomDefaultPresenter implements RoomOutputBoundary {
                                 RoomDefaultViewModel roomDefaultViewModel,
                                 TalkToNpcViewModel talkToNpcViewModel,
                                 FallForTrapViewModel fallForTrapViewModel,
-                                OpenInventoryViewModel openInventoryViewModel) {
+                                OpenInventoryViewModel openInventoryViewModel, PickUpItemViewModel pickUpItemViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.roomDefaultViewModel = roomDefaultViewModel;
         this.talkToNpcViewModel = talkToNpcViewModel;
         this.fallForTrapViewModel = fallForTrapViewModel;
         this.openInventoryViewModel = openInventoryViewModel;
+        this.pickUpItemViewModel = pickUpItemViewModel;
     }
 
     @Override
@@ -47,8 +48,31 @@ public class RoomDefaultPresenter implements RoomOutputBoundary {
         final String roomType = outputData.getRoomType();
         switch (roomType) {
             case "ItemRoom":
-                viewManagerModel.setState("pick up item");
+                if (outputData instanceof ItemRoomOutputData) {
+                    final ItemRoomOutputData itemRoomOutputData = (ItemRoomOutputData) outputData;
+
+                    System.out.println("[DEBUG] Preparing PickUpItemView for item: " + itemRoomOutputData.getItemName());
+
+                    // Update the state in PickUpItemViewModel
+                    PickUpItemState pickUpState = pickUpItemViewModel.getState();
+                    pickUpState.setItems(itemRoomOutputData.getItemName());
+                    pickUpState.setMessage("A " + itemRoomOutputData.getRarity() + " " + itemRoomOutputData.getCategory() +
+                            " is available: " + itemRoomOutputData.getItemName());
+                    pickUpItemViewModel.setState(pickUpState);
+
+                    // Fire property change for PickUpItemViewModel
+                    pickUpItemViewModel.firePropertyChanged();
+
+                    // Transition to PickUpItemView
+                    viewManagerModel.setState(pickUpItemViewModel.getViewName());
+                    viewManagerModel.firePropertyChanged();
+
+                    System.out.println("[DEBUG] Transitioned to PickUpItemView with item: " + itemRoomOutputData.getItemName());
+                } else {
+                    throw new IllegalArgumentException("Invalid RoomOutputData for ItemRoom.");
+                }
                 break;
+
 
             case "TrapRoom":
                 if (outputData instanceof TrapRoomOutputData) {
@@ -133,4 +157,21 @@ public class RoomDefaultPresenter implements RoomOutputBoundary {
         viewManagerModel.setState(openInventoryViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
+
+//    @Override
+//    public void preparePickUpItemView(ItemRoomOutputData itemRoomOutputData) {
+//        System.out.println("[DEBUG] Presenter received item data: " + itemRoomOutputData.getItemName());
+//        pickUpItemViewModel.updateItems(itemRoomOutputData.getItemName());
+//        System.out.println("[DEBUG] ViewModel updated with item: " + itemRoomOutputData.getItemName());
+//
+//        // Switch to PickUpItemView
+//        viewManagerModel.setState(pickUpItemViewModel.getViewName());
+//        viewManagerModel.firePropertyChanged();
+//        System.out.println("[DEBUG] Transitioned to PickUpItemView.");
+//    }
+
+
+
+
+
 }

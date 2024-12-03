@@ -27,4 +27,9 @@ public interface RoomOutputBoundary {
      * Prepares the view for returning to the main menu.
      */
     void prepareInventoryView();
+
+//    /**
+//     * Prepares the view for pick up item.
+//     */
+//    void preparePickUpItemView(ItemRoomOutputData itemRoomOutputData);
 }

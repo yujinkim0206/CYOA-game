@@ -15,6 +15,9 @@ public class Inventory {
     private Item equippedArmor;
     private Item equippedWeapon;
     private Item equippedBuff;
+    private Item armor;
+    private Item weapon;
+    private Item buff;
 
     public Inventory() {
         items = new HashMap<>();
@@ -158,5 +161,32 @@ public class Inventory {
             allItems.addAll(itemList);
         }
         return allItems;
+    }
+
+    /**
+     * Getters and setters for equipped items
+     */
+    public Item getArmor() {
+        return armor;
+    }
+
+    public void setArmor(Item armor) {
+        this.armor = armor;
+    }
+
+    public Item getWeapon() {
+        return weapon;
+    }
+
+    public void setWeapon(Item weapon) {
+        this.weapon = weapon;
+    }
+
+    public Item getBuff() {
+        return buff;
+    }
+
+    public void setBuff(Item buff) {
+        this.buff = buff;
     }
 }

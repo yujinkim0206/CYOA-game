@@ -1,6 +1,8 @@
 package use_case.pickup_item;
 
 import entity.Item;
+import java.util.List;
+import java.util.Map;
 
 /**
  * DAO Interface for Pick-Up Item Use Case.
@@ -20,4 +22,8 @@ public interface PickUpItemDataAccessInterface {
      * @param item The item to add
      */
     void addToInventory(Item item);
+
+    void clearRoomItem();
+
+    Map<String,List<String>> getInventory();
 }

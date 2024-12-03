@@ -15,6 +15,9 @@ import data_access.PlayerDataAccessObject;
 import data_access.RoomDataAccessObject;
 import data_access.TrapDataAccessObject;
 import entity.InventoryFactory;
+import data_access.*;
+import data_access.ItemRoomDataAccessObject;
+import entity.*;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.character_creation.CharacterCreationController;
 import interface_adapter.character_creation.CharacterCreationPresenter;
@@ -93,7 +96,7 @@ public class AppBuilder {
     private final InventoryFactory inventoryFactory = new InventoryFactory();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
-
+    private final ItemRoomDataAccessInterface itemRoomDataAccessObject = new ItemRoomDataAccessObject();
     private final InventoryDataAccessObject inventoryDataAccessObject = new InventoryDataAccessObject();
     private final RoomDataAccessObject roomDataAccessObject = new RoomDataAccessObject();
     private final PlayerDataAccessObject playerDataAccessObject = new PlayerDataAccessObject();
@@ -122,9 +125,22 @@ public class AppBuilder {
     private MerchantView merchantView;
     private FightMonsterViewModel fightMonsterViewModel;
     private MonsterView monsterView;
-  
+
+
+
+
+    private void initializeGame() {
+        Player player = Player.getInstance();
+        Floor floor = new Floor(); // Generate the floor and rooms
+        AbstractRoom startingRoom = floor.getRoomList().get(0); // Use the first room
+        player.setCurrentRoom(startingRoom);
+        System.out.println("[DEBUG] Player initialized in room: " + startingRoom.getDescription());
+    }
+
+
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
+        initializeGame();
     }
 
     /**
@@ -133,7 +149,7 @@ public class AppBuilder {
      */
     public AppBuilder addOpenInventoryView() {
         openInventoryViewModel = new OpenInventoryViewModel();
-        openInventoryView = new OpenInventoryView(openInventoryViewModel);
+        openInventoryView = new OpenInventoryView(openInventoryViewModel, viewManagerModel);
         cardPanel.add(openInventoryView, openInventoryView.getViewName());
         return this;
     }
@@ -159,6 +175,7 @@ public class AppBuilder {
         cardPanel.add(pickUpItemView, pickUpItemView.getViewName());
         return this;
     }
+
 
     /**
      * Adds the Equip Item View to the application.
@@ -234,11 +251,12 @@ public class AppBuilder {
         // Create the presenter with appropriate view models
         final RoomOutputBoundary roomOutputBoundary = new RoomDefaultPresenter(
                 viewManagerModel, roomDefaultViewModel, talkToNpcViewModel,
-                fallForTrapViewModel, openInventoryViewModel);
+                fallForTrapViewModel, openInventoryViewModel, pickUpItemViewModel);
 
         // Create the interactor with the presenter and data access objects
         final RoomInputBoundary roomInteractor =
                 new RoomInteractor(roomOutputBoundary, roomDataAccessObject,
+                        npcRoomDataAccessInterface, trapRoomDataAccessInterface, itemRoomDataAccessObject);
                         npcRoomDataAccessObject, trapRoomDataAccessObject, playerDataAccessObject);
 
         // Create the controller with the interactor
@@ -373,6 +391,8 @@ public class AppBuilder {
                 viewManagerModel, pickUpItemViewModel, roomDefaultViewModel);
         final PickUpItemInputBoundary pickUpItemInteractor = new PickUpItemInteractor(
                 pickUpItemDataAccessObject, pickUpItemOutputBoundary);
+                pickUpItemViewModel, viewManagerModel);
+        final PickUpItemInputBoundary pickUpItemInteractor = new PickUpItemInteractor(pickUpItemDataAccessObject, pickUpItemOutputBoundary, openInventoryViewModel);
 
         final PickUpItemController pickUpItemController = new PickUpItemController(pickUpItemInteractor);
 

@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -10,6 +12,7 @@ public class Item {
     private final String name;
     private final String category;
     private final String rarity;
+    private final ArrayList equippableCategories;
 
     /**
      * Constructor for an Item.
@@ -22,6 +25,7 @@ public class Item {
         this.name = name;
         this.category = category;
         this.rarity = rarity;
+        this.equippableCategories = new ArrayList<>();
     }
 
     /**
@@ -158,5 +162,23 @@ public class Item {
      */
     public String getRarity() {
         return rarity;
+    }
+
+    public List<String> getEquippableCategories() {
+        return equippableCategories;
+    }
+
+    public void addEquippableCategory(String category) {
+        equippableCategories.add(category);
+    }
+
+    /**
+     * Checks if the item can be equipped in the specified category.
+     *
+     * @param category The category to check (e.g., Armor, Weapon, etc.)
+     * @return true if the item can be equipped in the given category; false otherwise.
+     */
+    public boolean isEquippableInCategory(String category) {
+        return equippableCategories.contains(category);
     }
 }

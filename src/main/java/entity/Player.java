@@ -35,6 +35,8 @@ public class Player {
         this.health = maxHealth;
         this.healthRegeneration = 0;
         this.equippedItems = new HashMap<>();
+        this.totalArmor = 0;
+        this.totalDamage = 10;
         this.equippedItems.put(armor, null);
         this.equippedItems.put(weapon, null);
         this.equippedItems.put(buff, null);
@@ -99,6 +101,9 @@ public class Player {
         }
     }
 
+    /**
+     * Getter and setter for max health.
+     */
     public int getMaxHealth() {
         return maxHealth;
     }
@@ -112,6 +117,9 @@ public class Player {
         System.out.println("Max health increased by " + amount + ". New max health: " + maxHealth);
     }
 
+    /**
+     * Getter and setter for health regeneration.
+     */
     public int getHealthRegeneration() {
         return healthRegeneration;
     }
@@ -146,24 +154,38 @@ public class Player {
         final String slot;
         if (item instanceof Armor) {
             slot = armor;
+            increaseArmor(((Armor) item).getArmorBoost());
         }
         else if (item instanceof Weapon) {
             slot = weapon;
+            increaseDamage(((Weapon) item).getAttackBoost());  // Apply weapon effect
+
         }
         else if (item instanceof Buff) {
             slot = buff;
+            increaseHealthRegeneration(((Buff) item).getHealthRestoration());
         }
         else {
             slot = "Invalid item type.";
         }
 
-        // Add the item to the inventory
+        // Check if the slot already has an equipped item
+        Item currentItem = equippedItems.get(slot);
+        if (currentItem != null) {
+            // Add the old item back to inventory (if replaced)
+            inventory.addItem(currentItem.getName(), currentItem);
+            System.out.println("Replaced " + currentItem.getName() + " with " + item.getName() + " in " + slot + " slot.");
+        }
+
+        // Add the new item to the inventory (it was already added in the "applyEffect" logic)
         inventory.addItem(item.getName(), item);
 
-        // Equip the item
+        // Equip the new item in the corresponding slot
         equippedItems.put(slot, item);
+
         return "Equipped " + item.getName() + " in " + slot + " slot.";
     }
+
 
     /**
      * Returns the singleton instance of Player.

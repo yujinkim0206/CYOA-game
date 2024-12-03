@@ -3,7 +3,7 @@ package interface_adapter.pickup_item;
 import interface_adapter.ViewModel;
 
 /**
- * ViewModel for the Pick-Up Item View.
+ * ViewModel for the Pick-Up Item Use Case.
  */
 public class PickUpItemViewModel extends ViewModel<PickUpItemState> {
     public PickUpItemViewModel() {
@@ -11,23 +11,32 @@ public class PickUpItemViewModel extends ViewModel<PickUpItemState> {
         setState(new PickUpItemState());
     }
 
-    /**
-     * Update items state.
-     * @param items items to update
-     */
-    public void updateItems(String[] items) {
-        final PickUpItemState state = getState();
+    public void updateItems(String items) {
+        PickUpItemState state = getState();
         state.setItems(items);
+        setState(state);
+        firePropertyChanged();
+        System.out.println("[DEBUG] ViewModel updated with item: " + items);
+    }
+
+
+    public void setMessage(String message) {
+        PickUpItemState state = getState();
+        state.setMessage(message);
         setState(state);
     }
 
-    /**
-     * Set error in the state.
-     * @param error error to set
-     */
     public void setError(String error) {
-        final PickUpItemState state = getState();
+        PickUpItemState state = getState();
         state.setError(error);
         setState(state);
+    }
+    public void clearItem() {
+        PickUpItemState state = getState();
+        state.setItems(null);
+        state.setMessage("No item available in this room.");
+        setState(state); // Update state
+        firePropertyChanged(); // Notify listeners
+        System.out.println("[DEBUG] Item cleared from state.");
     }
 }
