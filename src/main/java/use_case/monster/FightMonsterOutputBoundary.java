@@ -1,5 +1,7 @@
 package use_case.monster;
 
+import use_case.character_creation.CharacterCreationOutputData;
+
 /**
  * Output Boundary for Fight Monsters Use Case.
  */

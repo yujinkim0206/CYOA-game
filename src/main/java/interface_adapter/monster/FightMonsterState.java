@@ -12,17 +12,17 @@ import java.util.*;
  * The state for the Fight Monster view model
  */
 public class FightMonsterState {
-    private int health = (int)getAPIData().get("health");
-    private String name = (String)getAPIData().get("name");
+    private int health = (int) getAPIData().get("health");
+    private String name = (String) getAPIData().get("name");
 
     public int hit() {
-        int damage = (int)(Math.random() * 10) + 1;
+        int damage = (int) (Math.random() * 10) + 1;
         this.health -= damage;
         return damage;
     }
 
     public int hit(int power) {
-        int damage = (int)(Math.random() * 3) + power - (int)(Math.random() * 3);
+        int damage = (int) (Math.random() * 3) + power - (int) (Math.random() * 3);
         if (damage <= 0){
             damage = 1;
         }
@@ -31,7 +31,7 @@ public class FightMonsterState {
     }
 
     public int damage(int armor) {
-        int damTaken = (int)(Math.random() * 5) + 10 - (int)(Math.random() * 5);
+        int damTaken = (int) (Math.random() * 5) + 10 - (int) (Math.random() * 5);
         if(armor == 0){
             damTaken *= 2;
         }

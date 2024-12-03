@@ -51,6 +51,5 @@ public class FightMonsterPresenter implements FightMonsterOutputBoundary {
 
     @Override
     public void prepareFailView(String errorMessage) {
-
     }
 }
