@@ -65,6 +65,10 @@ public class RoomInteractor implements RoomInputBoundary {
                     characterCreationDataAccessObject.getInstance().getHealth()
             ));
         }
+        else if (abstractRoom instanceof MonsterRoom) {
+            final MonsterRoom monsterRoom = (MonsterRoom) abstractRoom;
+            roomPresenter.prepareSuccessView(new MonsterRoomOutputData(monsterRoom.getDescription(), 0, ""));
+        }
         else {
             roomPresenter.prepareSuccessView(new RoomOutputData(abstractRoom.getDescription(),
                     abstractRoom.getClass().getSimpleName()));

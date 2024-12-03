@@ -12,8 +12,8 @@ import java.util.*;
  * The state for the Fight Monster view model
  */
 public class FightMonsterState {
-    public int health = (int)getAPIData().get("health");
-    public String name = (String)getAPIData().get("name");
+    private int health = (int)getAPIData().get("health");
+    private String name = (String)getAPIData().get("name");
 
     public int hit() {
         int damage = (int)(Math.random() * 10) + 1;
@@ -31,7 +31,7 @@ public class FightMonsterState {
     }
 
     public int damage(int armor) {
-        int damTaken = (int)(Math.random() * 3) + 5 - (int)(Math.random() * 3);
+        int damTaken = (int)(Math.random() * 5) + 10 - (int)(Math.random() * 5);
         if(armor == 0){
             damTaken *= 2;
         }
@@ -97,5 +97,26 @@ public class FightMonsterState {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public FightMonsterState() {
+        this.health = (int)getAPIData().get("health");
+        this.name = (String)getAPIData().get("name");
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public String getName() {
+        return name;
     }
 }

@@ -11,5 +11,4 @@ public class FightMonsterViewModel extends ViewModel<FightMonsterState> {
         super("monster");
         setState(new FightMonsterState());
     }
-
 }
