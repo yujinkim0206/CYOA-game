@@ -1,5 +1,7 @@
 # CSC207 Group 59: Choose Your Own Adventure Game
 
+This repository is a fork of [CSC207-Group-59-Project] (https://github.com/eMondri-UofT/CSC207-Group-59-Project).
+
 ## Authors
 - Ethan Mondri (eMondri-UofT)
 - Aidan Wang (aidanwangg)
